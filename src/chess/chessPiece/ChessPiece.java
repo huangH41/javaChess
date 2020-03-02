@@ -1,49 +1,81 @@
 package chess.chessPiece;
 
+import chess.base.BoardPosition;
+
 public abstract class ChessPiece {
-    private String chessName, chessColor;
-    private int coorX, coorY;
+    private ChessPieceRank pieceRank;
+    private ChessPieceColor chessColor;
+    private BoardPosition position;
+    private boolean movedYet = false;
 
-    public ChessPiece(String chessName, String chessColor, int coorX, int coorY) {
-        this.chessName = chessName;
+    /**
+     * Define chess piece with status, color (either black or white), and position on the chess
+     *
+     * @param pieceRank  the chess piece name
+     * @param chessColor the chess piece color as player or opponent color (either black or white)
+     * @param position   the chess piece position (define new BoardPosition in row and column)
+     */
+    public ChessPiece(ChessPieceRank pieceRank, ChessPieceColor chessColor, BoardPosition position) {
+        this.pieceRank = pieceRank;
         this.chessColor = chessColor;
+        this.position = position;
     }
 
-    public String getChessName() {
-        return chessName;
+    public ChessPieceRank getPieceRank() {
+        return pieceRank;
     }
 
-    public void setChessName(String chessName) {
-        this.chessName = chessName;
+    public void setPieceRank(ChessPieceRank pieceRank) {
+        this.pieceRank = pieceRank;
     }
 
-    public String getChessColor() {
+    public ChessPieceColor getChessColor() {
         return chessColor;
     }
 
-    public void setChessColor(String chessColor) {
+    public void setChessColor(ChessPieceColor chessColor) {
         this.chessColor = chessColor;
     }
-    
-    public int getCoorX() {
-		return coorX;
-	}
 
-	public void setCoorX(int coorX) {
-		this.coorX = coorX;
-	}
+    /**
+     * Check if the pawn have perform it's move since game begins
+     *
+     * @return pawn moved state since game begins
+     */
+    public boolean isMovedYet() {
+        return movedYet;
+    }
 
-	public int getCoorY() {
-		return coorY;
-	}
+    /**
+     * By using this method, this parameter will irreversibly set the pawn moved state to true
+     */
+    public void setMovedYet() {
+        movedYet = true;
+    }
 
-	public void setCoorY(int coorY) {
-		this.coorY = coorY;
-	}
+    public BoardPosition getPosition() {
+        return position;
+    }
 
-	protected void kill(ChessPiece chessPiece) {
+    public void setPosition(BoardPosition newPosition) {
+        this.position = newPosition;
+    }
+
+    public boolean isOpponent(ChessPiece counterPiece) {
+        return (counterPiece.getChessColor() == ChessPieceColor.WHITE && this.getChessColor() == ChessPieceColor.BLACK)
+                || (counterPiece.getChessColor() == ChessPieceColor.BLACK && this.getChessColor() == ChessPieceColor.WHITE);
+    }
+
+    protected void kill(ChessPiece chessPiece) {
         //TODO kill logic have yet to be defined
     }
 
-    abstract protected void move(int dstCoorX, int dstCoorY);
+    // TODO where the move() method placed?
+    abstract protected void move(int dstCol, int dstRow);
+
+    public enum ChessPieceColor {
+        WHITE, BLACK
+    }
+
+
 }
