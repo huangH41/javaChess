@@ -3,7 +3,8 @@ package chess.chessPiece;
 import chess.base.Board;
 import chess.base.BoardPosition;
 import chess.base.ChessPieceRank;
-import chess.base.PawnMovement;
+import chess.base.PieceMovement;
+import chess.base.ChessPieceColor;
 
 public class Queen extends ChessPiece {
 
@@ -25,9 +26,9 @@ public class Queen extends ChessPiece {
      * @return true if queen moves any linear directional by any block
      */
     private boolean isOmniDirectionalMove(int dstCol, int dstRow) {
-        return PawnMovement.isDiagonalMovement(this, dstCol, dstRow)
-                || PawnMovement.isHorizontalMovement(this, dstCol, dstRow)
-                || PawnMovement.isVerticalMovement(this, dstCol, dstRow);
+        return PieceMovement.isDiagonalMovement(this, dstCol, dstRow)
+                || PieceMovement.isHorizontalMovement(this, dstCol, dstRow)
+                || PieceMovement.isVerticalMovement(this, dstCol, dstRow);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package chess.base;
 
 import chess.chessPiece.*;
+import chess.base.ChessPieceColor;
 
 public class Board {
     private BoardPosition position;
@@ -65,17 +66,17 @@ public class Board {
     public ChessPiece defineWhitePawn(ChessPieceRank rank, BoardPosition position) {
         switch (rank) {
             case KING:
-                return new King(ChessPiece.ChessPieceColor.WHITE, position);
+                return new King(ChessPieceColor.WHITE, position);
             case QUEEN:
-                return new Queen(ChessPiece.ChessPieceColor.WHITE, position);
+                return new Queen(ChessPieceColor.WHITE, position);
             case BISHOP:
-                return new Bishop(ChessPiece.ChessPieceColor.WHITE, position);
+                return new Bishop(ChessPieceColor.WHITE, position);
             case KNIGHT:
-                return new Knight(ChessPiece.ChessPieceColor.WHITE, position);
+                return new Knight(ChessPieceColor.WHITE, position);
             case ROOK:
-                return new Rook(ChessPiece.ChessPieceColor.WHITE, position);
+                return new Rook(ChessPieceColor.WHITE, position);
             case PAWN:
-                return new Pawn(ChessPiece.ChessPieceColor.WHITE, position);
+                return new Pawn(ChessPieceColor.WHITE, position);
             default:
                 throw new IllegalArgumentException("Invalid piece rank!");
         }
@@ -84,17 +85,17 @@ public class Board {
     public ChessPiece defineBlackPawn(ChessPieceRank rank, BoardPosition position) {
         switch (rank) {
             case KING:
-                return new King(ChessPiece.ChessPieceColor.BLACK, position);
+                return new King(ChessPieceColor.BLACK, position);
             case QUEEN:
-                return new Queen(ChessPiece.ChessPieceColor.BLACK, position);
+                return new Queen(ChessPieceColor.BLACK, position);
             case BISHOP:
-                return new Bishop(ChessPiece.ChessPieceColor.BLACK, position);
+                return new Bishop(ChessPieceColor.BLACK, position);
             case KNIGHT:
-                return new Knight(ChessPiece.ChessPieceColor.BLACK, position);
+                return new Knight(ChessPieceColor.BLACK, position);
             case ROOK:
-                return new Rook(ChessPiece.ChessPieceColor.BLACK, position);
+                return new Rook(ChessPieceColor.BLACK, position);
             case PAWN:
-                return new Pawn(ChessPiece.ChessPieceColor.BLACK, position);
+                return new Pawn(ChessPieceColor.BLACK, position);
             default:
                 throw new IllegalArgumentException("Invalid piece rank!");
         }

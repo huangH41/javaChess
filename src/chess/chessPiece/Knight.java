@@ -3,6 +3,7 @@ package chess.chessPiece;
 import chess.base.Board;
 import chess.base.BoardPosition;
 import chess.base.ChessPieceRank;
+import chess.base.ChessPieceColor;
 
 public class Knight extends ChessPiece {
 

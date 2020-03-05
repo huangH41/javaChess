@@ -4,6 +4,7 @@ import chess.base.Board;
 import chess.base.BoardPosition;
 import chess.base.ChessPieceRank;
 import chess.base.PieceMovement;
+import chess.base.ChessPieceColor;
 
 public class King extends ChessPiece {
 

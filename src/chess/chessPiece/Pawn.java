@@ -3,7 +3,8 @@ package chess.chessPiece;
 import chess.base.Board;
 import chess.base.BoardPosition;
 import chess.base.ChessPieceRank;
-import chess.base.PawnMovement;
+import chess.base.PieceMovement;
+import chess.base.ChessPieceColor;
 
 public class Pawn extends ChessPiece {
     /**
@@ -23,14 +24,14 @@ public class Pawn extends ChessPiece {
 
     @Override
     public void move(int dstCol, int dstRow) {
-        if (!isMovedYet()) {
+        if (!isFirstMove()) {
             maxStep = 1;
             setMovedYet();
         }
 
         if (Board.validatePosition(dstCol, dstRow)
-                && PawnMovement.getColMovementToDest(this, dstCol) == 0
-                && PawnMovement.getRowMovementToDest(this, dstRow) <= maxStep) {
+                && PieceMovement.getRelativeColDistance(this, dstCol) == 0
+                && PieceMovement.getRelativeRowDistance(this, dstRow) <= maxStep) {
             this.setPosition(new BoardPosition(dstCol, dstRow));
         } else {
             throw new IllegalArgumentException("Invalid move!");

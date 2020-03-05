@@ -1,9 +1,7 @@
 package chess.chessPiece;
 
-import chess.base.Board;
-import chess.base.BoardPosition;
-import chess.base.ChessPieceRank;
-import chess.base.PawnMovement;
+import chess.base.*;
+
 
 public class Bishop extends ChessPiece {
 
@@ -19,7 +17,7 @@ public class Bishop extends ChessPiece {
 
     @Override
     protected void move(int dstCol, int dstRow) {
-        if (Board.validatePosition(dstCol, dstRow) && (PawnMovement.isDiagonalMovement(this, dstCol, dstRow))) {
+        if (Board.validatePosition(dstCol, dstRow) && (PieceMovement.isDiagonalMovement(this, dstCol, dstRow))) {
             // TODO search for horizontal/vertical obstacle
             // if obstacle are same-colored king and not moved, performCastlingMove(king);
         }

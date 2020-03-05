@@ -9,7 +9,7 @@ public abstract class ChessPiece {
     private ChessPieceRank pieceRank;
     private ChessPieceColor chessColor;
     private BoardPosition position;
-    private boolean movedYet = false;
+    private boolean isFirstMove = true;
 
     /**
      * Define chess piece with status, color (either black or white), and position on the chess
@@ -45,15 +45,15 @@ public abstract class ChessPiece {
      *
      * @return pawn moved state since game begins
      */
-    public boolean isMovedYet() {
-        return movedYet;
+    public boolean isFirstMove() {
+        return isFirstMove;
     }
 
     /**
      * By using this method, this parameter will irreversibly set the pawn moved state to true
      */
     public void setMovedYet() {
-        movedYet = true;
+        isFirstMove = true;
     }
 
     public BoardPosition getPosition() {
@@ -75,12 +75,11 @@ public abstract class ChessPiece {
         }
     }
 
-    protected void kill(ChessPiece chessPiece) {
+    protected void capture(ChessPiece chessPiece) {
         //TODO kill logic have yet to be defined
     }
 
     // TODO where the move() method placed?
     abstract protected void move(int dstCol, int dstRow);
-
 
 }
