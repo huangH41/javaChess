@@ -1,4 +1,4 @@
-package chess.chessPiece;
+package chess.base;
 
 public enum ChessPieceRank {
     PAWN,

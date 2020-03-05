@@ -2,6 +2,7 @@ package chess.chessPiece;
 
 import chess.base.Board;
 import chess.base.BoardPosition;
+import chess.base.ChessPieceRank;
 import chess.base.PawnMovement;
 
 public class Queen extends ChessPiece {

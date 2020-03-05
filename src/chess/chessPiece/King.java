@@ -2,7 +2,8 @@ package chess.chessPiece;
 
 import chess.base.Board;
 import chess.base.BoardPosition;
-import chess.base.PawnMovement;
+import chess.base.ChessPieceRank;
+import chess.base.PieceMovement;
 
 public class King extends ChessPiece {
 
@@ -40,8 +41,8 @@ public class King extends ChessPiece {
 	 * @return true if king moves any-directional by one block
 	 */
 	private boolean isMonoOmniDirectionalMove(int dstCol, int dstRow) {
-		return PawnMovement.getColMovementToDest(this, dstCol) == 1
-				|| PawnMovement.getRowMovementToDest(this, dstRow) == 1;
+		return PieceMovement.getRelativeColDistance(this, dstCol) == 1
+				|| PieceMovement.getRelativeRowDistance(this, dstRow) == 1;
 	}
 
 	@Override

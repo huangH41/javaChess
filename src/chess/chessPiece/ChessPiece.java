@@ -1,6 +1,9 @@
 package chess.chessPiece;
 
+import chess.base.Board;
 import chess.base.BoardPosition;
+import chess.base.ChessPieceRank;
+import chess.base.ChessPieceColor;
 
 public abstract class ChessPiece {
     private ChessPieceRank pieceRank;
@@ -38,7 +41,7 @@ public abstract class ChessPiece {
     }
 
     /**
-     * Check if the pawn have perform it's move since game begins
+     * Check if the piece have perform it's move since game begins
      *
      * @return pawn moved state since game begins
      */
@@ -66,16 +69,18 @@ public abstract class ChessPiece {
                 || (counterPiece.getChessColor() == ChessPieceColor.BLACK && this.getChessColor() == ChessPieceColor.WHITE);
     }
 
+    public void performMovement(int dstCol, int dstRow) {
+        if (Board.validatePosition(dstCol, dstRow)) {
+            move(dstCol, dstRow);
+        }
+    }
+
     protected void kill(ChessPiece chessPiece) {
         //TODO kill logic have yet to be defined
     }
 
     // TODO where the move() method placed?
     abstract protected void move(int dstCol, int dstRow);
-
-    public enum ChessPieceColor {
-        WHITE, BLACK
-    }
 
 
 }

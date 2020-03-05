@@ -16,4 +16,10 @@ public class ChessMechanics {
         return false;
     }
 
+    // code kasar
+    public void checkAndMove(){
+        ChessPiece cp = new chess.chessPiece.Rook();
+        cp.performMovement();
+    }
+
 }
