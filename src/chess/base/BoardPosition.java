@@ -1,5 +1,8 @@
 package chess.base;
 
+/**
+ * This class lists Chess board position
+ */
 public class BoardPosition {
     private int row, column;
 

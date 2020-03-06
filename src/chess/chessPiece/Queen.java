@@ -1,10 +1,6 @@
 package chess.chessPiece;
 
-import chess.base.Board;
-import chess.base.BoardPosition;
-import chess.base.ChessPieceRank;
-import chess.base.PieceMovement;
-import chess.base.ChessPieceColor;
+import chess.base.*;
 
 public class Queen extends ChessPiece {
 
@@ -25,15 +21,15 @@ public class Queen extends ChessPiece {
      * @param dstRow destination row
      * @return true if queen moves any linear directional by any block
      */
-    private boolean isOmniDirectionalMove(int dstCol, int dstRow) {
-        return PieceMovement.isDiagonalMovement(this, dstCol, dstRow)
-                || PieceMovement.isHorizontalMovement(this, dstCol, dstRow)
-                || PieceMovement.isVerticalMovement(this, dstCol, dstRow);
+    private boolean isOmniDirectionalMove(int dstRow, int dstCol) {
+        return PieceMovement.isDiagonalMovement(this, dstRow, dstCol)
+                || PieceMovement.isHorizontalMovement(this, dstRow, dstCol)
+                || PieceMovement.isVerticalMovement(this, dstRow, dstCol);
     }
 
     @Override
-    protected void move(int dstCol, int dstRow) {
-        if (Board.validatePosition(dstCol, dstRow) && isOmniDirectionalMove(dstCol, dstRow)) {
+    protected void move(int dstRow, int dstCol) {
+        if (Board.validatePosition(dstRow, dstCol) && isOmniDirectionalMove(dstRow, dstCol)) {
             // TODO do a recursive move to detect any obstacle
         }
     }

@@ -1,10 +1,6 @@
 package chess.chessPiece;
 
-import chess.base.Board;
-import chess.base.BoardPosition;
-import chess.base.ChessPieceRank;
-import chess.base.PieceMovement;
-import chess.base.ChessPieceColor;
+import chess.base.*;
 
 public class Pawn extends ChessPiece {
     /**
@@ -23,19 +19,27 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    public void move(int dstCol, int dstRow) {
-        if (!isFirstMove()) {
-            maxStep = 1;
-            setMovedYet();
-        }
+    public void move(int dstRow, int dstCol) {
+        if (Board.validatePosition(dstRow, dstCol)
+                && PieceMovement.getRelativeRowDistance(this, dstRow) <= maxStep
+                && PieceMovement.getRelativeColDistance(this, dstCol) == 0) {
+            // TODO do a logic that the targeted position isn't have a piece (even opponent or not)
 
-        if (Board.validatePosition(dstCol, dstRow)
-                && PieceMovement.getRelativeColDistance(this, dstCol) == 0
-                && PieceMovement.getRelativeRowDistance(this, dstRow) <= maxStep) {
-            this.setPosition(new BoardPosition(dstCol, dstRow));
+            this.setPosition(new BoardPosition(dstRow, dstCol));
         } else {
             throw new IllegalArgumentException("Invalid move!");
         }
+
+        if (isFirstMove()) {
+            maxStep = 1;
+            setMovedYet();
+        }
+    }
+
+    public ChessPiece promote(ChessPieceRank upgradedRank) {
+        if (this.getChessColor() == ChessPieceColor.WHITE) {
+            return defineWhitePawn(upgradedRank, this.getPosition());
+        } else return defineBlackPawn(upgradedRank, this.getPosition());
     }
 
 }

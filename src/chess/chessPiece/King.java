@@ -1,10 +1,6 @@
 package chess.chessPiece;
 
-import chess.base.Board;
-import chess.base.BoardPosition;
-import chess.base.ChessPieceRank;
-import chess.base.PieceMovement;
-import chess.base.ChessPieceColor;
+import chess.base.*;
 
 public class King extends ChessPiece {
 
@@ -41,15 +37,15 @@ public class King extends ChessPiece {
 	 * @param dstRow destination row
 	 * @return true if king moves any-directional by one block
 	 */
-	private boolean isMonoOmniDirectionalMove(int dstCol, int dstRow) {
+	private boolean isMonoOmniDirectionalMove(int dstRow, int dstCol) {
 		return PieceMovement.getRelativeColDistance(this, dstCol) == 1
 				|| PieceMovement.getRelativeRowDistance(this, dstRow) == 1;
 	}
 
 	@Override
-	protected void move(int dstCol, int dstRow) {
-		if (Board.validatePosition(dstCol, dstRow) && isMonoOmniDirectionalMove(dstCol, dstRow)) {
-			// TODO do a recursive move to detect any obstacle and possible attacked by enemy pawn
+	protected void move(int dstRow, int dstCol) {
+		if (Board.validatePosition(dstRow, dstCol) && isMonoOmniDirectionalMove(dstCol, dstRow)) {
+			// TODO do a simulation move or CHECK test before the king moves
 		}
 	}
 

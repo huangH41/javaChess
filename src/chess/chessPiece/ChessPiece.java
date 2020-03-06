@@ -2,8 +2,8 @@ package chess.chessPiece;
 
 import chess.base.Board;
 import chess.base.BoardPosition;
-import chess.base.ChessPieceRank;
 import chess.base.ChessPieceColor;
+import chess.base.ChessPieceRank;
 
 public abstract class ChessPiece {
     private ChessPieceRank pieceRank;
@@ -22,6 +22,49 @@ public abstract class ChessPiece {
         this.pieceRank = pieceRank;
         this.chessColor = chessColor;
         this.position = position;
+    }
+
+    /**
+     * Required for obtaining position from
+     */
+    protected Board assignedBoard;
+
+    public static ChessPiece defineWhitePawn(ChessPieceRank rank, BoardPosition position) {
+        switch (rank) {
+            case KING:
+                return new King(ChessPieceColor.WHITE, position);
+            case QUEEN:
+                return new Queen(ChessPieceColor.WHITE, position);
+            case BISHOP:
+                return new Bishop(ChessPieceColor.WHITE, position);
+            case KNIGHT:
+                return new Knight(ChessPieceColor.WHITE, position);
+            case ROOK:
+                return new Rook(ChessPieceColor.WHITE, position);
+            case PAWN:
+                return new Pawn(ChessPieceColor.WHITE, position);
+            default:
+                throw new IllegalArgumentException("Invalid piece rank!");
+        }
+    }
+
+    public static ChessPiece defineBlackPawn(ChessPieceRank rank, BoardPosition position) {
+        switch (rank) {
+            case KING:
+                return new King(ChessPieceColor.BLACK, position);
+            case QUEEN:
+                return new Queen(ChessPieceColor.BLACK, position);
+            case BISHOP:
+                return new Bishop(ChessPieceColor.BLACK, position);
+            case KNIGHT:
+                return new Knight(ChessPieceColor.BLACK, position);
+            case ROOK:
+                return new Rook(ChessPieceColor.BLACK, position);
+            case PAWN:
+                return new Pawn(ChessPieceColor.BLACK, position);
+            default:
+                throw new IllegalArgumentException("Invalid piece rank!");
+        }
     }
 
     public ChessPieceRank getPieceRank() {
@@ -69,17 +112,27 @@ public abstract class ChessPiece {
                 || (counterPiece.getChessColor() == ChessPieceColor.BLACK && this.getChessColor() == ChessPieceColor.WHITE);
     }
 
-    public void performMovement(int dstCol, int dstRow) {
-        if (Board.validatePosition(dstCol, dstRow)) {
-            move(dstCol, dstRow);
+    public static ChessPiece getFromBoard(Board board, BoardPosition position) {
+        return board.getPiece(position);
+    }
+
+    public void performMovement(int dstRow, int dstCol) throws Exception {
+        if (Board.validatePosition(dstRow, dstCol)) {
+            move(dstRow, dstCol);
         }
     }
 
     protected void capture(ChessPiece chessPiece) {
-        //TODO kill logic have yet to be defined
+        //TODO kill logic have yet to be defined (it need to obtain a board and board position too..)
     }
 
-    // TODO where the move() method placed?
-    abstract protected void move(int dstCol, int dstRow);
+    /**
+     * Declare an abstract method that every class extended from this class to perform a movement.
+     * Throws exception if any invalid move or obstacle occurred.
+     *
+     * @param dstCol the destination column
+     * @param dstRow the destination row
+     */
+    abstract protected void move(int dstRow, int dstCol) throws Exception;
 
 }
