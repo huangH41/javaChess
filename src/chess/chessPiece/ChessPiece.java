@@ -108,31 +108,31 @@ public abstract class ChessPiece {
     }
 
     public boolean isOpponent(ChessPiece counterPiece) {
-        return (counterPiece.getChessColor() == ChessPieceColor.WHITE && this.getChessColor() == ChessPieceColor.BLACK)
-                || (counterPiece.getChessColor() == ChessPieceColor.BLACK && this.getChessColor() == ChessPieceColor.WHITE);
+//        return (counterPiece.getChessColor() == ChessPieceColor.WHITE && this.getChessColor() == ChessPieceColor.BLACK)
+//                || (counterPiece.getChessColor() == ChessPieceColor.BLACK && this.getChessColor() == ChessPieceColor.WHITE);
+
+        return counterPiece.getChessColor() != this.getChessColor() ? true : false;
     }
 
     public static ChessPiece getFromBoard(Board board, BoardPosition position) {
         return board.getPiece(position);
     }
 
-    public void performMovement(int dstRow, int dstCol) throws Exception {
-        if (Board.validatePosition(dstRow, dstCol)) {
-            move(dstRow, dstCol);
+    public void performMovement(BoardPosition dstPosition) throws Exception {
+        if (Board.validatePosition(dstPosition)) {
+            move(dstPosition);
         }
     }
 
-    protected void capture(ChessPiece chessPiece) {
-        //TODO kill logic have yet to be defined (it need to obtain a board and board position too..)
-    }
+
+    abstract protected void capture(ChessPiece[][] board, BoardPosition targetPosition);
 
     /**
      * Declare an abstract method that every class extended from this class to perform a movement.
      * Throws exception if any invalid move or obstacle occurred.
      *
-     * @param dstCol the destination column
-     * @param dstRow the destination row
+     * @param dstPosition
      */
-    abstract protected void move(int dstRow, int dstCol) throws Exception;
+    abstract protected void move(BoardPosition dstPosition) throws Exception;
 
 }

@@ -12,10 +12,10 @@ public class Board {
         initializeChessPiece();
     }
 
-    public static boolean validatePosition(int row, int col) {
-        if (row < 1 || row > 8) {
+    public static boolean validatePosition(BoardPosition targetPosition) {
+        if (targetPosition.getRow() < 1 || targetPosition.getRow() > 8) {
             return false;
-        } else return col >= 1 && col <= 8;
+        } else return targetPosition.getColumn() >= 1 && targetPosition.getColumn() <= 8;
     }
 
     public ChessPiece[][] getPieceBoard() {
@@ -36,6 +36,10 @@ public class Board {
 
     public void setWhiteKing(King whiteKing) {
         this.whiteKing = whiteKing;
+    }
+
+    public static boolean hasChessPiece(ChessPiece[][] pieceBoard, BoardPosition targetPosition) {
+        return pieceBoard[targetPosition.getRow()][targetPosition.getColumn()] != null? true : false;
     }
 
     /**
@@ -71,12 +75,12 @@ public class Board {
         }
     }
 
-    public void movePiece(ChessPiece piece, BoardPosition destPosition) throws Exception {
-        if (Board.validatePosition(destPosition.getRow(), destPosition.getColumn())) {
+    public void movePiece(ChessPiece piece, BoardPosition dstPosition) throws Exception {
+        if (Board.validatePosition(dstPosition)) {
             throw new IndexOutOfBoundsException("Can not move piece outside chess board!");
         }
 
-        ChessPiece pieceAtDestination = pieceBoard[destPosition.getRow()][destPosition.getColumn()];
+        ChessPiece pieceAtDestination = pieceBoard[dstPosition.getRow()][dstPosition.getColumn()];
         int oldRow = piece.getPosition().getRow(), oldColumn = piece.getPosition().getColumn();
 
         if (pieceAtDestination != null) {
@@ -84,8 +88,8 @@ public class Board {
                 // log attack
 
             }
-            piece.performMovement(destPosition.getRow(), destPosition.getColumn());
-            pieceBoard[destPosition.getRow()][destPosition.getColumn()] = piece;
+            piece.performMovement(dstPosition);
+            pieceBoard[dstPosition.getRow()][dstPosition.getColumn()] = piece;
         }
         pieceBoard[oldRow][oldColumn] = null;
     }
