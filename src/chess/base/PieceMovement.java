@@ -69,6 +69,32 @@ public class PieceMovement {
     }
 
     /**
+     * Check if knight moves in L-shaped style direction at any angle
+     *
+     * @param dstRow destination row
+     * @param dstCol destination column
+     * @return true if queen moves in L-shaped style direction at any angle
+     */
+    public static boolean isLetterLMovement(ChessPiece piece, int dstRow, int dstCol) {
+        int relativeRow = dstRow - piece.getPosition().getRow();
+        int relativeCol = dstCol - piece.getPosition().getColumn();
+        return (Math.abs(relativeCol) == 2 && Math.abs(relativeRow) == 1) || (Math.abs(relativeCol) == 1 && Math.abs(relativeRow) == 2);
+    }
+
+    /**
+     * Check if queen moves in any linear direction by any block
+     *
+     * @param dstCol destination column
+     * @param dstRow destination row
+     * @return true if queen moves any linear directional by any block
+     */
+    public static boolean isOmniDirectionalMove(ChessPiece piece, int dstRow, int dstCol) {
+        return PieceMovement.isDiagonalMovement(piece, dstRow, dstCol)
+                || PieceMovement.isHorizontalMovement(piece, dstRow, dstCol)
+                || PieceMovement.isVerticalMovement(piece, dstRow, dstCol);
+    }
+
+    /**
      * Check if the board position has a obstacle
      *
      * @param board    the board to check it's piece position

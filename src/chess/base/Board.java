@@ -1,12 +1,14 @@
 package chess.base;
 
+import chess.base.exceptions.InvalidMoveException;
 import chess.chessPiece.ChessPiece;
 import chess.chessPiece.King;
 
 public class Board {
-    private BoardPosition position;
+    //private BoardPosition position;
     private final ChessPiece[][] pieceBoard = new ChessPiece[8][8];
     private King blackKing, whiteKing;
+    private ChessPieceColor currentColor = ChessPieceColor.WHITE;
 
     public Board() {
         initializeChessPiece();
@@ -36,6 +38,22 @@ public class Board {
 
     public void setWhiteKing(King whiteKing) {
         this.whiteKing = whiteKing;
+    }
+
+    public ChessPieceColor getCurrentColor() {
+        return currentColor;
+    }
+
+    public void setCurrentColor(ChessPieceColor currentColor) {
+        this.currentColor = currentColor;
+    }
+
+    public void switchColor() {
+        if (this.getCurrentColor() == ChessPieceColor.WHITE) {
+            this.setCurrentColor(ChessPieceColor.BLACK);
+        } else {
+            this.setCurrentColor(ChessPieceColor.WHITE);
+        }
     }
 
     /**
@@ -71,7 +89,7 @@ public class Board {
         }
     }
 
-    public void movePiece(ChessPiece piece, BoardPosition destPosition) throws Exception {
+    public void movePiece(ChessPiece piece, BoardPosition destPosition) throws InvalidMoveException {
         if (Board.validatePosition(destPosition.getRow(), destPosition.getColumn())) {
             throw new IndexOutOfBoundsException("Can not move piece outside chess board!");
         }

@@ -1,6 +1,7 @@
 package chess.chessPiece;
 
 import chess.base.*;
+import chess.base.exceptions.InvalidMoveException;
 
 
 public class Bishop extends ChessPiece {
@@ -16,7 +17,7 @@ public class Bishop extends ChessPiece {
     }
 
     @Override
-    protected void move(int dstRow, int dstCol) throws Exception {
+    protected void move(int dstRow, int dstCol) throws InvalidMoveException {
         if (Board.validatePosition(dstRow, dstCol) && (PieceMovement.isDiagonalMovement(this, dstRow, dstCol))) {
             // TODO Check obstacle diagonally
             for (int i = 0; i < PieceMovement.getRelativeColDistance(this, dstCol); i++) {

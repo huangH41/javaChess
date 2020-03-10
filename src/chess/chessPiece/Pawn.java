@@ -1,6 +1,7 @@
 package chess.chessPiece;
 
 import chess.base.*;
+import chess.base.exceptions.InvalidMoveException;
 
 public class Pawn extends ChessPiece {
     /**
@@ -19,7 +20,7 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    public void move(int dstRow, int dstCol) {
+    public void move(int dstRow, int dstCol) throws InvalidMoveException {
         if (Board.validatePosition(dstRow, dstCol)
                 && PieceMovement.getRelativeRowDistance(this, dstRow) <= maxStep
                 && PieceMovement.getRelativeColDistance(this, dstCol) == 0) {
@@ -27,7 +28,7 @@ public class Pawn extends ChessPiece {
 
             this.setPosition(new BoardPosition(dstRow, dstCol));
         } else {
-            throw new IllegalArgumentException("Invalid move!");
+            throw new InvalidMoveException(this, dstRow, dstCol);
         }
 
         if (isFirstMove()) {
@@ -36,7 +37,17 @@ public class Pawn extends ChessPiece {
         }
     }
 
+    /**
+     * Upgrades the pawn to rook, knight, bishop, or queen
+     *
+     * @param upgradedRank the new rank (Rook, Knight, Bishop, or Queen)
+     * @return upgraded pawn as rook, knight, bishop, or queen
+     */
     public ChessPiece promote(ChessPieceRank upgradedRank) {
+        if (upgradedRank == ChessPieceRank.PAWN || upgradedRank == ChessPieceRank.KING) {
+            throw new IllegalStateException("Can not promote pawn to king or pawn itself!");
+        }
+
         if (this.getChessColor() == ChessPieceColor.WHITE) {
             return defineWhitePawn(upgradedRank, this.getPosition());
         } else return defineBlackPawn(upgradedRank, this.getPosition());

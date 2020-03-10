@@ -1,6 +1,7 @@
 package chess.chessPiece;
 
 import chess.base.*;
+import chess.base.exceptions.InvalidMoveException;
 
 public class King extends ChessPiece {
 
@@ -30,6 +31,7 @@ public class King extends ChessPiece {
 		return checkState;
 	}
 
+
 	/**
 	 * Check if king moves in any direction by one block
 	 *
@@ -43,8 +45,8 @@ public class King extends ChessPiece {
 	}
 
 	@Override
-	protected void move(int dstRow, int dstCol) {
-		if (Board.validatePosition(dstRow, dstCol) && isMonoOmniDirectionalMove(dstCol, dstRow)) {
+	protected void move(int dstRow, int dstCol) throws InvalidMoveException {
+		if (Board.validatePosition(dstRow, dstCol) && isMonoOmniDirectionalMove(dstRow, dstCol)) {
 			// TODO do a simulation move or CHECK test before the king moves
 		}
 	}

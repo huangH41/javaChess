@@ -4,6 +4,7 @@ import chess.base.Board;
 import chess.base.BoardPosition;
 import chess.base.ChessPieceColor;
 import chess.base.ChessPieceRank;
+import chess.base.exceptions.InvalidMoveException;
 
 public abstract class ChessPiece {
     private ChessPieceRank pieceRank;
@@ -24,10 +25,10 @@ public abstract class ChessPiece {
         this.position = position;
     }
 
-    /**
-     * Required for obtaining position from
-     */
-    protected Board assignedBoard;
+    @Override
+    public String toString() {
+        return String.format("%s %s [%s]", getPieceRank(), getChessColor(), getPosition());
+    }
 
     public static ChessPiece defineWhitePawn(ChessPieceRank rank, BoardPosition position) {
         switch (rank) {
@@ -116,23 +117,27 @@ public abstract class ChessPiece {
         return board.getPiece(position);
     }
 
-    public void performMovement(int dstRow, int dstCol) throws Exception {
+    public void moveBy(int rows, int columns) throws InvalidMoveException {
+        performMovement(this.getPosition().getRow() + rows, this.getPosition().getColumn() + columns);
+    }
+
+    public void performMovement(int dstRow, int dstCol) throws InvalidMoveException {
         if (Board.validatePosition(dstRow, dstCol)) {
             move(dstRow, dstCol);
         }
     }
 
     protected void capture(ChessPiece chessPiece) {
-        //TODO kill logic have yet to be defined (it need to obtain a board and board position too..)
+        //TODO capture logic have yet to be defined (it need to obtain a board and board position too..)
     }
 
     /**
      * Declare an abstract method that every class extended from this class to perform a movement.
      * Throws exception if any invalid move or obstacle occurred.
      *
-     * @param dstCol the destination column
      * @param dstRow the destination row
+     * @param dstCol the destination column
      */
-    abstract protected void move(int dstRow, int dstCol) throws Exception;
+    protected abstract void move(int dstRow, int dstCol) throws InvalidMoveException;
 
 }

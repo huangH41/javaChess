@@ -1,6 +1,7 @@
 package chess.chessPiece;
 
 import chess.base.*;
+import chess.base.exceptions.InvalidMoveException;
 
 public class Rook extends ChessPiece {
 
@@ -14,28 +15,14 @@ public class Rook extends ChessPiece {
         super(ChessPieceRank.ROOK, chessColor, position);
     }
 
-    // TODO Buat logic castling
-    public void performCastlingMove(King k) {
-        if (k.isFirstMove() && this.isFirstMove()) {
-
-        }
-    }
-
     @Override
-    protected void move(int dstRow, int dstCol) throws Exception {
+    protected void move(int dstRow, int dstCol) throws InvalidMoveException {
         if (Board.validatePosition(dstRow, dstCol) && (PieceMovement.isHorizontalMovement(this, dstRow, dstCol)
                 || PieceMovement.isVerticalMovement(this, dstRow, dstCol))
                 && !PieceMovement.isDiagonalMovement(this, dstRow, dstCol)) {
             // TODO search for horizontal/vertical obstacle
             // if obstacle are same-colored king and not moved, performCastlingMove(king);
             if (PieceMovement.isHorizontalMovement(this, dstRow, dstCol)) {
-                //TODO Do obtaining king from board for performCastlingMove(King k)
-                //King k = obtainFromBoard(Board ???, BoardPosition position);
-                King k = null;
-                if (k.isFirstMove() && this.isFirstMove() && PieceMovement.getRelativeColDistance(k, dstCol) == 3) {
-                    performCastlingMove(k);
-                }
-
                 // TODO Check obstacle horizontally
                 for (int i = 0; i < PieceMovement.getRelativeColDistance(this, dstCol); i++) {
                     // example: if (board[currRow][currCol+i] != null) { "do movement" }
