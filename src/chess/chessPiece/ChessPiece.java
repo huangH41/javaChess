@@ -109,35 +109,45 @@ public abstract class ChessPiece {
     }
 
     public boolean isOpponent(ChessPiece counterPiece) {
-        return (counterPiece.getChessColor() == ChessPieceColor.WHITE && this.getChessColor() == ChessPieceColor.BLACK)
-                || (counterPiece.getChessColor() == ChessPieceColor.BLACK && this.getChessColor() == ChessPieceColor.WHITE);
+        return counterPiece.getChessColor() != this.getChessColor();
     }
 
     public static ChessPiece getFromBoard(Board board, BoardPosition position) {
         return board.getPiece(position);
     }
 
+    /**
+     * Move a piece relatively from current position
+     *
+     * @param rows    rows from current position
+     * @param columns columns from current position
+     */
     public void moveBy(int rows, int columns) throws InvalidMoveException {
-        performMovement(this.getPosition().getRow() + rows, this.getPosition().getColumn() + columns);
+        BoardPosition newPosition = this.getPosition();
+        newPosition.setPosition(this.getPosition().getRow() + rows, this.getPosition().getColumn() + columns);
+        performMovement(newPosition);
     }
 
-    public void performMovement(int dstRow, int dstCol) throws InvalidMoveException {
-        if (Board.validatePosition(dstRow, dstCol)) {
-            move(dstRow, dstCol);
+    /**
+     * Move a piece to new position
+     *
+     * @param dstPosition new position
+     * @throws InvalidMoveException if the movement are out-of-bound or have obstacle
+     */
+    public void performMovement(BoardPosition dstPosition) throws InvalidMoveException {
+        if (Board.validatePosition(dstPosition)) {
+            move(dstPosition);
         }
     }
 
-    protected void capture(ChessPiece chessPiece) {
-        //TODO capture logic have yet to be defined (it need to obtain a board and board position too..)
-    }
+    abstract protected void capture(ChessPiece[][] board, BoardPosition targetPosition);
 
     /**
      * Declare an abstract method that every class extended from this class to perform a movement.
      * Throws exception if any invalid move or obstacle occurred.
      *
-     * @param dstRow the destination row
-     * @param dstCol the destination column
+     * @param dstPosition destination position
      */
-    protected abstract void move(int dstRow, int dstCol) throws InvalidMoveException;
+    abstract protected void move(BoardPosition dstPosition) throws InvalidMoveException;
 
 }
