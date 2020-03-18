@@ -17,7 +17,7 @@ public class Bishop extends ChessPiece {
 
     @Override
     protected void move(int dstRow, int dstCol) throws Exception {
-        if (Board.validatePosition(dstRow, dstCol) && (PieceMovement.isDiagonalMovement(this, dstRow, dstCol))) {
+        if (Board.isBoardValidPosition(dstRow, dstCol) && (PieceMovement.isDiagonalMovement(this, dstRow, dstCol))) {
             // TODO Check obstacle diagonally
             for (int i = 0; i < PieceMovement.getRelativeColDistance(this, dstCol); i++) {
                 // example: if (board[currRow+i][currCol+i] != null) { "do movement" }

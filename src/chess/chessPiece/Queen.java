@@ -29,7 +29,7 @@ public class Queen extends ChessPiece {
 
     @Override
     protected void move(int dstRow, int dstCol) {
-        if (Board.validatePosition(dstRow, dstCol) && isOmniDirectionalMove(dstRow, dstCol)) {
+        if (Board.isBoardValidPosition(dstRow, dstCol) && isOmniDirectionalMove(dstRow, dstCol)) {
             // TODO do a recursive move to detect any obstacle
         }
     }

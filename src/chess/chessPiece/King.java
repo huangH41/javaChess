@@ -44,7 +44,7 @@ public class King extends ChessPiece {
 
 	@Override
 	protected void move(int dstRow, int dstCol) {
-		if (Board.validatePosition(dstRow, dstCol) && isMonoOmniDirectionalMove(dstCol, dstRow)) {
+		if (Board.isBoardValidPosition(dstRow, dstCol) && isMonoOmniDirectionalMove(dstCol, dstRow)) {
 			// TODO do a simulation move or CHECK test before the king moves
 		}
 	}

@@ -5,14 +5,14 @@ import chess.chessPiece.King;
 
 public class Board {
     private BoardPosition position;
-    private final ChessPiece[][] pieceBoard = new ChessPiece[8][8];
+    private ChessPiece[][] pieceBoard = new ChessPiece[8][8];
     private King blackKing, whiteKing;
 
     public Board() {
         initializeChessPiece();
     }
 
-    public static boolean validatePosition(BoardPosition targetPosition) {
+    public static boolean isBoardValidPosition(BoardPosition targetPosition) {
         if (targetPosition.getRow() < 1 || targetPosition.getRow() > 8) {
             return false;
         } else return targetPosition.getColumn() >= 1 && targetPosition.getColumn() <= 8;
@@ -38,8 +38,8 @@ public class Board {
         this.whiteKing = whiteKing;
     }
 
-    public static boolean hasChessPiece(ChessPiece[][] pieceBoard, BoardPosition targetPosition) {
-        return pieceBoard[targetPosition.getRow()][targetPosition.getColumn()] != null? true : false;
+    public boolean isUnoccupied(BoardPosition position) {
+        return getPiece(position) == null;
     }
 
     /**
@@ -75,31 +75,32 @@ public class Board {
         }
     }
 
-    public void movePiece(ChessPiece piece, BoardPosition dstPosition) throws Exception {
-        if (Board.validatePosition(dstPosition)) {
-            throw new IndexOutOfBoundsException("Can not move piece outside chess board!");
-        }
+    public void movePiece(ChessPiece piece, BoardPosition dstPosition){
+        BoardPosition oldPosition = piece.getPosition();
+        toNewPosition(piece, dstPosition);
+        removeOldPosition(oldPosition);
 
-        ChessPiece pieceAtDestination = pieceBoard[dstPosition.getRow()][dstPosition.getColumn()];
-        int oldRow = piece.getPosition().getRow(), oldColumn = piece.getPosition().getColumn();
+//        if (pieceAtDestination != null) {
+//            if (piece.isOpponent(pieceAtDestination)) {
+//                // log attack
+//
+//            }
+//            piece.performMovement(dstPosition);
+//            pieceBoard[dstPosition.getRow()][dstPosition.getColumn()] = piece;
+//        }
+    }
 
-        if (pieceAtDestination != null) {
-            if (piece.isOpponent(pieceAtDestination)) {
-                // log attack
+    private void toNewPosition(ChessPiece piece, BoardPosition dstPosition) {
+        piece.setPosition(dstPosition);
+        this.pieceBoard[dstPosition.getRow()][dstPosition.getColumn()] = piece;
+    }
 
-            }
-            piece.performMovement(dstPosition);
-            pieceBoard[dstPosition.getRow()][dstPosition.getColumn()] = piece;
-        }
-        pieceBoard[oldRow][oldColumn] = null;
+    private void removeOldPosition(BoardPosition oldPosition) {
+        this.pieceBoard[oldPosition.getRow()][oldPosition.getColumn()] = null;
     }
 
     public ChessPiece getPiece(BoardPosition position) {
         return pieceBoard[position.getRow()][position.getColumn()];
-    }
-
-    public boolean isEmptyAtPosition(BoardPosition position) {
-        return getPiece(position) == null;
     }
 
     public void placePiece(ChessPiece piece, BoardPosition position) {

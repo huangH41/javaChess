@@ -9,25 +9,37 @@ public abstract class ChessPiece {
     private ChessPieceRank pieceRank;
     private ChessPieceColor chessColor;
     private BoardPosition position;
-    private boolean isFirstMove = true;
+    private boolean firstMove = false;
 
-    /**
-     * Define chess piece with status, color (either black or white), and position on the chess
-     *
-     * @param pieceRank  the chess piece name
-     * @param chessColor the chess piece color as player or opponent color (either black or white)
-     * @param position   the chess piece position (define new BoardPosition in row and column)
-     */
     public ChessPiece(ChessPieceRank pieceRank, ChessPieceColor chessColor, BoardPosition position) {
         this.pieceRank = pieceRank;
         this.chessColor = chessColor;
         this.position = position;
     }
 
-    /**
-     * Required for obtaining position from
-     */
-    protected Board assignedBoard;
+    public ChessPieceRank getPieceRank() {
+        return pieceRank;
+    }
+
+    public void setPieceRank(ChessPieceRank pieceRank) {
+        this.pieceRank = pieceRank;
+    }
+
+    public ChessPieceColor getChessColor() {
+        return chessColor;
+    }
+
+    public void setChessColor(ChessPieceColor chessColor) {
+        this.chessColor = chessColor;
+    }
+
+    public BoardPosition getPosition() {
+        return position;
+    }
+
+    public void setPosition(BoardPosition newPosition) {
+        this.position = newPosition;
+    }
 
     public static ChessPiece defineWhitePawn(ChessPieceRank rank, BoardPosition position) {
         switch (rank) {
@@ -67,65 +79,22 @@ public abstract class ChessPiece {
         }
     }
 
-    public ChessPieceRank getPieceRank() {
-        return pieceRank;
-    }
-
-    public void setPieceRank(ChessPieceRank pieceRank) {
-        this.pieceRank = pieceRank;
-    }
-
-    public ChessPieceColor getChessColor() {
-        return chessColor;
-    }
-
-    public void setChessColor(ChessPieceColor chessColor) {
-        this.chessColor = chessColor;
-    }
-
-    /**
-     * Check if the piece have perform it's move since game begins
-     *
-     * @return pawn moved state since game begins
-     */
     public boolean isFirstMove() {
-        return isFirstMove;
+        return firstMove;
     }
 
-    /**
-     * By using this method, this parameter will irreversibly set the pawn moved state to true
-     */
-    public void setMovedYet() {
-        isFirstMove = true;
-    }
-
-    public BoardPosition getPosition() {
-        return position;
-    }
-
-    public void setPosition(BoardPosition newPosition) {
-        this.position = newPosition;
+    public void hasMoved() {
+        firstMove = true;
     }
 
     public boolean isOpponent(ChessPiece counterPiece) {
-//        return (counterPiece.getChessColor() == ChessPieceColor.WHITE && this.getChessColor() == ChessPieceColor.BLACK)
-//                || (counterPiece.getChessColor() == ChessPieceColor.BLACK && this.getChessColor() == ChessPieceColor.WHITE);
-
         return counterPiece.getChessColor() != this.getChessColor() ? true : false;
     }
 
+    //TODO getFromBoard is not a relevant method for chessPiece Class, consider to remove later
     public static ChessPiece getFromBoard(Board board, BoardPosition position) {
         return board.getPiece(position);
     }
-
-    public void performMovement(BoardPosition dstPosition) throws Exception {
-        if (Board.validatePosition(dstPosition)) {
-            move(dstPosition);
-        }
-    }
-
-
-    abstract protected void capture(ChessPiece[][] board, BoardPosition targetPosition);
 
     /**
      * Declare an abstract method that every class extended from this class to perform a movement.
@@ -133,6 +102,13 @@ public abstract class ChessPiece {
      *
      * @param dstPosition
      */
-    abstract protected void move(BoardPosition dstPosition) throws Exception;
+    abstract protected void move(BoardPosition dstPosition, Board board) throws Exception;
 
+    /**
+     *
+     *
+     * @param board
+     * @param targetPosition
+     */
+    abstract protected void capture(ChessPiece[][] board, BoardPosition targetPosition);
 }

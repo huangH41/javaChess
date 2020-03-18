@@ -32,7 +32,7 @@ public class Knight extends ChessPiece {
 
     @Override
     protected void move(int dstRow, int dstCol) {
-        if (Board.validatePosition(dstCol, dstRow) && isLetterLMovement(dstCol, dstRow)) {
+        if (Board.isBoardValidPosition(dstCol, dstRow) && isLetterLMovement(dstCol, dstRow)) {
             int relativeCol = dstCol - this.getPosition().getColumn();
             int relativeRow = dstRow - this.getPosition().getRow();
 

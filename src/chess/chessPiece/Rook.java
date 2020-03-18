@@ -23,7 +23,7 @@ public class Rook extends ChessPiece {
 
     @Override
     protected void move(int dstRow, int dstCol) throws Exception {
-        if (Board.validatePosition(dstRow, dstCol) && (PieceMovement.isHorizontalMovement(this, dstRow, dstCol)
+        if (Board.isBoardValidPosition(dstRow, dstCol) && (PieceMovement.isHorizontalMovement(this, dstRow, dstCol)
                 || PieceMovement.isVerticalMovement(this, dstRow, dstCol))
                 && !PieceMovement.isDiagonalMovement(this, dstRow, dstCol)) {
             // TODO search for horizontal/vertical obstacle

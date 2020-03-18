@@ -3,37 +3,76 @@ package chess.chessPiece;
 import chess.base.*;
 
 public class Pawn extends ChessPiece {
-    /**
-     * Maximum step for Pawn for first move is 2, else is 1
-     */
+
     private int maxStep = 2;
 
-    /**
-     * Define Pawn with defined color and position
-     *
-     * @param chessColor black or white?
-     * @param position   initial position of pawn
-     */
     public Pawn(ChessPieceColor chessColor, BoardPosition position) {
         super(ChessPieceRank.PAWN, chessColor, position);
     }
 
     @Override
-    public void move(int dstRow, int dstCol) {
-        if (Board.validatePosition(dstRow, dstCol)
-                && PieceMovement.getRelativeRowDistance(this, dstRow) <= maxStep
-                && PieceMovement.getRelativeColDistance(this, dstCol) == 0) {
-            // TODO do a logic that the targeted position isn't have a piece (even opponent or not)
+    public void move(BoardPosition dstPosition, Board board) throws Exception {
+        if (Board.isBoardValidPosition(dstPosition) && isValidMove(board ,dstPosition)) {
 
-            this.setPosition(new BoardPosition(dstRow, dstCol));
+            if (isFirstMove()) {
+                maxStep = 1;
+                hasMoved();
+            }
+
+            board.movePiece(this, dstPosition);
         } else {
             throw new IllegalArgumentException("Invalid move!");
         }
+    }
 
-        if (isFirstMove()) {
-            maxStep = 1;
-            setMovedYet();
+    private boolean isValidMove(Board board, BoardPosition dstPosition) {
+        return isValidPieceMovement(dstPosition) && isValidMovePath(board, dstPosition) ? true : false;
+    }
+
+    private boolean isValidMovePath(Board board, BoardPosition dstPosition){
+        return hasPieceObstacle(board, dstPosition);
+    }
+
+    private boolean isValidPieceMovement(BoardPosition dstPosition) {
+        if(PieceMovement.getRelativeRowDistance(this, dstPosition.getRow()) <= maxStep
+                && PieceMovement.getRelativeColDistance(this, dstPosition.getColumn()) == 0) return true;
+
+        return false;
+    }
+
+    public boolean hasPieceObstacle(Board board, BoardPosition dstPosition) {
+        ChessPieceColor pieceColor = this.getChessColor();
+        if(pieceColor == ChessPieceColor.WHITE){
+            return isWhitePieceObstacle(board, dstPosition);
+        } else {
+            return isBlackPieceObstacle(board, dstPosition);
         }
+    }
+
+    //TODO Think other more relevan name
+    private boolean isWhitePieceObstacle(Board board, BoardPosition dstPosition) {
+        BoardPosition currentPosition = new BoardPosition(this.getPosition().getRow(), this.getPosition().getColumn());
+
+        for(int row = currentPosition.getRow() - 1; row >= dstPosition.getRow(); row--){
+            currentPosition.setRow(row);
+            if(!board.isUnoccupied(currentPosition)) return false;
+        }
+        return true;
+    }
+
+    private boolean isBlackPieceObstacle(Board board, BoardPosition dstPosition) {
+        BoardPosition currentPosition = new BoardPosition(this.getPosition().getRow(), this.getPosition().getColumn());
+
+        for(int row = currentPosition.getRow() + 1; row <= dstPosition.getRow(); row++){
+            currentPosition.setRow(row);
+            if(!board.isUnoccupied(currentPosition)) return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void capture(ChessPiece[][] board, BoardPosition targetPosition){
+
     }
 
     public ChessPiece promote(ChessPieceRank upgradedRank) {
