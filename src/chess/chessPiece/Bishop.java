@@ -1,6 +1,7 @@
 package chess.chessPiece;
 
 import chess.base.*;
+import chess.base.exceptions.InvalidMoveException;
 
 
 public class Bishop extends ChessPiece {

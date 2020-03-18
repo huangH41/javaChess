@@ -1,5 +1,9 @@
 package chess.base;
 
 public enum ChessPieceColor {
-        WHITE, BLACK
+    WHITE, BLACK;
+
+    public String toString() {
+        return this.name();
+    }
 }

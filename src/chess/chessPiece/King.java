@@ -1,6 +1,7 @@
 package chess.chessPiece;
 
 import chess.base.*;
+import chess.base.exceptions.InvalidMoveException;
 
 public class King extends ChessPiece {
 
@@ -29,6 +30,7 @@ public class King extends ChessPiece {
 	public KingCheckState isChecked() {
 		return checkState;
 	}
+
 
 	/**
 	 * Check if king moves in any direction by one block

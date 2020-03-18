@@ -4,6 +4,7 @@ import chess.base.Board;
 import chess.base.BoardPosition;
 import chess.base.ChessPieceColor;
 import chess.base.ChessPieceRank;
+import chess.base.exceptions.InvalidMoveException;
 
 public abstract class ChessPiece {
     private ChessPieceRank pieceRank;
@@ -100,7 +101,7 @@ public abstract class ChessPiece {
      * Declare an abstract method that every class extended from this class to perform a movement.
      * Throws exception if any invalid move or obstacle occurred.
      *
-     * @param dstPosition
+     * @param dstPosition destination position
      */
     abstract protected void move(BoardPosition dstPosition, Board board) throws Exception;
 

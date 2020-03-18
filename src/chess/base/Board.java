@@ -1,12 +1,16 @@
 package chess.base;
 
+import chess.base.exceptions.InvalidMoveException;
 import chess.chessPiece.ChessPiece;
 import chess.chessPiece.King;
 
 public class Board {
+
     private BoardPosition position;
     private ChessPiece[][] pieceBoard = new ChessPiece[8][8];
+
     private King blackKing, whiteKing;
+    private ChessPieceColor currentColor = ChessPieceColor.WHITE;
 
     public Board() {
         initializeChessPiece();
@@ -103,9 +107,4 @@ public class Board {
         return pieceBoard[position.getRow()][position.getColumn()];
     }
 
-    public void placePiece(ChessPiece piece, BoardPosition position) {
-        int row = position.getRow(), column = position.getColumn();
-        piece.setPosition(new BoardPosition(row, column));
-        pieceBoard[row][column] = piece;
-    }
 }

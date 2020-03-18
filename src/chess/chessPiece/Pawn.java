@@ -1,6 +1,7 @@
 package chess.chessPiece;
 
 import chess.base.*;
+import chess.base.exceptions.InvalidMoveException;
 
 public class Pawn extends ChessPiece {
 
@@ -21,7 +22,7 @@ public class Pawn extends ChessPiece {
 
             board.movePiece(this, dstPosition);
         } else {
-            throw new IllegalArgumentException("Invalid move!");
+            throw new InvalidMoveException("Invalid Move");
         }
     }
 
@@ -72,10 +73,14 @@ public class Pawn extends ChessPiece {
 
     @Override
     public void capture(ChessPiece[][] board, BoardPosition targetPosition){
-
+        //TODO adding capture logic
     }
 
     public ChessPiece promote(ChessPieceRank upgradedRank) {
+        if (upgradedRank == ChessPieceRank.PAWN || upgradedRank == ChessPieceRank.KING) {
+            throw new IllegalStateException("Can not promote pawn to king or pawn itself!");
+        }
+
         if (this.getChessColor() == ChessPieceColor.WHITE) {
             return defineWhitePawn(upgradedRank, this.getPosition());
         } else return defineBlackPawn(upgradedRank, this.getPosition());
