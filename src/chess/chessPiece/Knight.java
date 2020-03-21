@@ -16,16 +16,28 @@ public class Knight extends ChessPiece {
     }
 
     @Override
-    protected void move(int dstRow, int dstCol) {
-        if (Board.isBoardValidPosition(dstCol, dstRow) && isLetterLMovement(dstCol, dstRow)) {
-            int relativeCol = dstCol - this.getPosition().getColumn();
-            int relativeRow = dstRow - this.getPosition().getRow();
-
-            // example: if (board[currRow+relativeRow][currCol+relativeCol] != null) { "do movement" }
-            this.setPosition(new BoardPosition(dstRow, dstCol));
+    protected void move(BoardPosition dstPosition, Board board) {
+        if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
+            board.movePiece(this, dstPosition);
         } else {
-            throw new InvalidMoveException("Knight");
+            throw new InvalidMoveException(this, dstPosition);
         }
+    }
+
+    @Override
+    protected void capture(Board board, BoardPosition targetPosition) {
+
+    }
+
+    @Override
+    protected boolean isValidMovePath(Board board, BoardPosition dstPosition) {
+        return (board.isOccupied(dstPosition) && isOpponent(board.getPiece(dstPosition))
+                || !board.isOccupied(dstPosition));
+    }
+
+    @Override
+    protected boolean isValidPieceMovement(BoardPosition dstPosition) {
+        return (PieceMovement.isLetterLMovement(this, dstPosition));
     }
 
 

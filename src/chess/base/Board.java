@@ -6,7 +6,6 @@ import chess.chessPiece.King;
 
 public class Board {
 
-    private BoardPosition position;
     private ChessPiece[][] pieceBoard = new ChessPiece[8][8];
 
     private King blackKing, whiteKing;
@@ -42,8 +41,24 @@ public class Board {
         this.whiteKing = whiteKing;
     }
 
-    public boolean isUnoccupied(BoardPosition position) {
-        return getPiece(position) == null;
+    public static boolean hasChessPiece(ChessPiece[][] pieceBoard, BoardPosition targetPosition) {
+        return pieceBoard[targetPosition.getRow()][targetPosition.getColumn()] != null;
+    }
+
+    public ChessPieceColor getCurrentColor() {
+        return currentColor;
+    }
+
+    public void setCurrentColor(ChessPieceColor currentColor) {
+        this.currentColor = currentColor;
+    }
+
+    public void switchColor() {
+        if (this.getCurrentColor() == ChessPieceColor.WHITE) {
+            this.setCurrentColor(ChessPieceColor.BLACK);
+        } else {
+            this.setCurrentColor(ChessPieceColor.WHITE);
+        }
     }
 
     /**
@@ -51,60 +66,72 @@ public class Board {
      */
     public void initializeChessPiece() {
         // let start from white_rook_left
-        whiteKing = (King) ChessPiece.defineWhitePawn(ChessPieceRank.KING, new BoardPosition(0, 3));
-        pieceBoard[0][0] = ChessPiece.defineWhitePawn(ChessPieceRank.ROOK, new BoardPosition(0, 0));
-        pieceBoard[0][7] = ChessPiece.defineWhitePawn(ChessPieceRank.ROOK, new BoardPosition(0, 7));
-        pieceBoard[0][1] = ChessPiece.defineWhitePawn(ChessPieceRank.KNIGHT, new BoardPosition(0, 1));
-        pieceBoard[0][6] = ChessPiece.defineWhitePawn(ChessPieceRank.KNIGHT, new BoardPosition(0, 6));
-        pieceBoard[0][2] = ChessPiece.defineWhitePawn(ChessPieceRank.BISHOP, new BoardPosition(0, 2));
-        pieceBoard[0][5] = ChessPiece.defineWhitePawn(ChessPieceRank.BISHOP, new BoardPosition(0, 5));
-        pieceBoard[0][4] = ChessPiece.defineWhitePawn(ChessPieceRank.QUEEN, new BoardPosition(0, 4));
+        whiteKing = (King) ChessPiece.defineWhitePawn(ChessPieceRank.KING, new BoardPosition("E1"));
+        pieceBoard[0][0] = ChessPiece.defineWhitePawn(ChessPieceRank.ROOK, new BoardPosition("A1"));
+        pieceBoard[0][7] = ChessPiece.defineWhitePawn(ChessPieceRank.ROOK, new BoardPosition("H1"));
+        pieceBoard[0][1] = ChessPiece.defineWhitePawn(ChessPieceRank.KNIGHT, new BoardPosition("B1"));
+        pieceBoard[0][6] = ChessPiece.defineWhitePawn(ChessPieceRank.KNIGHT, new BoardPosition("G1"));
+        pieceBoard[0][2] = ChessPiece.defineWhitePawn(ChessPieceRank.BISHOP, new BoardPosition("C1"));
+        pieceBoard[0][5] = ChessPiece.defineWhitePawn(ChessPieceRank.BISHOP, new BoardPosition("F1"));
+        pieceBoard[0][4] = ChessPiece.defineWhitePawn(ChessPieceRank.QUEEN, new BoardPosition("D1"));
         pieceBoard[0][3] = whiteKing;
-        for (int i = 0; i < 7; i++) {
-            pieceBoard[1][i] = ChessPiece.defineWhitePawn(ChessPieceRank.PAWN, new BoardPosition(1, i));
+        for (int i = 0; i < 8; i++) {
+            pieceBoard[1][i] = ChessPiece.defineWhitePawn(ChessPieceRank.PAWN, new BoardPosition(2, i + 1));
         }
 
         // for black piece
-        blackKing = (King) ChessPiece.defineBlackPawn(ChessPieceRank.KING, new BoardPosition(7, 3));
-        pieceBoard[7][0] = ChessPiece.defineBlackPawn(ChessPieceRank.ROOK, new BoardPosition(7, 0));
-        pieceBoard[7][7] = ChessPiece.defineBlackPawn(ChessPieceRank.ROOK, new BoardPosition(7, 7));
-        pieceBoard[7][1] = ChessPiece.defineBlackPawn(ChessPieceRank.KNIGHT, new BoardPosition(7, 1));
-        pieceBoard[7][6] = ChessPiece.defineBlackPawn(ChessPieceRank.KNIGHT, new BoardPosition(7, 6));
-        pieceBoard[7][2] = ChessPiece.defineBlackPawn(ChessPieceRank.BISHOP, new BoardPosition(7, 2));
-        pieceBoard[7][5] = ChessPiece.defineBlackPawn(ChessPieceRank.BISHOP, new BoardPosition(7, 5));
-        pieceBoard[7][4] = ChessPiece.defineBlackPawn(ChessPieceRank.QUEEN, new BoardPosition(7, 4));
+        blackKing = (King) ChessPiece.defineBlackPawn(ChessPieceRank.KING, new BoardPosition(7, 4));
+        pieceBoard[7][0] = ChessPiece.defineBlackPawn(ChessPieceRank.ROOK, new BoardPosition(7, 1));
+        pieceBoard[7][7] = ChessPiece.defineBlackPawn(ChessPieceRank.ROOK, new BoardPosition(7, 8));
+        pieceBoard[7][1] = ChessPiece.defineBlackPawn(ChessPieceRank.KNIGHT, new BoardPosition(7, 2));
+        pieceBoard[7][6] = ChessPiece.defineBlackPawn(ChessPieceRank.KNIGHT, new BoardPosition(7, 7));
+        pieceBoard[7][2] = ChessPiece.defineBlackPawn(ChessPieceRank.BISHOP, new BoardPosition(7, 3));
+        pieceBoard[7][5] = ChessPiece.defineBlackPawn(ChessPieceRank.BISHOP, new BoardPosition(7, 6));
+        pieceBoard[7][4] = ChessPiece.defineBlackPawn(ChessPieceRank.QUEEN, new BoardPosition(7, 5));
         pieceBoard[7][3] = blackKing;
-        for (int i = 0; i < 7; i++) {
-            pieceBoard[6][i] = ChessPiece.defineBlackPawn(ChessPieceRank.PAWN, new BoardPosition(6, i));
+        for (int i = 0; i < 8; i++) {
+            pieceBoard[6][i] = ChessPiece.defineBlackPawn(ChessPieceRank.PAWN, new BoardPosition(6, i + 1));
         }
     }
 
-    public void movePiece(ChessPiece piece, BoardPosition dstPosition){
+    public void movePiece(ChessPiece piece, BoardPosition dstPosition) {
         BoardPosition oldPosition = piece.getPosition();
         toNewPosition(piece, dstPosition);
         removeOldPosition(oldPosition);
+    }
 
-//        if (pieceAtDestination != null) {
-//            if (piece.isOpponent(pieceAtDestination)) {
-//                // log attack
-//
-//            }
-//            piece.performMovement(dstPosition);
-//            pieceBoard[dstPosition.getRow()][dstPosition.getColumn()] = piece;
-//        }
+    /**
+     * Move a piece relatively from current position
+     *
+     * @param rowsFromCurrent    rows from current position
+     * @param columnsFromCurrent columns from current position
+     */
+    public void movePieceBy(ChessPiece piece, int rowsFromCurrent, int columnsFromCurrent) throws InvalidMoveException {
+        BoardPosition newPosition = piece.getPosition();
+        newPosition.setRow(newPosition.getRow() + rowsFromCurrent);
+        newPosition.setColumn(newPosition.getColumn() + columnsFromCurrent);
+        movePiece(piece, newPosition);
     }
 
     private void toNewPosition(ChessPiece piece, BoardPosition dstPosition) {
         piece.setPosition(dstPosition);
-        this.pieceBoard[dstPosition.getRow()][dstPosition.getColumn()] = piece;
+        setPiece(dstPosition, piece);
     }
 
     private void removeOldPosition(BoardPosition oldPosition) {
-        this.pieceBoard[oldPosition.getRow()][oldPosition.getColumn()] = null;
+        setPiece(oldPosition, null);
     }
 
     public ChessPiece getPiece(BoardPosition position) {
-        return pieceBoard[position.getRow()][position.getColumn()];
+        return pieceBoard[position.getRow() - 1][position.getColumn() - 1];
+    }
+
+    public void setPiece(BoardPosition position, ChessPiece piece) {
+        this.pieceBoard[position.getRow() - 1][position.getColumn() - 1] = piece;
+    }
+
+    public boolean isOccupied(BoardPosition position) {
+        return getPiece(position) != null;
     }
 
 }

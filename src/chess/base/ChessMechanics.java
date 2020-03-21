@@ -53,8 +53,8 @@ public class ChessMechanics {
 
         if (king.isFirstMove() && rook.isFirstMove()) {
             try {
-                king.moveBy(0, 2);
-                rook.moveBy(0, (queenSidePosition ? 3 : 2));
+                board.movePieceBy(king, 0, 2);
+                board.movePieceBy(rook, 0, (queenSidePosition ? 3 : 2));
             } catch (Exception e) {
                 throw new InvalidMoveException(String.format("%s king and rook", board.getCurrentColor().toString()));
             }

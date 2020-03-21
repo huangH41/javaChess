@@ -5,54 +5,70 @@ import chess.base.exceptions.InvalidMoveException;
 
 public class King extends ChessPiece {
 
-	private KingCheckState checkState = KingCheckState.SAFE;
+    private KingCheckState checkState = KingCheckState.SAFE;
 
-	/**
-	 * Define King with defined color and position
-	 *
-	 * @param chessColor black or white?
-	 * @param position   initial position of king
-	 */
-	public King(ChessPieceColor chessColor, BoardPosition position) {
-		super(ChessPieceRank.KING, chessColor, position);
-	}
+    /**
+     * Define King with defined color and position
+     *
+     * @param chessColor black or white?
+     * @param position   initial position of king
+     */
+    public King(ChessPieceColor chessColor, BoardPosition position) {
+        super(ChessPieceRank.KING, chessColor, position);
+    }
 
-	// TODO buat method untuk cek status "CHECK" dan "CHECKMATE"
-	public void verifyCheckState() {
-		// if any movement caused this to check or checkmate
+    /**
+     * Check if king moves in any direction by one block
+     *
+     * @param dstPosition destination position
+     * @return true if king moves any-directional by one block
+     */
+    private boolean isSingleAnyDirectionalMove(BoardPosition dstPosition) {
+        return PieceMovement.getRelativeColDistance(this, dstPosition.getColumn()) == 1
+                || PieceMovement.getRelativeRowDistance(this, dstPosition.getRow()) == 1;
+    }
 
-	}
+    // TODO buat method untuk cek status "CHECK" dan "CHECKMATE"
+    public void verifyCheckState() {
+        // if any movement caused this to check or checkmate
 
-	public void setCheck(KingCheckState checkState) {
-		this.checkState = checkState;
-	}
+    }
 
-	public KingCheckState isChecked() {
-		return checkState;
-	}
+    public void setCheck(KingCheckState checkState) {
+        this.checkState = checkState;
+    }
 
+    public KingCheckState isChecked() {
+        return checkState;
+    }
 
-	/**
-	 * Check if king moves in any direction by one block
-	 *
-	 * @param dstCol destination column
-	 * @param dstRow destination row
-	 * @return true if king moves any-directional by one block
-	 */
-	private boolean isMonoOmniDirectionalMove(int dstRow, int dstCol) {
-		return PieceMovement.getRelativeColDistance(this, dstCol) == 1
-				|| PieceMovement.getRelativeRowDistance(this, dstRow) == 1;
-	}
+    @Override
+    protected void move(BoardPosition dstPosition, Board board) {
+        if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
+            board.movePiece(this, dstPosition);
+        } else {
+            throw new InvalidMoveException(this, dstPosition);
+        }
+    }
 
-	@Override
-	protected void move(int dstRow, int dstCol) {
-		if (Board.isBoardValidPosition(dstRow, dstCol) && isMonoOmniDirectionalMove(dstCol, dstRow)) {
-			// TODO do a simulation move or CHECK test before the king moves
-		}
-	}
+    @Override
+    protected void capture(Board board, BoardPosition targetPosition) {
 
-	public enum KingCheckState {
-		SAFE, CHECK, CHECKMATE
-	}
+    }
+
+    @Override
+    protected boolean isValidMovePath(Board board, BoardPosition dstPosition) {
+        return (board.isOccupied(dstPosition) && isOpponent(board.getPiece(dstPosition))
+                || !board.isOccupied(dstPosition));
+    }
+
+    @Override
+    protected boolean isValidPieceMovement(BoardPosition dstPosition) {
+        return (isSingleAnyDirectionalMove(dstPosition));
+    }
+
+    public enum KingCheckState {
+        SAFE, CHECK, CHECKMATE
+    }
 
 }

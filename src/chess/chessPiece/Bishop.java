@@ -17,14 +17,36 @@ public class Bishop extends ChessPiece {
     }
 
     @Override
-    protected void move(int dstRow, int dstCol) throws Exception {
-        if (Board.isBoardValidPosition(dstRow, dstCol) && (PieceMovement.isDiagonalMovement(this, dstRow, dstCol))) {
-            // TODO Check obstacle diagonally
-            for (int i = 0; i < PieceMovement.getRelativeColDistance(this, dstCol); i++) {
-                // example: if (board[currRow+i][currCol+i] != null) { "do movement" }
-
-            }
+    protected void move(BoardPosition dstPosition, Board board) {
+        if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
+            board.movePiece(this, dstPosition);
+        } else {
+            throw new InvalidMoveException(this, dstPosition);
         }
+    }
+
+    @Override
+    protected void capture(Board board, BoardPosition targetPosition) {
+
+    }
+
+    @Override
+    protected boolean isValidMovePath(Board board, BoardPosition dstPosition) {
+        BoardPosition currentPosition = new BoardPosition(this.getPosition().getRow(), this.getPosition().getColumn());
+        int magnitude = PieceMovement.doSingleRelativeColumnMovement(this, currentPosition);
+
+        for (int row = currentPosition.getRow() + magnitude, col = currentPosition.getColumn() + magnitude;
+             row != dstPosition.getRow(); row += magnitude, col += magnitude) {
+            currentPosition.setPosition(row, col);
+            if (board.isOccupied(currentPosition)) return false;
+        }
+        return (board.isOccupied(dstPosition) && isOpponent(board.getPiece(dstPosition))
+                || !board.isOccupied(dstPosition));
+    }
+
+    @Override
+    protected boolean isValidPieceMovement(BoardPosition dstPosition) {
+        return (PieceMovement.isDiagonalMovement(this, dstPosition));
     }
 
 

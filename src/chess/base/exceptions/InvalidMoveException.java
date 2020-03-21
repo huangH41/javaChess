@@ -1,5 +1,6 @@
 package chess.base.exceptions;
 
+import chess.base.BoardPosition;
 import chess.chessPiece.ChessPiece;
 
 /**
@@ -16,6 +17,16 @@ public class InvalidMoveException extends IndexOutOfBoundsException {
      */
     public InvalidMoveException(ChessPiece causer) {
         super(String.format("Invalid move: %s moved out of bound!", causer.toString()));
+    }
+
+    /**
+     * Which piece caused to throw invalid move with specified coordinates?
+     *
+     * @param causer   the piece caused invalid move
+     * @param position the target position of the causer
+     */
+    public InvalidMoveException(ChessPiece causer, BoardPosition position) {
+        this(causer, position.getRow(), position.getColumn());
     }
 
     /**

@@ -23,21 +23,32 @@ public class BoardPosition {
     /**
      * Declare board position using defined chess coordinate notation [A-H][1-8]
      *
-     * @param notation chess coordinate notation with format [A-H][1-8]
+     * @param coordinateNotation chess coordinate notation with format [A-H][1-8] (A-H for column, 1-8 for row)
      */
-    public BoardPosition(String notation) {
-        this.setPosition(notation);
+    public BoardPosition(String coordinateNotation) {
+        this.setPosition(coordinateNotation);
     }
 
-    public void setPosition(String notation) {
-        if (notation.matches("[A-H][1-8]")) {
-            setRow(notation.codePointAt(0) - 'A');
-            setColumn(Integer.parseInt(String.valueOf(notation.charAt(1))));
+    /**
+     * Set position to a chess coordinate notation
+     *
+     * @param coordinateNotation chess coordinate notation with format [A-H][1-8] (A-H for column, 1-8 for row)
+     */
+    public void setPosition(String coordinateNotation) {
+        if (coordinateNotation.matches("[A-H][1-8]")) {
+            setRow(coordinateNotation.codePointAt(0) - 'A' + 1);
+            setColumn(Integer.parseInt(String.valueOf(coordinateNotation.charAt(1))));
         } else {
             throw new InvalidMoveException("Invalid notation: must be [A-H][1-8]");
         }
     }
 
+    /**
+     * Set position to new row and column
+     *
+     * @param row    new row position
+     * @param column new column position
+     */
     public void setPosition(int row, int column) {
         setRow(row);
         setColumn(column);
