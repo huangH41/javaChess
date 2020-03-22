@@ -2,3 +2,4 @@
 *.eml
 *.iml
 .idea/
+out/
