@@ -36,8 +36,8 @@ public class BoardPosition {
      */
     public void setPosition(String coordinateNotation) {
         if (coordinateNotation.matches("[A-H][1-8]")) {
-            setRow(coordinateNotation.codePointAt(0) - 'A' + 1);
-            setColumn(Integer.parseInt(String.valueOf(coordinateNotation.charAt(1))));
+            setColumn(coordinateNotation.codePointAt(0) - 'A' + 1);
+            setRow(Integer.parseInt(String.valueOf(coordinateNotation.charAt(1))));
         } else {
             throw new InvalidMoveException("Invalid notation: must be [A-H][1-8]");
         }

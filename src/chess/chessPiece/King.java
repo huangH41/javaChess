@@ -30,6 +30,7 @@ public class King extends ChessPiece {
 
     // TODO buat method untuk cek status "CHECK" dan "CHECKMATE"
     public void verifyCheckState() {
+        // TODO: Coba lu kerjain method skak.. @HuangH41
         // if any movement caused this to check or checkmate
 
     }
