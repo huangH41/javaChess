@@ -149,7 +149,7 @@ public abstract class ChessPiece {
      *
      * @param dstPosition destination position
      */
-    abstract protected void move(BoardPosition dstPosition, Board board);
+    public abstract void move(BoardPosition dstPosition, Board board);
 
     /**
      * Capture and voids the opponent piece if any. For en-passant, pawn requires to move

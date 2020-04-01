@@ -44,7 +44,7 @@ public class King extends ChessPiece {
     }
 
     @Override
-    protected void move(BoardPosition dstPosition, Board board) {
+    public void move(BoardPosition dstPosition, Board board) {
         if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
             board.movePiece(this, dstPosition);
         } else {
