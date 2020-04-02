@@ -21,7 +21,7 @@ public class Main {
         // TODO: This is an infinite loops so this method requires an improvement for @HuangH41...
         do {
             System.out.println(BoardDrawer.drawBoard(board));
-            System.out.print("Input [ex: A2-A3] : ");
+            System.out.printf("Input %s player [ex: A2-A3] : ", board.getCurrentColor());
             String inputtedCoordinates = scan.nextLine();
             String[] coordinates = inputtedCoordinates.split("-");
             System.out.println(String.format("Piece moved frm %s to %s!", coordinates[0], coordinates[1]));

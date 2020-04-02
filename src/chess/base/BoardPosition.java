@@ -83,7 +83,7 @@ public class BoardPosition {
      */
     @Override
     public String toString() {
-        return String.format("%c%d", (char) (column + 'A'), row);
+        return String.format("%c%d", (char) ((column - 1) + 'A'), row);
     }
 
 }

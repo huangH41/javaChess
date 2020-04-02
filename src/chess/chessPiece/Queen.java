@@ -35,17 +35,20 @@ public class Queen extends ChessPiece {
         int magnitude = PieceMovement.doSingleRelativeColumnMovement(this, currentPosition);
 
         if (PieceMovement.isDiagonalMovement(this, dstPosition)) {
+            System.out.println("diagnonally");
             for (int row = currentPosition.getRow() + magnitude, col = currentPosition.getColumn() + magnitude;
                  row != dstPosition.getRow(); row += magnitude, col += magnitude) {
                 currentPosition.setPosition(row, col);
                 if (board.isOccupied(currentPosition)) return false;
             }
         } else if (PieceMovement.isVerticalMovement(this, dstPosition)) {
+            System.out.println("vertically");
             for (int row = currentPosition.getRow() + magnitude; row != dstPosition.getRow(); row += magnitude) {
                 currentPosition.setRow(row);
                 if (board.isOccupied(currentPosition)) return false;
             }
         } else if (PieceMovement.isHorizontalMovement(this, dstPosition)) {
+            System.out.println("horizontally");
             for (int col = currentPosition.getColumn() + magnitude; col != dstPosition.getColumn(); col += magnitude) {
                 currentPosition.setColumn(col);
                 if (board.isOccupied(currentPosition)) return false;

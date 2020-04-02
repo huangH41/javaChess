@@ -11,14 +11,38 @@ public class PieceMovement {
     }
 
     /**
-     * Get relative column distance from a piece current column position to target column position
+     * Get relative column distance from a piece current column position to target column position (non-negative value)
      *
      * @param piece             piece to move
      * @param destinationColumn the target column position
      * @return relative column distance of a piece
      */
     public static int getRelativeColDistance(ChessPiece piece, int destinationColumn) {
-        return Math.abs(destinationColumn - piece.getPosition().getColumn());
+        return getRelativeColDistance(piece, destinationColumn, false);
+    }
+
+    /**
+     * Get relative row distance from a piece current row position to target row position (non-negative value)
+     *
+     * @param piece          piece to move
+     * @param destinationRow the target row position
+     * @return relative row distance of a piece
+     */
+    public static int getRelativeRowDistance(ChessPiece piece, int destinationRow) {
+        return getRelativeRowDistance(piece, destinationRow, false);
+    }
+
+    /**
+     * Get relative column distance from a piece current column position to target column position
+     *
+     * @param piece             piece to move
+     * @param destinationColumn the target column position
+     * @param negativeValue     negative values?
+     * @return relative column distance of a piece
+     */
+    public static int getRelativeColDistance(ChessPiece piece, int destinationColumn, boolean negativeValue) {
+        int value = destinationColumn - piece.getPosition().getColumn();
+        return negativeValue ? value : Math.abs(value);
     }
 
     /**
@@ -26,10 +50,12 @@ public class PieceMovement {
      *
      * @param piece          piece to move
      * @param destinationRow the target row position
+     * @param negativeValue  final values are non-negative values
      * @return relative row distance of a piece
      */
-    public static int getRelativeRowDistance(ChessPiece piece, int destinationRow) {
-        return Math.abs(destinationRow - piece.getPosition().getRow());
+    public static int getRelativeRowDistance(ChessPiece piece, int destinationRow, boolean negativeValue) {
+        int value = destinationRow - piece.getPosition().getRow();
+        return negativeValue ? value : Math.abs(value);
     }
 
     /**
@@ -52,7 +78,7 @@ public class PieceMovement {
      * @return piece moved horizontally?
      */
     public static boolean isHorizontalMovement(ChessPiece piece, BoardPosition dstPosition) {
-        return getRelativeRowDistance(piece, dstPosition.getRow()) == 0
+        return getRelativeRowDistance(piece, dstPosition.getRow()) == 1
                 && getRelativeColDistance(piece, dstPosition.getColumn()) > 0;
     }
 
@@ -65,7 +91,7 @@ public class PieceMovement {
      */
     public static boolean isVerticalMovement(ChessPiece piece, BoardPosition dstPosition) {
         return getRelativeRowDistance(piece, dstPosition.getRow()) > 0
-                && getRelativeColDistance(piece, dstPosition.getColumn()) == 0;
+                && getRelativeColDistance(piece, dstPosition.getColumn()) == 1;
     }
 
     /**

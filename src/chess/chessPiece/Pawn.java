@@ -49,7 +49,7 @@ public class Pawn extends ChessPiece {
     private boolean isAnyWhitePieceObstacles(Board board, BoardPosition dstPosition) {
         BoardPosition currentPosition = new BoardPosition(this.getPosition().getRow(), this.getPosition().getColumn());
 
-        if (PieceMovement.getRelativeRowDistance(this, dstPosition.getRow()) == 1
+        if (PieceMovement.getRelativeRowDistance(this, dstPosition.getRow(), true) == 1
                 && PieceMovement.getRelativeColDistance(this, dstPosition.getColumn()) == 1
                 && isOpponent(board.getPiece(dstPosition))) {
             return true;
@@ -65,7 +65,7 @@ public class Pawn extends ChessPiece {
     private boolean isAnyBlackPieceObstacles(Board board, BoardPosition dstPosition) {
         BoardPosition currentPosition = new BoardPosition(this.getPosition().getRow(), this.getPosition().getColumn());
 
-        if (PieceMovement.getRelativeRowDistance(this, dstPosition.getRow()) == 1
+        if (PieceMovement.getRelativeRowDistance(this, dstPosition.getRow(), true) == -1
                 && PieceMovement.getRelativeColDistance(this, dstPosition.getColumn()) == 1
                 && isOpponent(board.getPiece(dstPosition))) {
             return true;
