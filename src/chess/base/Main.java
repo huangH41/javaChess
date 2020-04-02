@@ -2,6 +2,7 @@ package chess.base;
 
 import chess.base.exceptions.InvalidMoveException;
 import chess.chessPiece.ChessPiece;
+import chess.chessPiece.Rook;
 
 import java.util.Scanner;
 

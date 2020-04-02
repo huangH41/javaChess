@@ -26,8 +26,8 @@ public class Bishop extends ChessPiece {
     }
 
     @Override
-    protected void capture(Board board, BoardPosition targetPosition) {
-
+    protected boolean isCapturable(Board board, BoardPosition targetPosition) {
+        return true;
     }
 
     @Override

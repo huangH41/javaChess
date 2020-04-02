@@ -9,7 +9,7 @@ public abstract class ChessPiece {
     private ChessPieceRank pieceRank;
     private ChessPieceColor chessColor;
     private BoardPosition position;
-    private boolean firstMove = false;
+    protected boolean firstMove = false;
 
     /**
      * Define chess piece with status, color (either black or white), and position on the chess
@@ -107,6 +107,7 @@ public abstract class ChessPiece {
 
     public void hasMoved() {
         firstMove = true;
+
     }
 
     public boolean isOpponent(ChessPiece counterPiece) {
@@ -136,7 +137,7 @@ public abstract class ChessPiece {
     protected abstract boolean isValidMovePath(Board board, BoardPosition dstPosition);
 
     /**
-     * Verify piece movement style of the piece to make sure the movement are valid and not out-of-bound
+     * Verify piece movement style to make sure the movement are valid and not out-of-bound
      *
      * @param dstPosition the new position of that piece
      * @return correct movement style of the piece
@@ -152,11 +153,13 @@ public abstract class ChessPiece {
     public abstract void move(BoardPosition dstPosition, Board board);
 
     /**
-     * Capture and voids the opponent piece if any. For en-passant, pawn requires to move
+     * Allow the capture and voids of a piece if it is an opponent. For en-passant, pawn requires to move
      * diagonally at empty board behind the opponent piece to capture them.
      *
      * @param board          board to execute the piece capturing stage
      * @param targetPosition target piece position to capture and void
      */
-    abstract protected void capture(Board board, BoardPosition targetPosition);
+    abstract protected boolean isCapturable(Board board, BoardPosition targetPosition);
+
+
 }

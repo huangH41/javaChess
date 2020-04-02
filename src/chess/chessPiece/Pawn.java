@@ -14,11 +14,7 @@ public class Pawn extends ChessPiece {
     @Override
     public void move(BoardPosition dstPosition, Board board) {
         if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
-            if (isFirstMove()) {
-                maxStep = 1;
-                hasMoved();
-            }
-
+            if (!isFirstMove()) hasMoved();
             board.movePiece(this, dstPosition);
         } else {
             throw new InvalidMoveException(this, dstPosition);
@@ -26,75 +22,24 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    protected boolean isValidMovePath(Board board, BoardPosition dstPosition) {
-        return hasPieceObstacle(board, dstPosition) || isCrossCapturable(board, dstPosition);
-    }
-
-    @Override
     protected boolean isValidPieceMovement(BoardPosition dstPosition) {
-        return (PieceMovement.getRelativeRowDistance(this, dstPosition.getRow()) <= maxStep
-                && PieceMovement.getRelativeColDistance(this, dstPosition.getColumn()) == 0);
-    }
-
-    public boolean hasPieceObstacle(Board board, BoardPosition dstPosition) {
-        ChessPieceColor pieceColor = this.getChessColor();
-        if (pieceColor == ChessPieceColor.WHITE) {
-            return isAnyWhitePieceObstacles(board, dstPosition);
-        } else {
-            return isAnyBlackPieceObstacles(board, dstPosition);
-        }
-    }
-
-    // TODO: isOccupiedByWhitePiece & isOccupiedByBlackPiece is possibly a duplicate code!
-    private boolean isAnyWhitePieceObstacles(Board board, BoardPosition dstPosition) {
-        BoardPosition currentPosition = new BoardPosition(this.getPosition().getRow(), this.getPosition().getColumn());
-
-        if (PieceMovement.getRelativeRowDistance(this, dstPosition.getRow(), true) == 1
-                && PieceMovement.getRelativeColDistance(this, dstPosition.getColumn()) == 1
-                && isOpponent(board.getPiece(dstPosition))) {
-            return true;
-        }
-
-        for (int row = currentPosition.getRow() - 1; row >= dstPosition.getRow(); row--) {
-            currentPosition.setRow(row);
-            if (board.isOccupied(currentPosition)) return false;
-        }
-        return true;
-    }
-
-    private boolean isAnyBlackPieceObstacles(Board board, BoardPosition dstPosition) {
-        BoardPosition currentPosition = new BoardPosition(this.getPosition().getRow(), this.getPosition().getColumn());
-
-        if (PieceMovement.getRelativeRowDistance(this, dstPosition.getRow(), true) == -1
-                && PieceMovement.getRelativeColDistance(this, dstPosition.getColumn()) == 1
-                && isOpponent(board.getPiece(dstPosition))) {
-            return true;
-        }
-
-        for (int row = currentPosition.getRow() + 1; row <= dstPosition.getRow(); row++) {
-            currentPosition.setRow(row);
-            if (board.isOccupied(currentPosition)) return false;
-        }
-        return true;
-    }
-
-    /**
-     * Return true if the pawn movement are went to capture opponent pieces
-     *
-     * @param board       board to check
-     * @param dstPosition target position of pawn
-     * @return true if pawn movement decided to capture opponent pieces
-     */
-    private boolean isCrossCapturable(Board board, BoardPosition dstPosition) {
-        return (PieceMovement.getRelativeRowDistance(this, dstPosition.getRow()) == 1
-                && PieceMovement.getRelativeColDistance(this, dstPosition.getColumn()) == 1
-                && board.isOccupied(dstPosition)
-                && isOpponent(board.getPiece(dstPosition)));
+        return (isRegularMovement(dstPosition) || isCrossMovement(dstPosition)) && PieceMovement.getRelativeRowDistance(this, dstPosition.getRow()) <= maxStep;
     }
 
     @Override
-    public void capture(Board board, BoardPosition targetPosition) {
-        //TODO adding capture logic, with en-passant tactic implemented later
+    protected boolean isValidMovePath(Board board, BoardPosition dstPosition) {
+        return isCapturable(board, dstPosition) || (isRegularMovement(dstPosition) && !board.isOccupied(dstPosition));
+    }
+
+    @Override
+    public boolean isCapturable(Board board, BoardPosition targetPosition) {
+        return board.isOccupied(targetPosition) && isOpponent(board.getPiece(targetPosition)) && isCrossMovement(targetPosition);
+    }
+
+    @Override
+    public void hasMoved(){
+        firstMove = true;
+        maxStep = 1;
     }
 
     public ChessPiece promote(ChessPieceRank upgradedRank) {
@@ -107,4 +52,26 @@ public class Pawn extends ChessPiece {
         } else return defineBlackPawn(upgradedRank, this.getPosition());
     }
 
+    /**
+     * Return true if the pawn movement are went to capture opponent pieces
+     *
+     * @param dstPosition target position of pawn
+     * @return true if pawn movement decided to capture opponent pieces
+     */
+    private boolean isCrossMovement(BoardPosition dstPosition) {
+        return (PieceMovement.getRelativeRowDistance(this, dstPosition.getRow()) == 1
+                && PieceMovement.getRelativeColDistance(this, dstPosition.getColumn()) == 1);
+    }
+
+    private boolean isRegularMovement(BoardPosition dstPosition){
+        return (PieceMovement.getRelativeColDistance(this, dstPosition.getColumn()) == 0 && isValidDirection(dstPosition));
+    }
+
+    private boolean isValidDirection(BoardPosition dstPostiion){
+        if(this.getChessColor() == ChessPieceColor.WHITE){
+            return dstPostiion.getRow() < this.getPosition().getRow() ? false : true;
+        } else {
+            return dstPostiion.getRow() > this.getPosition().getRow() ? false : true;
+        }
+    }
 }

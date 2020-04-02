@@ -25,20 +25,17 @@ public class Knight extends ChessPiece {
     }
 
     @Override
-    protected void capture(Board board, BoardPosition targetPosition) {
-
+    protected boolean isCapturable(Board board, BoardPosition targetPosition) {
+        return (board.isOccupied(targetPosition) && isOpponent(board.getPiece(targetPosition)));
     }
 
     @Override
     protected boolean isValidMovePath(Board board, BoardPosition dstPosition) {
-        return (board.isOccupied(dstPosition) && isOpponent(board.getPiece(dstPosition))
-                || !board.isOccupied(dstPosition));
+        return (isCapturable(board, dstPosition) || !board.isOccupied(dstPosition));
     }
 
     @Override
     protected boolean isValidPieceMovement(BoardPosition dstPosition) {
         return (PieceMovement.isLetterLMovement(this, dstPosition));
     }
-
-
 }

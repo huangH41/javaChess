@@ -130,7 +130,7 @@ public class Board {
         this.pieceBoard[position.getRow() - 1][position.getColumn() - 1] = piece;
     }
 
-    public boolean isOccupied(BoardPosition position) {
+    public boolean  isOccupied(BoardPosition position) {
         return getPiece(position) != null;
     }
 
