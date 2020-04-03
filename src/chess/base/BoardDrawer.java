@@ -29,4 +29,24 @@ public class BoardDrawer {
     private static char drawPatternColor(int row, int column) {
         return ((row % 2 == 0 && column % 2 == 0) || (row % 2 == 1 && column % 2 == 1)) ? '+' : '-';
     }
+
+
+    // Temporary only, used to draw the guarded plot
+    public static String drawBoardGuardedPlot(BoardPlot boardPlot) {
+        StringBuilder sb = new StringBuilder();
+        for (int row = 8; row >= 1; row--) {
+            for (int column = 1; column <= 8; column++) {
+                BoardPosition position = new BoardPosition(row, column);
+                char status = (boardPlot.getPlot(position).isGuardedByBlack() || boardPlot.getPlot(position).isGuardedByWhite()) ?
+                        'G' : drawPatternColor(row, column);
+
+                sb.append(status).append(" ");
+            }
+            sb.append(row).append("\n");
+        }
+        for (int column = 0; column < 8; column++) {
+            sb.append((char) ('A' + column)).append(" ");
+        }
+        return sb.toString();
+    }
 }

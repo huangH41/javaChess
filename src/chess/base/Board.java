@@ -10,9 +10,15 @@ public class Board {
 
     private King blackKing, whiteKing;
     private ChessPieceColor currentColor = ChessPieceColor.WHITE;
+    private BoardPlot boardPlot;
 
     public Board() {
         initializeChessPiece();
+        boardPlot = new BoardPlot(this);
+    }
+
+    public BoardPlot getBoardPlot() {
+        return boardPlot;
     }
 
     public static boolean isBoardValidPosition(BoardPosition targetPosition) {

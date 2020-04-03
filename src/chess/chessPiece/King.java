@@ -17,6 +17,47 @@ public class King extends ChessPiece {
         super(ChessPieceRank.KING, chessColor, position);
     }
 
+    public void setCheck(KingCheckState checkState) {
+        this.checkState = checkState;
+    }
+
+    public KingCheckState isChecked() {
+        return checkState;
+    }
+
+    /**
+     * To check if the intended king piece current position is checked by other opponent piece
+     *
+     * @param board         Board to get the king position plot
+     * @param kingPiece     King piece to validate
+     * @return
+     */
+    // TODO "CHECKMATE" haven't implemented
+    public static void isPositionChecked(Board board, King kingPiece) {
+        Plot plot = board.getBoardPlot().getPlot(kingPiece.getPosition());
+        if(kingPiece.getChessColor() == ChessPieceColor.WHITE ? plot.isGuardedByBlack() : plot.isGuardedByWhite()){
+            kingPiece.checkState = KingCheckState.CHECK;
+        } else {
+            kingPiece.checkState = KingCheckState.SAFE;
+        }
+    }
+
+    /**
+     * To check if the destination position the king will move next is guarded by opponent piece
+     *
+     * @param board             board to get the dstPosition plot
+     * @param kingPiece         King piece to validate
+     * @param dstPosition       Destination position the king will move to
+     * @return
+     */
+    public static boolean isPositionChecked(Board board, King kingPiece, BoardPosition dstPosition) {
+        Plot plot = board.getBoardPlot().getPlot(dstPosition);
+        if(kingPiece.getChessColor() == ChessPieceColor.WHITE ? plot.isGuardedByBlack() : plot.isGuardedByWhite()) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Check if king moves in any direction by one block
      *
@@ -26,21 +67,6 @@ public class King extends ChessPiece {
     private boolean isSingleAnyDirectionalMove(BoardPosition dstPosition) {
         return PieceMovement.getRelativeColDistance(this, dstPosition.getColumn()) == 1
                 || PieceMovement.getRelativeRowDistance(this, dstPosition.getRow()) == 1;
-    }
-
-    // TODO buat method untuk cek status "CHECK" dan "CHECKMATE"
-    public void verifyCheckState() {
-        // TODO: Coba lu kerjain method skak.. @HuangH41
-        // if any movement caused this to check or checkmate
-
-    }
-
-    public void setCheck(KingCheckState checkState) {
-        this.checkState = checkState;
-    }
-
-    public KingCheckState isChecked() {
-        return checkState;
     }
 
     @Override
@@ -76,8 +102,17 @@ public class King extends ChessPiece {
         return (isSingleAnyDirectionalMove(dstPosition));
     }
 
+    @Override
+    public void markGuardedPlot(BoardPlot boardPlot) {
+
+    }
+
+    @Override
+    public void unmarkGuardedPlot(BoardPlot boardPlot) {
+
+    }
+
     public enum KingCheckState {
         SAFE, CHECK, CHECKMATE
     }
-
 }

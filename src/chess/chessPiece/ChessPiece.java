@@ -1,9 +1,6 @@
 package chess.chessPiece;
 
-import chess.base.Board;
-import chess.base.BoardPosition;
-import chess.base.ChessPieceColor;
-import chess.base.ChessPieceRank;
+import chess.base.*;
 
 public abstract class ChessPiece {
     private ChessPieceRank pieceRank;
@@ -155,7 +152,21 @@ public abstract class ChessPiece {
      * @param board          board to execute the piece capturing stage
      * @param targetPosition target piece position to capture and void
      */
-    abstract protected boolean isCapturable(Board board, BoardPosition targetPosition);
+    protected abstract boolean isCapturable(Board board, BoardPosition targetPosition);
 
+    /**
+     * Set the targeted position plot status into guarded
+     *
+     * @param boardPlot to set the guarded status in a targeted position
+     */
+    public abstract void markGuardedPlot(BoardPlot boardPlot);
 
+    /**
+     * Set the current guarded position into unguarded
+     * when the total amount of same color piece that are guarding it
+     * reach 0
+     *
+     * @param boardPlot     to get the plot that is going to be unmarked
+     */
+    public abstract void unmarkGuardedPlot(BoardPlot boardPlot);
 }

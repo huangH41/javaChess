@@ -30,6 +30,16 @@ public class Rook extends ChessPiece {
     }
 
     @Override
+    public void markGuardedPlot(BoardPlot boardPlot) {
+
+    }
+
+    @Override
+    public void unmarkGuardedPlot(BoardPlot boardPlot) {
+
+    }
+
+    @Override
     protected boolean isValidMovePath(Board board, BoardPosition dstPosition) {
         BoardPosition currentPosition = new BoardPosition(this.getPosition().getRow(), this.getPosition().getColumn());
         int magnitude;
