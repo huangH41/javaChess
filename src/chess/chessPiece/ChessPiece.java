@@ -107,7 +107,6 @@ public abstract class ChessPiece {
 
     public void hasMoved() {
         firstMove = true;
-
     }
 
     public boolean isOpponent(ChessPiece counterPiece) {

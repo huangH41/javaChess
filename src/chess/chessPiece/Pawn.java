@@ -74,4 +74,8 @@ public class Pawn extends ChessPiece {
             return dstPostiion.getRow() > this.getPosition().getRow() ? false : true;
         }
     }
+
+    private void markGuardedPlot(BoardPlot[][] boardPlot){
+
+    }
 }
