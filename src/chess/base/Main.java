@@ -22,6 +22,8 @@ public class Main {
         board.movePiece(board.getPiece(new BoardPosition("A7")), new BoardPosition("A6"));
         board.movePiece(board.getPiece(new BoardPosition("G1")), new BoardPosition("F3"));
         board.movePiece(board.getPiece(new BoardPosition("D7")), new BoardPosition("D5"));
+        board.movePiece(board.getPiece(new BoardPosition("F1")), new BoardPosition("H3"));
+        board.movePiece(board.getPiece(new BoardPosition("C7")), new BoardPosition("C5"));
     }
 
     private void gamePhase() {

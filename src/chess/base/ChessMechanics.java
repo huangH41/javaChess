@@ -34,15 +34,13 @@ public class ChessMechanics {
         return false;
     }
 
-    public Board getBoard() {
-        return board;
-    }
-
-    public void setBoard(Board board) {
-        this.board = board;
-    }
-
-    // TODO Buat logic castling
+    /**
+     * Do castling move for a king and a rook, with direction of queen-side castling (Ex-Cx) or king-side castling (Ex-Gx).
+     * Make sure that both of the king and rook hasn't been moved before before perform castling move!
+     *
+     * @param board             the board to perform castling move
+     * @param queenSidePosition selects rook at queen side or king side?
+     */
     public static void performCastlingMove(Board board, boolean queenSidePosition) {
         int cornerColumnPosition = queenSidePosition ? BoardPosition.MIN_INDEX : BoardPosition.MAX_INDEX;
         King king = (board.getCurrentColor() == ChessPieceColor.WHITE) ?
@@ -53,11 +51,19 @@ public class ChessMechanics {
 
         if (!king.isFirstMove() && !rook.isFirstMove()) {
             try {
-                board.movePieceBy(king, 0, 2);
-                board.movePieceBy(rook, 0, (queenSidePosition ? 3 : 2));
+                board.movePieceBy(king, 0, (queenSidePosition ? -2 : 2));
+                board.movePieceBy(rook, 0, (queenSidePosition ? 3 : -2));
             } catch (Exception e) {
                 throw new InvalidMoveException(String.format("%s king and rook", board.getCurrentColor().toString()));
             }
         }
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
     }
 }

@@ -6,7 +6,7 @@ import chess.base.exceptions.InvalidMoveException;
  * This class includes chess board position and notations
  */
 public class BoardPosition {
-    public static final int MIN_INDEX = 0, MAX_INDEX = 7;
+    public static final int MIN_INDEX = 1, MAX_INDEX = 8;
     public static final int WHITE_SIDE = MIN_INDEX, BLACK_SIDE = MAX_INDEX;
     private int row, column;
 
