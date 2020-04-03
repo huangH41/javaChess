@@ -31,7 +31,11 @@ public class Knight extends ChessPiece {
 
     @Override
     public void markGuardedPlot(BoardPlot boardPlot) {
-
+        for (BoardPosition guardedPosition: generateGuardedArea()) {
+            if(guardedPosition != null && Board.isBoardValidPosition(guardedPosition)){
+                setGuardedByColor(boardPlot, guardedPosition);
+            }
+        }
     }
 
     @Override
@@ -48,4 +52,51 @@ public class Knight extends ChessPiece {
     protected boolean isValidPieceMovement(BoardPosition dstPosition) {
         return (PieceMovement.isLetterLMovement(this, dstPosition));
     }
+
+    private void setGuardedByColor(BoardPlot boardPlot, BoardPosition guardedPosition){
+        Plot plot = boardPlot.getPlot(guardedPosition);
+        if(this.getChessColor() == ChessPieceColor.WHITE){
+            plot.setGuardedByWhite(true);
+            plot.addGuardingWhitePiece();
+        } else {
+            plot.setGuardedByBlack(true);
+            plot.addGuardingBlackPiece();
+        }
+    }
+
+    private BoardPosition[] generateGuardedArea(){
+        BoardPosition[] guardedPositions = new BoardPosition[8];
+        //generate 1st movement variant (Top & Bottom)
+        System.arraycopy(generateTopBottomDirectionMove(this.getPosition()),0, guardedPositions, 0, 4);
+        System.arraycopy(generateLeftRightDirectionMove(this.getPosition()),0, guardedPositions, 4, 4);
+        return  guardedPositions;
+    }
+
+    //TODO Method below maybe is a duplicate code, refactor later
+    private BoardPosition[] generateTopBottomDirectionMove(BoardPosition currentPosition){
+        BoardPosition[] guardedPosition = new BoardPosition[4];
+        int row, col, colMover, x;
+        for(x = 0, colMover = 1; x < 4; x++, colMover *= -1){
+            row = (x < 2) ? currentPosition.getRow() + 2 : currentPosition.getRow() - 2;
+            if(BoardPosition.isValidCoordinateNumber(row)){
+                col = currentPosition.getColumn() - colMover;
+                guardedPosition[x] = (BoardPosition.isValidCoordinateNumber(col)) ? new BoardPosition(row, col) : null;
+            }
+        }
+        return guardedPosition;
+    }
+
+    private BoardPosition[] generateLeftRightDirectionMove(BoardPosition currentPosition){
+        BoardPosition[] guardedPosition = new BoardPosition[4];
+        int row, col, rowMover, x;
+        for(x = 0, rowMover = 1; x < 4; x++, rowMover *= -1){
+            col = (x < 2) ? currentPosition.getColumn() - 2 : currentPosition.getColumn() + 2;
+            if(BoardPosition.isValidCoordinateNumber(col)){
+                row = currentPosition.getRow() - rowMover;
+                guardedPosition[x] = (BoardPosition.isValidCoordinateNumber(row)) ? new BoardPosition(row, col) : null;
+            }
+        }
+        return guardedPosition;
+    }
+
 }

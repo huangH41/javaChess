@@ -78,7 +78,7 @@ public class Pawn extends ChessPiece {
     @Override
     public void markGuardedPlot(BoardPlot boardPlot){
         for (BoardPosition guardedPosition: generateGuardedArea()) {
-            if(guardedPosition != null){
+            if(guardedPosition != null && Board.isBoardValidPosition(guardedPosition)){
                 setGuardedByColor(boardPlot, guardedPosition);
             }
         }
@@ -115,8 +115,8 @@ public class Pawn extends ChessPiece {
     private BoardPosition[] generateGuardedArea(){
         BoardPosition[] guardedArea = new BoardPosition[2];
         int row = (this.getChessColor() == ChessPieceColor.WHITE) ? this.getPosition().getRow() + 1 : this.getPosition().getRow() - 1;
-        for(int i = 0, multiplier = 1; i < 2; i++, multiplier *= -1){
-            int column = this.getPosition().getColumn() - multiplier;
+        for(int i = 0, colMover = 1; i < 2; i++, colMover *= -1){
+            int column = this.getPosition().getColumn() - colMover;
             if(column >= 1 && column <= 8){
                 BoardPosition position = new BoardPosition(row, column);
                 if(Board.isBoardValidPosition(position)){

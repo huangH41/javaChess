@@ -59,7 +59,7 @@ public class BoardPosition {
     }
 
     public void setRow(int row) {
-        if (row < 1 || row > 8) {
+        if (!isValidCoordinateNumber(row)) {
             throw new InvalidMoveException(row);
         }
         this.row = row;
@@ -70,10 +70,14 @@ public class BoardPosition {
     }
 
     public void setColumn(int column) {
-        if (column < 1 || column > 8) {
+        if (!isValidCoordinateNumber(column)) {
             throw new InvalidMoveException(column);
         }
         this.column = column;
+    }
+
+    public static boolean isValidCoordinateNumber(int coordinateNumber){
+        return (coordinateNumber >= 1 || coordinateNumber <= 8) ? true : false;
     }
 
     /**

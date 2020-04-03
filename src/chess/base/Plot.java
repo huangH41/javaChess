@@ -52,6 +52,7 @@ public class Plot {
     }
 
     //TODO Temporary method, alter or delete it later
+    // used to print the view guarded only board
     public boolean isGuarded(Plot plot){
         return (plot.isGuardedByBlack() || plot.isGuardedByWhite()) ? true : false;
     }
