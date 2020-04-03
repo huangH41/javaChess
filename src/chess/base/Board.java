@@ -73,24 +73,24 @@ public class Board {
         pieceBoard[0][6] = ChessPiece.defineWhitePawn(ChessPieceRank.KNIGHT, new BoardPosition("G1"));
         pieceBoard[0][2] = ChessPiece.defineWhitePawn(ChessPieceRank.BISHOP, new BoardPosition("C1"));
         pieceBoard[0][5] = ChessPiece.defineWhitePawn(ChessPieceRank.BISHOP, new BoardPosition("F1"));
-        pieceBoard[0][4] = ChessPiece.defineWhitePawn(ChessPieceRank.QUEEN, new BoardPosition("D1"));
-        pieceBoard[0][3] = whiteKing;
+        pieceBoard[0][3] = ChessPiece.defineWhitePawn(ChessPieceRank.QUEEN, new BoardPosition("D1"));
+        pieceBoard[0][4] = whiteKing;
         for (int i = 0; i < 8; i++) {
             pieceBoard[1][i] = ChessPiece.defineWhitePawn(ChessPieceRank.PAWN, new BoardPosition(2, i + 1));
         }
 
         // for black piece
-        blackKing = (King) ChessPiece.defineBlackPawn(ChessPieceRank.KING, new BoardPosition(7, 4));
-        pieceBoard[7][0] = ChessPiece.defineBlackPawn(ChessPieceRank.ROOK, new BoardPosition(7, 1));
-        pieceBoard[7][7] = ChessPiece.defineBlackPawn(ChessPieceRank.ROOK, new BoardPosition(7, 8));
-        pieceBoard[7][1] = ChessPiece.defineBlackPawn(ChessPieceRank.KNIGHT, new BoardPosition(7, 2));
-        pieceBoard[7][6] = ChessPiece.defineBlackPawn(ChessPieceRank.KNIGHT, new BoardPosition(7, 7));
-        pieceBoard[7][2] = ChessPiece.defineBlackPawn(ChessPieceRank.BISHOP, new BoardPosition(7, 3));
-        pieceBoard[7][5] = ChessPiece.defineBlackPawn(ChessPieceRank.BISHOP, new BoardPosition(7, 6));
-        pieceBoard[7][4] = ChessPiece.defineBlackPawn(ChessPieceRank.QUEEN, new BoardPosition(7, 5));
-        pieceBoard[7][3] = blackKing;
+        blackKing = (King) ChessPiece.defineBlackPawn(ChessPieceRank.KING, new BoardPosition("E8"));
+        pieceBoard[7][0] = ChessPiece.defineBlackPawn(ChessPieceRank.ROOK, new BoardPosition("A8"));
+        pieceBoard[7][7] = ChessPiece.defineBlackPawn(ChessPieceRank.ROOK, new BoardPosition("H8"));
+        pieceBoard[7][1] = ChessPiece.defineBlackPawn(ChessPieceRank.KNIGHT, new BoardPosition("B8"));
+        pieceBoard[7][6] = ChessPiece.defineBlackPawn(ChessPieceRank.KNIGHT, new BoardPosition("G8"));
+        pieceBoard[7][2] = ChessPiece.defineBlackPawn(ChessPieceRank.BISHOP, new BoardPosition("C8"));
+        pieceBoard[7][5] = ChessPiece.defineBlackPawn(ChessPieceRank.BISHOP, new BoardPosition("F8"));
+        pieceBoard[7][3] = ChessPiece.defineBlackPawn(ChessPieceRank.QUEEN, new BoardPosition("D8"));
+        pieceBoard[7][4] = blackKing;
         for (int i = 0; i < 8; i++) {
-            pieceBoard[6][i] = ChessPiece.defineBlackPawn(ChessPieceRank.PAWN, new BoardPosition(6, i + 1));
+            pieceBoard[6][i] = ChessPiece.defineBlackPawn(ChessPieceRank.PAWN, new BoardPosition(7, i + 1));
         }
     }
 
@@ -98,6 +98,10 @@ public class Board {
         BoardPosition oldPosition = piece.getPosition();
         toNewPosition(piece, dstPosition);
         removeOldPosition(oldPosition);
+
+        if (!piece.isFirstMove()) {
+            piece.hasMoved();
+        }
     }
 
     /**
@@ -130,7 +134,7 @@ public class Board {
         this.pieceBoard[position.getRow() - 1][position.getColumn() - 1] = piece;
     }
 
-    public boolean  isOccupied(BoardPosition position) {
+    public boolean isOccupied(BoardPosition position) {
         return getPiece(position) != null;
     }
 

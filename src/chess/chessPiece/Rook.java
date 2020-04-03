@@ -32,14 +32,16 @@ public class Rook extends ChessPiece {
     @Override
     protected boolean isValidMovePath(Board board, BoardPosition dstPosition) {
         BoardPosition currentPosition = new BoardPosition(this.getPosition().getRow(), this.getPosition().getColumn());
-        int magnitude = PieceMovement.doSingleRelativeColumnMovement(this, currentPosition);
+        int magnitude;
 
         if (PieceMovement.isVerticalMovement(this, dstPosition)) {
+            magnitude = PieceMovement.doSingleRelativeRowMovement(this, dstPosition);
             for (int row = currentPosition.getRow() + magnitude; row != dstPosition.getRow(); row += magnitude) {
                 currentPosition.setRow(row);
                 if (board.isOccupied(currentPosition)) return false;
             }
         } else if (PieceMovement.isHorizontalMovement(this, dstPosition)) {
+            magnitude = PieceMovement.doSingleRelativeColumnMovement(this, dstPosition);
             for (int col = currentPosition.getColumn() + magnitude; col != dstPosition.getColumn(); col += magnitude) {
                 currentPosition.setColumn(col);
                 if (board.isOccupied(currentPosition)) return false;

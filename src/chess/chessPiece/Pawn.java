@@ -63,15 +63,15 @@ public class Pawn extends ChessPiece {
                 && PieceMovement.getRelativeColDistance(this, dstPosition.getColumn()) == 1);
     }
 
-    private boolean isRegularMovement(BoardPosition dstPosition){
+    private boolean isRegularMovement(BoardPosition dstPosition) {
         return (PieceMovement.getRelativeColDistance(this, dstPosition.getColumn()) == 0 && isValidDirection(dstPosition));
     }
 
-    private boolean isValidDirection(BoardPosition dstPostiion){
-        if(this.getChessColor() == ChessPieceColor.WHITE){
-            return dstPostiion.getRow() < this.getPosition().getRow() ? false : true;
+    private boolean isValidDirection(BoardPosition dstPosition) {
+        if (this.getChessColor() == ChessPieceColor.WHITE) {
+            return dstPosition.getRow() >= this.getPosition().getRow();
         } else {
-            return dstPostiion.getRow() > this.getPosition().getRow() ? false : true;
+            return dstPosition.getRow() <= this.getPosition().getRow();
         }
     }
 

@@ -32,24 +32,22 @@ public class Queen extends ChessPiece {
     @Override
     protected boolean isValidMovePath(Board board, BoardPosition dstPosition) {
         BoardPosition currentPosition = new BoardPosition(this.getPosition().getRow(), this.getPosition().getColumn());
-        int magnitude = PieceMovement.doSingleRelativeColumnMovement(this, currentPosition);
+        int colMagnitude = PieceMovement.doSingleRelativeColumnMovement(this, dstPosition);
+        int rowMagnitude = PieceMovement.doSingleRelativeRowMovement(this, dstPosition);
 
         if (PieceMovement.isDiagonalMovement(this, dstPosition)) {
-            System.out.println("diagnonally");
-            for (int row = currentPosition.getRow() + magnitude, col = currentPosition.getColumn() + magnitude;
-                 row != dstPosition.getRow(); row += magnitude, col += magnitude) {
+            for (int row = currentPosition.getRow() + rowMagnitude, col = currentPosition.getColumn() + colMagnitude;
+                 row != dstPosition.getRow(); row += rowMagnitude, col += colMagnitude) {
                 currentPosition.setPosition(row, col);
                 if (board.isOccupied(currentPosition)) return false;
             }
         } else if (PieceMovement.isVerticalMovement(this, dstPosition)) {
-            System.out.println("vertically");
-            for (int row = currentPosition.getRow() + magnitude; row != dstPosition.getRow(); row += magnitude) {
+            for (int row = currentPosition.getRow() + rowMagnitude; row != dstPosition.getRow(); row += rowMagnitude) {
                 currentPosition.setRow(row);
                 if (board.isOccupied(currentPosition)) return false;
             }
         } else if (PieceMovement.isHorizontalMovement(this, dstPosition)) {
-            System.out.println("horizontally");
-            for (int col = currentPosition.getColumn() + magnitude; col != dstPosition.getColumn(); col += magnitude) {
+            for (int col = currentPosition.getColumn() + colMagnitude; col != dstPosition.getColumn(); col += colMagnitude) {
                 currentPosition.setColumn(col);
                 if (board.isOccupied(currentPosition)) return false;
             }

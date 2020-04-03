@@ -62,11 +62,6 @@ public abstract class ChessPiece {
         }
     }
 
-    //TODO getFromBoard is not a relevant method for chessPiece Class, consider to remove later
-    public static ChessPiece getFromBoard(Board board, BoardPosition position) {
-        return board.getPiece(position);
-    }
-
     /**
      * Return this object as String by format: "Color, Rank, Chess-Position-Notation"
      *
@@ -122,7 +117,9 @@ public abstract class ChessPiece {
      * @return is able to move and has no obstacles
      */
     protected boolean isValidMove(Board board, BoardPosition dstPosition) {
-        return isValidPieceMovement(dstPosition) && isValidMovePath(board, dstPosition);
+        boolean validPieceMovement = isValidPieceMovement(dstPosition);
+        boolean validMovePath = isValidMovePath(board, dstPosition);
+        return validMovePath && validPieceMovement;
     }
 
     /**
