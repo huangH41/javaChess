@@ -45,7 +45,15 @@ public class King extends ChessPiece {
 
     @Override
     public void move(BoardPosition dstPosition, Board board) {
-        if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
+        boolean isCastlablePosition = board.isOccupied(new BoardPosition(this.getPosition().getRow(), 3))
+                || board.isOccupied(new BoardPosition(this.getPosition().getRow(), 7));
+        if (this.isFirstMove() && isCastlablePosition) {
+            if (dstPosition.getColumn() == 3) {
+                ChessMechanics.performCastlingMove(board, true);
+            } else if (dstPosition.getColumn() == 7) {
+                ChessMechanics.performCastlingMove(board, false);
+            }
+        } else if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
             board.movePiece(this, dstPosition);
         } else {
             throw new InvalidMoveException(this, dstPosition);

@@ -43,7 +43,7 @@ public class ChessMechanics {
     }
 
     // TODO Buat logic castling
-    public void performCastlingMove(boolean queenSidePosition) {
+    public static void performCastlingMove(Board board, boolean queenSidePosition) {
         int cornerColumnPosition = queenSidePosition ? BoardPosition.MIN_INDEX : BoardPosition.MAX_INDEX;
         King king = (board.getCurrentColor() == ChessPieceColor.WHITE) ?
                 board.getWhiteKing() : board.getBlackKing();
@@ -51,7 +51,7 @@ public class ChessMechanics {
                 board.getPiece(new BoardPosition(BoardPosition.WHITE_SIDE, cornerColumnPosition)) :
                 board.getPiece(new BoardPosition(BoardPosition.BLACK_SIDE, cornerColumnPosition)));
 
-        if (king.isFirstMove() && rook.isFirstMove()) {
+        if (!king.isFirstMove() && !rook.isFirstMove()) {
             try {
                 board.movePieceBy(king, 0, 2);
                 board.movePieceBy(rook, 0, (queenSidePosition ? 3 : 2));

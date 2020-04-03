@@ -78,8 +78,10 @@ public class PieceMovement {
      * @return piece moved horizontally?
      */
     public static boolean isHorizontalMovement(ChessPiece piece, BoardPosition dstPosition) {
-        return getRelativeRowDistance(piece, dstPosition.getRow()) == 1
-                && getRelativeColDistance(piece, dstPosition.getColumn()) > 0;
+        int relativeRows = getRelativeRowDistance(piece, dstPosition.getRow());
+        int relativeCols = getRelativeColDistance(piece, dstPosition.getColumn());
+        return relativeCols > 0
+                && relativeRows == 0;
     }
 
     /**
@@ -90,8 +92,10 @@ public class PieceMovement {
      * @return piece moved vertically?
      */
     public static boolean isVerticalMovement(ChessPiece piece, BoardPosition dstPosition) {
-        return getRelativeRowDistance(piece, dstPosition.getRow()) > 0
-                && getRelativeColDistance(piece, dstPosition.getColumn()) == 1;
+        int relativeRows = getRelativeRowDistance(piece, dstPosition.getRow());
+        int relativeCols = getRelativeColDistance(piece, dstPosition.getColumn());
+        return relativeRows > 0
+                && relativeCols == 0;
     }
 
     /**
