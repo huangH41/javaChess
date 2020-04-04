@@ -36,11 +36,19 @@ public class BoardPlot {
         }
     }
 
+    public static void unsetGuardedByColor(BoardPlot boardPlot, BoardPosition guardedPosition, ChessPieceColor pieceColor){
+        Plot plot = boardPlot.getPlot(guardedPosition);
+        if(pieceColor == ChessPieceColor.WHITE){
+            plot.unsetGuardedByWhite(true);
+        } else {
+            plot.unsetGuardedByBlack(true);
+        }
+    }
+
     public void initializePlotGuardStatus(Board board){
         for (int row = 8; row >= 1; row--){
             for (int column = 1; column <= 8; column++){
                 ChessPiece chessPiece = board.getPiece(new BoardPosition(row, column));
-                // TODO to print guarded area, specify the piece you want to check here
                 if(chessPiece != null) chessPiece.markGuardedPlot(this, board);
             }
         }

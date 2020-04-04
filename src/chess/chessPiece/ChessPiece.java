@@ -127,13 +127,23 @@ public abstract class ChessPiece {
      * @param boardPlot to set the guarded status in a targeted position
      */
     //TODO there are some class that need Board object, consider changing the parameter into board later
-
     public void markGuardedPlot(BoardPlot boardPlot, Board board) {
         Vector<BoardPosition> allGuardedArea =  generateGuardedArea(board);
         if(allGuardedArea != null){
             for (BoardPosition guardedPosition: allGuardedArea) {
                 if(guardedPosition != null && Board.isBoardValidPosition(guardedPosition)){
                     BoardPlot.setGuardedByColor(boardPlot, guardedPosition, this.chessColor);
+                }
+            }
+        }
+    }
+
+    public void unmarkGuardedPlot(BoardPlot boardPlot, Board board){
+        Vector<BoardPosition> allGuardedArea =  generateGuardedArea(board);
+        if(allGuardedArea != null){
+            for (BoardPosition guardedPosition: allGuardedArea) {
+                if(guardedPosition != null && Board.isBoardValidPosition(guardedPosition)){
+                    BoardPlot.unsetGuardedByColor(boardPlot, guardedPosition, this.chessColor);
                 }
             }
         }

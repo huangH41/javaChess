@@ -12,19 +12,12 @@ public class Main {
 
     public Main() {
         board = new Board();
-        System.out.println("View only guarded plot");
-        System.out.println(BoardDrawer.drawBoardGuardedPlot(board.getBoardPlot()));
 
-        // Testing here
-        String targetPosition = "B3";
-        Plot plot = board.getBoardPlot().getPlot(new BoardPosition(targetPosition));
-        System.out.println(targetPosition + " is guarded by " + plot.getGuardingWhitePieceTotal() +
-                " white piece & " + plot.getGuardingBlackPieceTotal() + " black piece");
     }
 
     public static void main(String[] args) {
-//        new Main().gamePhase();
-        new Main();
+        new Main().gamePhase();
+//        new Main();
     }
 
 //    private void performAssertion() {
@@ -38,8 +31,18 @@ public class Main {
         // TODO: This is an infinite loops so this method requires an improvement for @HuangH41...
 //        performAssertion();
         do {
+
             System.out.println(BoardDrawer.drawBoard(board));
-            System.out.printf("Input %s player [ex: A2-A3] : ", board.getCurrentColor());
+            System.out.println("\n\nView only guarded plot");
+            System.out.println(BoardDrawer.drawBoardGuardedPlot(board.getBoardPlot()));
+
+            // Testing here
+            String targetPosition = "A3";
+            Plot plot = board.getBoardPlot().getPlot(new BoardPosition(targetPosition));
+            System.out.println(targetPosition + " is guarded by " + plot.getGuardingWhitePieceTotal() +
+                    " white piece & " + plot.getGuardingBlackPieceTotal() + " black piece| isGuarded status: " + plot.isGuarded() + "\n");
+            System.out.printf("\nInput %s player [ex: A2-A3] : ", board.getCurrentColor());
+
             String inputtedCoordinates = scan.nextLine();
             if (inputtedCoordinates.isEmpty()) {
                 continue;

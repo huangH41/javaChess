@@ -46,7 +46,7 @@ public class Knight extends ChessPiece {
         Vector<BoardPosition> guardedPositions = new Vector<>();
         guardedPositions.addAll(generateTopBottomDirectionMove(this.getPosition()));
         guardedPositions.addAll(generateLeftRightDirectionMove(this.getPosition()));
-        return  guardedPositions;
+        return  null;
     }
 
     //TODO Method below maybe is a duplicate code, refactor later

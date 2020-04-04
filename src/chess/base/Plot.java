@@ -20,6 +20,11 @@ public class Plot {
         guardingWhitePieceTotal++;
     }
 
+    public void unsetGuardedByWhite(boolean guardedByWhite) {
+        guardingWhitePieceTotal--;
+        if(guardingWhitePieceTotal == 0) this.guardedByWhite = false;
+    }
+
     public boolean isGuardedByBlack() {
         return guardedByBlack;
     }
@@ -27,6 +32,11 @@ public class Plot {
     public void setGuardedByBlack(boolean guardedByBlack) {
         this.guardedByBlack = guardedByBlack;
         guardingBlackPieceTotal++;
+    }
+
+    public void unsetGuardedByBlack(boolean guardedByBlack) {
+        guardingBlackPieceTotal--;
+        if(guardingBlackPieceTotal == 0) this.guardedByBlack = false;
     }
 
     public BoardPosition getPosition() {
@@ -47,7 +57,7 @@ public class Plot {
 
     //TODO Temporary method, alter or delete it later
     // used to print the view guarded only board
-    public boolean isGuarded(Plot plot){
-        return (plot.isGuardedByBlack() || plot.isGuardedByWhite()) ? true : false;
+    public boolean isGuarded(){
+        return (this.isGuardedByBlack() || this.isGuardedByWhite()) ? true : false;
     }
 }

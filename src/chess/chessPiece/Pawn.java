@@ -17,7 +17,9 @@ public class Pawn extends ChessPiece {
     public void move(BoardPosition dstPosition, Board board) {
         if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
             if (!isFirstMove()) hasMoved();
+            this.unmarkGuardedPlot(board.getBoardPlot(), board);
             board.movePiece(this, dstPosition);
+            this.markGuardedPlot(board.getBoardPlot(), board);
         } else {
             throw new InvalidMoveException(this, dstPosition);
         }
@@ -77,10 +79,6 @@ public class Pawn extends ChessPiece {
         }
     }
 
-    /**
-     * Generate coordinate of the plot that are being guarded by the pawn piece
-     * @return
-     */
     //TODO Really need to be refactored later
     @Override
     protected Vector<BoardPosition> generateGuardedArea(Board board) {
