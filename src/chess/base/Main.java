@@ -34,7 +34,7 @@ public class Main {
             System.out.println(BoardDrawer.drawBoardGuardedPlot(board.getBoardPlot()));
 
             // Testing here
-            String targetPosition = "E1";
+            String targetPosition = "H5";
             Plot plot = board.getBoardPlot().getPlot(new BoardPosition(targetPosition));
             System.out.println(targetPosition + " is guarded by " + plot.getGuardingWhitePieceTotal() +
                     " white piece & " + plot.getGuardingBlackPieceTotal() + " black piece");
