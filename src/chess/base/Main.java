@@ -2,7 +2,6 @@ package chess.base;
 
 import chess.base.exceptions.InvalidMoveException;
 import chess.chessPiece.ChessPiece;
-import chess.chessPiece.Pawn;
 
 import java.util.Scanner;
 
@@ -11,12 +10,17 @@ public class Main {
     private Scanner scan = new Scanner(System.in);
 
     public Main() {
-        board = new Board();
+        board = new BlankBoard();
+
+        //
+        System.out.println("Board overview");
+        System.out.println(BoardDrawer.drawBoard(board));
+
         System.out.println("View only guarded plot");
         System.out.println(BoardDrawer.drawBoardGuardedPlot(board.getBoardPlot()));
 
         // Testing here
-        String targetPosition = "B3";
+        String targetPosition = "E1";
         Plot plot = board.getBoardPlot().getPlot(new BoardPosition(targetPosition));
         System.out.println(targetPosition + " is guarded by " + plot.getGuardingWhitePieceTotal() +
                 " white piece & " + plot.getGuardingBlackPieceTotal() + " black piece");
@@ -27,16 +31,15 @@ public class Main {
         new Main();
     }
 
-//    private void performAssertion() {
-//        board.movePiece(board.getPiece(new BoardPosition("G2")), new BoardPosition("G4"));
-//        board.movePiece(board.getPiece(new BoardPosition("A7")), new BoardPosition("A6"));
-//        board.movePiece(board.getPiece(new BoardPosition("G1")), new BoardPosition("F3"));
-//        board.movePiece(board.getPiece(new BoardPosition("D7")), new BoardPosition("D5"));
-//    }
+    private void performAssertion() {
+        board.movePiece(board.getPiece(new BoardPosition("G2")), new BoardPosition("G4"));
+        board.movePiece(board.getPiece(new BoardPosition("A7")), new BoardPosition("A6"));
+        board.movePiece(board.getPiece(new BoardPosition("G1")), new BoardPosition("F3"));
+        board.movePiece(board.getPiece(new BoardPosition("D7")), new BoardPosition("D5"));
+    }
 
     private void gamePhase() {
         // TODO: This is an infinite loops so this method requires an improvement for @HuangH41...
-//        performAssertion();
         do {
             System.out.println(BoardDrawer.drawBoard(board));
             System.out.printf("Input %s player [ex: A2-A3] : ", board.getCurrentColor());

@@ -6,7 +6,7 @@ import chess.base.exceptions.InvalidMoveException;
  * This class includes chess board position and notations
  */
 public class BoardPosition {
-    public static final int MIN_INDEX = 0, MAX_INDEX = 7;
+    public static final int MIN_INDEX = 1, MAX_INDEX = 8;
     public static final int WHITE_SIDE = MIN_INDEX, BLACK_SIDE = MAX_INDEX;
     private int row, column;
 
@@ -77,7 +77,7 @@ public class BoardPosition {
     }
 
     public static boolean isValidCoordinateNumber(int coordinateNumber){
-        return (coordinateNumber >= 1 || coordinateNumber <= 8) ? true : false;
+        return (coordinateNumber >= 1 && coordinateNumber <= 8);
     }
 
     /**
