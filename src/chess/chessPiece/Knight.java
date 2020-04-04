@@ -32,19 +32,6 @@ public class Knight extends ChessPiece {
     }
 
     @Override
-    protected Vector<BoardPosition> generateGuardedArea(Board board) {
-        return null;
-    }
-
-    public void markGuardedPlot(BoardPlot boardPlot) {
-        for (BoardPosition guardedPosition: generateGuardedArea()) {
-            if(guardedPosition != null && Board.isBoardValidPosition(guardedPosition)){
-                BoardPlot.setGuardedByColor(boardPlot, guardedPosition, this.getChessColor());
-            }
-        }
-    }
-
-    @Override
     protected boolean isValidMovePath(Board board, BoardPosition dstPosition) {
         return (isCapturable(board, dstPosition) || !board.isOccupied(dstPosition));
     }
@@ -54,18 +41,8 @@ public class Knight extends ChessPiece {
         return (PieceMovement.isLetterLMovement(this, dstPosition));
     }
 
-//    private void setGuardedByColor(BoardPlot boardPlot, BoardPosition guardedPosition){
-//        Plot plot = boardPlot.getPlot(guardedPosition);
-//        if(this.getChessColor() == ChessPieceColor.WHITE){
-//            plot.setGuardedByWhite(true);
-//            plot.addGuardingWhitePiece();
-//        } else {
-//            plot.setGuardedByBlack(true);
-//            plot.addGuardingBlackPiece();
-//        }
-//    }
-
-    protected Vector<BoardPosition> generateGuardedArea(){
+    @Override
+    protected Vector<BoardPosition> generateGuardedArea(Board board) {
         Vector<BoardPosition> guardedPositions = new Vector<>();
         guardedPositions.addAll(generateTopBottomDirectionMove(this.getPosition()));
         guardedPositions.addAll(generateLeftRightDirectionMove(this.getPosition()));

@@ -77,17 +77,13 @@ public class Pawn extends ChessPiece {
         }
     }
 
-    @Override
-    protected Vector<BoardPosition> generateGuardedArea(Board board) {
-        return null;
-    }
-
     /**
      * Generate coordinate of the plot that are being guarded by the pawn piece
      * @return
      */
     //TODO Really need to be refactored later
-    protected Vector<BoardPosition> generateGuardedArea(){
+    @Override
+    protected Vector<BoardPosition> generateGuardedArea(Board board) {
         Vector<BoardPosition> guardedArea = new Vector<>();
         int row = (this.getChessColor() == ChessPieceColor.WHITE) ? this.getPosition().getRow() + 1 : this.getPosition().getRow() - 1;
         for(int i = 0, colMover = 1; i < 2; i++, colMover *= -1){

@@ -44,11 +44,6 @@ public class King extends ChessPiece {
         }
     }
 
-    @Override
-    protected Vector<BoardPosition> generateGuardedArea() {
-        return null;
-    }
-
     /**
      * To check if the destination position the king will move next is guarded by opponent piece
      *

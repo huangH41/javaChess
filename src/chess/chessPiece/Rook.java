@@ -40,12 +40,6 @@ public class Rook extends ChessPiece {
         }
     }
 
-
-    @Override
-    protected Vector<BoardPosition> generateGuardedArea() {
-        return null;
-    }
-
     @Override
     protected Vector<BoardPosition> generateGuardedArea(Board board){
         Vector<BoardPosition> guardedPositions = new Vector<>();

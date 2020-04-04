@@ -41,7 +41,7 @@ public class BoardPlot {
             for (int column = 1; column <= 8; column++){
                 ChessPiece chessPiece = board.getPiece(new BoardPosition(row, column));
                 // TODO to print guarded area, specify the piece you want to check here
-                if(chessPiece != null && chessPiece.getPieceRank() == ChessPieceRank.ROOK) chessPiece.markGuardedPlot(this, board);
+                if(chessPiece != null) chessPiece.markGuardedPlot(this, board);
             }
         }
     }

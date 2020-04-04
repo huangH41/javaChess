@@ -127,18 +127,14 @@ public abstract class ChessPiece {
      * @param boardPlot to set the guarded status in a targeted position
      */
     //TODO there are some class that need Board object, consider changing the parameter into board later
-    public void markGuardedPlot(BoardPlot boardPlot) {
-        for (BoardPosition guardedPosition: generateGuardedArea()) {
-            if(guardedPosition != null && Board.isBoardValidPosition(guardedPosition)){
-                BoardPlot.setGuardedByColor(boardPlot, guardedPosition, this.chessColor);
-            }
-        }
-    }
 
     public void markGuardedPlot(BoardPlot boardPlot, Board board) {
-        for (BoardPosition guardedPosition: generateGuardedArea(board)) {
-            if(guardedPosition != null && Board.isBoardValidPosition(guardedPosition)){
-                BoardPlot.setGuardedByColor(boardPlot, guardedPosition, this.chessColor);
+        Vector<BoardPosition> allGuardedArea =  generateGuardedArea(board);
+        if(allGuardedArea != null){
+            for (BoardPosition guardedPosition: allGuardedArea) {
+                if(guardedPosition != null && Board.isBoardValidPosition(guardedPosition)){
+                    BoardPlot.setGuardedByColor(boardPlot, guardedPosition, this.chessColor);
+                }
             }
         }
     }
@@ -178,6 +174,5 @@ public abstract class ChessPiece {
      */
     protected abstract boolean isCapturable(Board board, BoardPosition targetPosition);
 
-    protected abstract Vector<BoardPosition> generateGuardedArea();
     protected abstract Vector<BoardPosition> generateGuardedArea(Board board);
 }

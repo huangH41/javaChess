@@ -38,11 +38,6 @@ public class Bishop extends ChessPiece {
     }
 
     @Override
-    protected Vector<BoardPosition> generateGuardedArea() {
-        return null;
-    }
-
-    @Override
     protected boolean isValidMovePath(Board board, BoardPosition dstPosition) {
         BoardPosition currentPosition = new BoardPosition(this.getPosition().getRow(), this.getPosition().getColumn());
         int colMagnitude = PieceMovement.doSingleRelativeColumnMovement(this, dstPosition);
