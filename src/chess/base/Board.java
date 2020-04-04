@@ -117,9 +117,8 @@ public class Board {
      * @param columnsFromCurrent columns from current position
      */
     public void movePieceBy(ChessPiece piece, int rowsFromCurrent, int columnsFromCurrent) throws InvalidMoveException {
-        BoardPosition newPosition = piece.getPosition();
-        newPosition.setRow(newPosition.getRow() + rowsFromCurrent);
-        newPosition.setColumn(newPosition.getColumn() + columnsFromCurrent);
+        BoardPosition newPosition = new BoardPosition(piece.getPosition().getRow() + rowsFromCurrent,
+                piece.getPosition().getColumn() + columnsFromCurrent);
         movePiece(piece, newPosition);
     }
 

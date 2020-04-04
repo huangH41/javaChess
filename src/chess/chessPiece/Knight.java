@@ -20,7 +20,9 @@ public class Knight extends ChessPiece {
     @Override
     public void move(BoardPosition dstPosition, Board board) {
         if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
+            this.unmarkGuardedPlot(board.getBoardPlot(), board);
             board.movePiece(this, dstPosition);
+            this.markGuardedPlot(board.getBoardPlot(), board);
         } else {
             throw new InvalidMoveException(this, dstPosition);
         }

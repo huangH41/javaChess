@@ -21,7 +21,9 @@ public class Bishop extends ChessPiece {
     @Override
     public void move(BoardPosition dstPosition, Board board) {
         if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
+            this.unmarkGuardedPlot(board.getBoardPlot(), board);
             board.movePiece(this, dstPosition);
+            this.markGuardedPlot(board.getBoardPlot(), board);
         } else {
             throw new InvalidMoveException(this, dstPosition);
         }
@@ -29,7 +31,62 @@ public class Bishop extends ChessPiece {
 
     @Override
     protected Vector<BoardPosition> generateGuardedArea(Board board) {
-        return null;
+        Vector<BoardPosition> guardedPositions = new Vector<>();
+        BoardPosition currentPosition = new BoardPosition(this.getPosition().getRow(), this.getPosition().getColumn());
+        guardedPositions.addAll(generateDiagonalDirectionMove(board, currentPosition));
+
+        return guardedPositions;
+    }
+
+    //TODO generate lest right move function is duplicate with generate top bottom move
+    private Vector<BoardPosition> generateDiagonalDirectionMove(Board board, BoardPosition currentPosition) {
+        Vector<BoardPosition> guardedPositions = new Vector<>();
+
+        BoardPosition position;
+        if (currentPosition.getColumn() < 8 || currentPosition.getRow() < 8) {
+            for (int row = currentPosition.getRow() + 1, col = currentPosition.getColumn() + 1;
+                 row <= 8 && col <= 8; row++, col++) {
+                position = new BoardPosition(row, col);
+                guardedPositions.add(position);
+                if (board.isOccupied(position)) {
+                    break;
+                }
+            }
+        }
+
+        if (currentPosition.getColumn() > 1 || currentPosition.getRow() < 8) {
+            for (int row = currentPosition.getRow() + 1, col = currentPosition.getColumn() - 1;
+                 row <= 8 && col >= 1; row++, col--) {
+                position = new BoardPosition(row, col);
+                guardedPositions.add(position);
+                if (board.isOccupied(position)) {
+                    break;
+                }
+            }
+        }
+
+        if (currentPosition.getColumn() < 8 || currentPosition.getRow() > 1) {
+            for (int row = currentPosition.getRow() - 1, col = currentPosition.getColumn() + 1;
+                 row >= 1 && col <= 8; row--, col++) {
+                position = new BoardPosition(row, col);
+                guardedPositions.add(position);
+                if (board.isOccupied(position)) {
+                    break;
+                }
+            }
+        }
+
+        if (currentPosition.getColumn() > 1 || currentPosition.getRow() > 1) {
+            for (int row = currentPosition.getRow() - 1, col = currentPosition.getColumn() - 1;
+                 row >= 1 && col >= 1; row--, col--) {
+                position = new BoardPosition(row, col);
+                guardedPositions.add(position);
+                if (board.isOccupied(position)) {
+                    break;
+                }
+            }
+        }
+        return guardedPositions;
     }
 
     @Override

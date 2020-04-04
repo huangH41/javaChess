@@ -81,8 +81,10 @@ public class King extends ChessPiece {
             } else if (dstPosition.getColumn() == 7) {
                 ChessMechanics.performCastlingMove(board, false);
             }
+            this.markGuardedPlot(board.getBoardPlot(), board);
         } else if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
             board.movePiece(this, dstPosition);
+            this.markGuardedPlot(board.getBoardPlot(), board);
         } else {
             throw new InvalidMoveException(this, dstPosition);
         }
