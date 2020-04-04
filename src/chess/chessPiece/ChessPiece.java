@@ -5,10 +5,10 @@ import chess.base.*;
 import java.util.Vector;
 
 public abstract class ChessPiece {
+    protected boolean firstMove = false;
     private ChessPieceRank pieceRank;
     private ChessPieceColor chessColor;
     private BoardPosition position;
-    protected boolean firstMove = false;
 
     /**
      * Define chess piece with status, color (either black or white), and position on the chess
@@ -129,21 +129,21 @@ public abstract class ChessPiece {
      */
     //TODO there are some class that need Board object, consider changing the parameter into board later
     public void markGuardedPlot(BoardPlot boardPlot, Board board) {
-        Vector<BoardPosition> allGuardedArea =  generateGuardedArea(board);
-        if(allGuardedArea != null){
-            for (BoardPosition guardedPosition: allGuardedArea) {
-                if(guardedPosition != null && Board.isBoardValidPosition(guardedPosition)){
+        Vector<BoardPosition> allGuardedArea = generateGuardedArea(board);
+        if (allGuardedArea != null) {
+            for (BoardPosition guardedPosition : allGuardedArea) {
+                if (guardedPosition != null && Board.isBoardValidPosition(guardedPosition)) {
                     BoardPlot.setGuardedByColor(boardPlot, guardedPosition, this.chessColor);
                 }
             }
         }
     }
 
-    public void unmarkGuardedPlot(BoardPlot boardPlot, Board board){
-        Vector<BoardPosition> allGuardedArea =  generateGuardedArea(board);
-        if(allGuardedArea != null){
-            for (BoardPosition guardedPosition: allGuardedArea) {
-                if(guardedPosition != null && Board.isBoardValidPosition(guardedPosition)){
+    public void unmarkGuardedPlot(BoardPlot boardPlot, Board board) {
+        Vector<BoardPosition> allGuardedArea = generateGuardedArea(board);
+        if (allGuardedArea != null) {
+            for (BoardPosition guardedPosition : allGuardedArea) {
+                if (guardedPosition != null && Board.isBoardValidPosition(guardedPosition)) {
                     BoardPlot.unsetGuardedByColor(boardPlot, guardedPosition, this.chessColor);
                 }
             }
