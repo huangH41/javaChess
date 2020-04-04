@@ -2,6 +2,7 @@ package chess.base;
 
 import chess.base.exceptions.InvalidMoveException;
 import chess.chessPiece.ChessPiece;
+import chess.chessPiece.King;
 
 import java.util.Scanner;
 
@@ -10,35 +11,34 @@ public class Main {
     private Scanner scan = new Scanner(System.in);
 
     public Main() {
-        board = new BlankBoard();
+        board = new Board();
     }
 
     public static void main(String[] args) {
         new Main().gamePhase();
-//        new Main();
+    }
+
+    private void checkGuardStatus(String targetPosition) {
+        Plot plot = board.getBoardPlot().getPlot(new BoardPosition(targetPosition));
+        System.out.println(targetPosition + " is guarded by " + plot.getGuardingWhitePieceTotal() +
+                " white piece & " + plot.getGuardingBlackPieceTotal() + " black piece");
+
     }
 
     private void performAssertion() {
-//        board.movePiece(board.getPiece(new BoardPosition("G2")), new BoardPosition("G4"));
-//        board.movePiece(board.getPiece(new BoardPosition("A7")), new BoardPosition("A6"));
-//        board.movePiece(board.getPiece(new BoardPosition("G1")), new BoardPosition("F3"));
-//        board.movePiece(board.getPiece(new BoardPosition("D7")), new BoardPosition("D5"));
+        board.movePiece(board.getPiece(new BoardPosition("G2")), new BoardPosition("G4"));
+        board.movePiece(board.getPiece(new BoardPosition("A7")), new BoardPosition("A6"));
+        board.movePiece(board.getPiece(new BoardPosition("G1")), new BoardPosition("F3"));
+        board.movePiece(board.getPiece(new BoardPosition("D7")), new BoardPosition("D5"));
+        board.movePiece(board.getPiece(new BoardPosition("C2")), new BoardPosition("C4"));
+        board.movePiece(board.getPiece(new BoardPosition("E7")), new BoardPosition("E6"));
     }
 
     private void gamePhase() {
-        // TODO: This is an infinite loops so this method requires an improvement for @HuangH41...
+//        performAssertion();
         do {
-
+            System.out.println("\n\n\n\n\n\n\n");
             System.out.println(BoardDrawer.drawBoard(board));
-            System.out.println("\n\nView only guarded plot");
-            System.out.println(BoardDrawer.drawBoardGuardedPlot(board.getBoardPlot()));
-
-            // Testing here
-            String targetPosition = "H5";
-            Plot plot = board.getBoardPlot().getPlot(new BoardPosition(targetPosition));
-            System.out.println(targetPosition + " is guarded by " + plot.getGuardingWhitePieceTotal() +
-                    " white piece & " + plot.getGuardingBlackPieceTotal() + " black piece");
-
             System.out.printf("Input %s player [ex: A2-A3] : ", board.getCurrentColor());
             String inputtedCoordinates = scan.nextLine();
             if (inputtedCoordinates.isEmpty()) {
@@ -46,19 +46,33 @@ public class Main {
             }
 
             String[] coordinates = inputtedCoordinates.split("-");
+            if (coordinates.length != 2) {
+                System.err.println("Invalid notation!");
+                continue;
+            }
             System.out.println(String.format("Piece moved from %s to %s!", coordinates[0], coordinates[1]));
 
             try {
-                ChessPiece p = board.getPiece(new BoardPosition(coordinates[0]));
-                if (p == null) {
+                ChessPiece piece = board.getPiece(new BoardPosition(coordinates[0]));
+                if (piece == null) {
                     throw new InvalidMoveException("You tried to move an empty piece!");
                 }
 
-                if (p.getChessColor() == board.getCurrentColor()) {
-                    p.move(new BoardPosition(coordinates[1]), board);
+                if (piece.getChessColor() == board.getCurrentColor()) {
+                    piece.move(new BoardPosition(coordinates[1]), board);
                     board.switchColor();
+
+                    checkGuardStatus("E8");
+                    checkGuardStatus("E1");
+
+                    if (King.isKingUnderCheckState(board, board.getBlackKing())) {
+                        System.out.println("Black King is getting check!");
+                    }
+                    if (King.isKingUnderCheckState(board, board.getWhiteKing())) {
+                        System.out.println("White King is getting check!");
+                    }
                 } else {
-                    throw new InvalidMoveException(String.format("You moved an opponent board! (%s)", p.toString()));
+                    throw new InvalidMoveException(String.format("You moved an opponent board! (%s)", piece.toString()));
                 }
             } catch (InvalidMoveException ex) {
                 System.err.println(ex.getMessage());

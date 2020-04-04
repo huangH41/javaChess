@@ -118,7 +118,8 @@ public abstract class ChessPiece {
     protected boolean isValidMove(Board board, BoardPosition dstPosition) {
         boolean validPieceMovement = isValidPieceMovement(dstPosition);
         boolean validMovePath = isValidMovePath(board, dstPosition);
-        return validMovePath && validPieceMovement;
+        boolean kingUnderCheck = King.isKingUnderCheckState(board, board.getKing(board.getCurrentColor()));
+        return validMovePath && validPieceMovement && !kingUnderCheck;
     }
 
     /**

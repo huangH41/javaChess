@@ -47,6 +47,10 @@ public class Board {
         this.whiteKing = whiteKing;
     }
 
+    public King getKing(ChessPieceColor color) {
+        return color == ChessPieceColor.WHITE ? getWhiteKing() : getBlackKing();
+    }
+
     public static boolean hasChessPiece(ChessPiece[][] pieceBoard, BoardPosition targetPosition) {
         return pieceBoard[targetPosition.getRow()][targetPosition.getColumn()] != null;
     }
