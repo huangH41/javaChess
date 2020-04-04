@@ -3,6 +3,8 @@ package chess.chessPiece;
 import chess.base.*;
 import chess.base.exceptions.InvalidMoveException;
 
+import java.util.Vector;
+
 
 public class Bishop extends ChessPiece {
 
@@ -26,18 +28,18 @@ public class Bishop extends ChessPiece {
     }
 
     @Override
+    protected Vector<BoardPosition> generateGuardedArea(Board board) {
+        return null;
+    }
+
+    @Override
     protected boolean isCapturable(Board board, BoardPosition targetPosition) {
         return true;
     }
 
     @Override
-    public void markGuardedPlot(BoardPlot boardPlot) {
-
-    }
-
-    @Override
-    public void unmarkGuardedPlot(BoardPlot boardPlot) {
-
+    protected Vector<BoardPosition> generateGuardedArea() {
+        return null;
     }
 
     @Override

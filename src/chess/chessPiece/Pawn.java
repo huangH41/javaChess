@@ -3,6 +3,8 @@ package chess.chessPiece;
 import chess.base.*;
 import chess.base.exceptions.InvalidMoveException;
 
+import java.util.Vector;
+
 public class Pawn extends ChessPiece {
 
     private int maxStep = 2;
@@ -76,35 +78,8 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    public void markGuardedPlot(BoardPlot boardPlot){
-        for (BoardPosition guardedPosition: generateGuardedArea()) {
-            if(guardedPosition != null && Board.isBoardValidPosition(guardedPosition)){
-                setGuardedByColor(boardPlot, guardedPosition);
-            }
-        }
-    }
-
-    @Override
-    public void unmarkGuardedPlot(BoardPlot boardPlot) {
-
-    }
-
-    /**
-     * assign guarded status to true based on chess color and add the total number of piece that
-     * are guarding a plot
-     *
-     * @param boardPlot         boardPlot to set the plot guarded status
-     * @param guardedPosition   Plot position to set as guarded by chess piece color
-     */
-    private void setGuardedByColor(BoardPlot boardPlot, BoardPosition guardedPosition){
-        Plot plot = boardPlot.getPlot(guardedPosition);
-        if(this.getChessColor() == ChessPieceColor.WHITE){
-            plot.setGuardedByWhite(true);
-            plot.addGuardingWhitePiece();
-        } else {
-            plot.setGuardedByBlack(true);
-            plot.addGuardingBlackPiece();
-        }
+    protected Vector<BoardPosition> generateGuardedArea(Board board) {
+        return null;
     }
 
     /**
@@ -112,15 +87,15 @@ public class Pawn extends ChessPiece {
      * @return
      */
     //TODO Really need to be refactored later
-    private BoardPosition[] generateGuardedArea(){
-        BoardPosition[] guardedArea = new BoardPosition[2];
+    protected Vector<BoardPosition> generateGuardedArea(){
+        Vector<BoardPosition> guardedArea = new Vector<>();
         int row = (this.getChessColor() == ChessPieceColor.WHITE) ? this.getPosition().getRow() + 1 : this.getPosition().getRow() - 1;
         for(int i = 0, colMover = 1; i < 2; i++, colMover *= -1){
             int column = this.getPosition().getColumn() - colMover;
             if(column >= 1 && column <= 8){
                 BoardPosition position = new BoardPosition(row, column);
                 if(Board.isBoardValidPosition(position)){
-                    guardedArea[i] = position;
+                    guardedArea.add(position);
                 }
             }
         }

@@ -2,6 +2,8 @@ package chess.chessPiece;
 
 import chess.base.*;
 
+import java.util.Vector;
+
 public abstract class ChessPiece {
     private ChessPieceRank pieceRank;
     private ChessPieceColor chessColor;
@@ -120,6 +122,28 @@ public abstract class ChessPiece {
     }
 
     /**
+     * Set the targeted position plot status into guarded
+     *
+     * @param boardPlot to set the guarded status in a targeted position
+     */
+    //TODO there are some class that need Board object, consider changing the parameter into board later
+    public void markGuardedPlot(BoardPlot boardPlot) {
+        for (BoardPosition guardedPosition: generateGuardedArea()) {
+            if(guardedPosition != null && Board.isBoardValidPosition(guardedPosition)){
+                BoardPlot.setGuardedByColor(boardPlot, guardedPosition, this.chessColor);
+            }
+        }
+    }
+
+    public void markGuardedPlot(BoardPlot boardPlot, Board board) {
+        for (BoardPosition guardedPosition: generateGuardedArea(board)) {
+            if(guardedPosition != null && Board.isBoardValidPosition(guardedPosition)){
+                BoardPlot.setGuardedByColor(boardPlot, guardedPosition, this.chessColor);
+            }
+        }
+    }
+
+    /**
      * Verify movement path of the piece. Do recursive check of the obstacle to make sure that
      * every movement steps are valid and not obstructed by other piece.
      *
@@ -154,19 +178,6 @@ public abstract class ChessPiece {
      */
     protected abstract boolean isCapturable(Board board, BoardPosition targetPosition);
 
-    /**
-     * Set the targeted position plot status into guarded
-     *
-     * @param boardPlot to set the guarded status in a targeted position
-     */
-    public abstract void markGuardedPlot(BoardPlot boardPlot);
-
-    /**
-     * Set the current guarded position into unguarded
-     * when the total amount of same color piece that are guarding it
-     * reach 0
-     *
-     * @param boardPlot     to get the plot that is going to be unmarked
-     */
-    public abstract void unmarkGuardedPlot(BoardPlot boardPlot);
+    protected abstract Vector<BoardPosition> generateGuardedArea();
+    protected abstract Vector<BoardPosition> generateGuardedArea(Board board);
 }

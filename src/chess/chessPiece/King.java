@@ -3,6 +3,8 @@ package chess.chessPiece;
 import chess.base.*;
 import chess.base.exceptions.InvalidMoveException;
 
+import java.util.Vector;
+
 public class King extends ChessPiece {
 
     private KingCheckState checkState = KingCheckState.SAFE;
@@ -40,6 +42,11 @@ public class King extends ChessPiece {
         } else {
             kingPiece.checkState = KingCheckState.SAFE;
         }
+    }
+
+    @Override
+    protected Vector<BoardPosition> generateGuardedArea() {
+        return null;
     }
 
     /**
@@ -103,13 +110,8 @@ public class King extends ChessPiece {
     }
 
     @Override
-    public void markGuardedPlot(BoardPlot boardPlot) {
-
-    }
-
-    @Override
-    public void unmarkGuardedPlot(BoardPlot boardPlot) {
-
+    protected Vector<BoardPosition> generateGuardedArea(Board board) {
+        return null;
     }
 
     public enum KingCheckState {

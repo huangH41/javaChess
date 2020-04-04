@@ -17,6 +17,7 @@ public class Plot {
 
     public void setGuardedByWhite(boolean guardedByWhite) {
         this.guardedByWhite = guardedByWhite;
+        guardingWhitePieceTotal++;
     }
 
     public boolean isGuardedByBlack() {
@@ -25,6 +26,7 @@ public class Plot {
 
     public void setGuardedByBlack(boolean guardedByBlack) {
         this.guardedByBlack = guardedByBlack;
+        guardingBlackPieceTotal++;
     }
 
     public BoardPosition getPosition() {
@@ -35,16 +37,8 @@ public class Plot {
         this.position = position;
     }
 
-    public void addGuardingWhitePiece(){
-        this.guardingWhitePieceTotal++;
-    }
-
     public int getGuardingWhitePieceTotal() {
         return guardingWhitePieceTotal;
-    }
-
-    public void addGuardingBlackPiece(){
-        this.guardingBlackPieceTotal++;
     }
 
     public int getGuardingBlackPieceTotal() {

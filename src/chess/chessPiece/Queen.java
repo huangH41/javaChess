@@ -3,6 +3,8 @@ package chess.chessPiece;
 import chess.base.*;
 import chess.base.exceptions.InvalidMoveException;
 
+import java.util.Vector;
+
 public class Queen extends ChessPiece {
 
     /**
@@ -30,13 +32,13 @@ public class Queen extends ChessPiece {
     }
 
     @Override
-    public void markGuardedPlot(BoardPlot boardPlot) {
-
+    protected Vector<BoardPosition> generateGuardedArea(Board board) {
+        return null;
     }
 
     @Override
-    public void unmarkGuardedPlot(BoardPlot boardPlot) {
-
+    protected Vector<BoardPosition> generateGuardedArea() {
+        return null;
     }
 
     @Override

@@ -3,6 +3,8 @@ package chess.chessPiece;
 import chess.base.*;
 import chess.base.exceptions.InvalidMoveException;
 
+import java.util.Vector;
+
 public class Rook extends ChessPiece {
 
     /**
@@ -29,14 +31,92 @@ public class Rook extends ChessPiece {
         return true;
     }
 
-    @Override
-    public void markGuardedPlot(BoardPlot boardPlot) {
 
+    public void markGuardedPlot(BoardPlot boardPlot, Board board) {
+        for (BoardPosition guardedPosition: generateGuardedArea(board)) {
+            if(guardedPosition != null && Board.isBoardValidPosition(guardedPosition)){
+                BoardPlot.setGuardedByColor(boardPlot, guardedPosition, this.getChessColor());
+            }
+        }
+    }
+
+
+    @Override
+    protected Vector<BoardPosition> generateGuardedArea() {
+        return null;
     }
 
     @Override
-    public void unmarkGuardedPlot(BoardPlot boardPlot) {
+    protected Vector<BoardPosition> generateGuardedArea(Board board){
+        Vector<BoardPosition> guardedPositions = new Vector<>();
+        BoardPosition currentPosition = new BoardPosition(this.getPosition().getRow(), this.getPosition().getColumn());
+        guardedPositions.addAll(generateTopBottomDirectionMove(board, currentPosition));
+        guardedPositions.addAll(generateLeftRightDirectionMove(board, currentPosition));
 
+        return guardedPositions;
+    }
+
+    //TODO generate lest right move function is duplicate with generate top bottom move
+    private Vector<BoardPosition> generateLeftRightDirectionMove(Board board, BoardPosition currentPosition){
+        Vector<BoardPosition> guardedPositions = new Vector<>();
+        int magnitude;
+
+        //TODO Duplicate code, Need to get refactored later
+        if(currentPosition.getColumn() < 8){
+            magnitude = PieceMovement.doSingleRelativeColumnMovement(this, new BoardPosition(currentPosition.getRow(),8));
+            for (int col = currentPosition.getColumn() + magnitude; col <= 8; col += magnitude) {
+                if (board.isOccupied(currentPosition)){
+                    guardedPositions.add(new BoardPosition(currentPosition.getRow(), col));
+                    break;
+                } else {
+                    guardedPositions.add(new BoardPosition(currentPosition.getRow(), col));
+                }
+            }
+        }
+
+        if(currentPosition.getColumn() > 1){
+            magnitude = PieceMovement.doSingleRelativeColumnMovement(this, new BoardPosition(currentPosition.getRow(),1));
+            for (int col = currentPosition.getColumn() + magnitude; col >= 1; col += magnitude) {
+                if (board.isOccupied(currentPosition)){
+                    guardedPositions.add(new BoardPosition(currentPosition.getRow(), col));
+                    break;
+                } else {
+                    guardedPositions.add(new BoardPosition(currentPosition.getRow(), col));
+                }
+            }
+        }
+        return guardedPositions;
+    }
+
+    private Vector<BoardPosition> generateTopBottomDirectionMove(Board board, BoardPosition currentPosition){
+        Vector<BoardPosition> guardedPositions = new Vector<>();
+        int magnitude;
+
+        //TODO Duplicate code, Need to get refactored later
+        if(currentPosition.getRow() < 8){
+            magnitude = PieceMovement.doSingleRelativeRowMovement(this, new BoardPosition(8, currentPosition.getColumn()));
+            for (int row = currentPosition.getRow() + magnitude; row <= 8; row += magnitude) {
+                if (board.isOccupied(currentPosition)){
+                    guardedPositions.add(new BoardPosition(row, currentPosition.getColumn()));
+                    break;
+                } else {
+                    guardedPositions.add(new BoardPosition(row, currentPosition.getColumn()));
+                }
+            }
+        }
+
+        if(currentPosition.getRow() > 1){
+            magnitude = PieceMovement.doSingleRelativeRowMovement(this, new BoardPosition(1, currentPosition.getColumn()));
+            for (int row = currentPosition.getRow() + magnitude; row >= 1; row += magnitude) {
+                if (board.isOccupied(currentPosition)){
+                    guardedPositions.add(new BoardPosition(row, currentPosition.getColumn()));
+                    break;
+                } else {
+                    guardedPositions.add(new BoardPosition(row, currentPosition.getColumn()));
+                }
+            }
+        }
+        return guardedPositions;
     }
 
     @Override
