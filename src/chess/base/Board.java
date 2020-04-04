@@ -27,6 +27,11 @@ public class Board {
         } else return targetPosition.getColumn() >= 1 && targetPosition.getColumn() <= 8;
     }
 
+    // TODO: Possibly removed method!
+    public static boolean hasChessPiece(ChessPiece[][] pieceBoard, BoardPosition targetPosition) {
+        return pieceBoard[targetPosition.getRow()][targetPosition.getColumn()] != null;
+    }
+
     public ChessPiece[][] getPieceBoard() {
         return pieceBoard;
     }
@@ -49,10 +54,6 @@ public class Board {
 
     public King getKing(ChessPieceColor color) {
         return color == ChessPieceColor.WHITE ? getWhiteKing() : getBlackKing();
-    }
-
-    public static boolean hasChessPiece(ChessPiece[][] pieceBoard, BoardPosition targetPosition) {
-        return pieceBoard[targetPosition.getRow()][targetPosition.getColumn()] != null;
     }
 
     public ChessPieceColor getCurrentColor() {
@@ -104,6 +105,12 @@ public class Board {
         }
     }
 
+    /**
+     * Move a piece to destination position
+     *
+     * @param piece       piece to move from
+     * @param dstPosition destination position
+     */
     public void movePiece(ChessPiece piece, BoardPosition dstPosition) {
         BoardPosition oldPosition = piece.getPosition();
         toNewPosition(piece, dstPosition);
