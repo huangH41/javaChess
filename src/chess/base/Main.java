@@ -35,24 +35,23 @@ public class Main {
     }
 
     private void gamePhase() {
-//        performAssertion();
         do {
             System.out.println("\n\n\n\n\n\n\n");
             System.out.println(BoardDrawer.drawBoard(board));
             System.out.printf("Input %s player [ex: A2-A3] : ", board.getCurrentColor());
+
             String inputtedCoordinates = scan.nextLine();
             if (inputtedCoordinates.isEmpty()) {
                 continue;
             }
 
-            String[] coordinates = inputtedCoordinates.split("-");
-            if (coordinates.length != 2) {
-                System.err.println("Invalid notation!");
-                continue;
-            }
-            System.out.println(String.format("Piece moved from %s to %s!", coordinates[0], coordinates[1]));
-
             try {
+                String[] coordinates = inputtedCoordinates.split("-");
+                if (coordinates.length != 2) {
+                    throw new InvalidMoveException("Invalid movement notation!");
+                }
+                System.out.println(String.format("Piece moved from %s to %s!", coordinates[0], coordinates[1]));
+
                 ChessPiece piece = board.getPiece(new BoardPosition(coordinates[0]));
                 if (piece == null) {
                     throw new InvalidMoveException("You tried to move an empty piece!");
@@ -61,9 +60,6 @@ public class Main {
                 if (piece.getChessColor() == board.getCurrentColor()) {
                     piece.move(new BoardPosition(coordinates[1]), board);
                     board.switchColor();
-
-                    checkGuardStatus("E8");
-                    checkGuardStatus("E1");
 
                     if (King.isKingUnderCheckState(board, board.getBlackKing())) {
                         System.out.println("Black King is getting check!");
