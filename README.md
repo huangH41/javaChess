@@ -3,12 +3,12 @@ Project Kelas Code Reengineering (LE01). Anggota: Akmal - 2201754721 &amp; Herma
 
 ## To-Dos
 
-- [ ] draw board
-- [ ] move notation (coordinate or algebraic)
-- [ ] all piece regular moves
-- [ ] check
-- [ ] castling
-- [ ] validate illegal move: king must always in safe position
+- [x] draw board
+- [x] move notation (coordinate or algebraic)
+- [x] all piece regular moves
+- [x] check
+- [x] castling
+- [x] validate illegal move: king must always in safe position
 - [ ] en passant
 - [ ] pawn promotion
 - [ ] checkmate
