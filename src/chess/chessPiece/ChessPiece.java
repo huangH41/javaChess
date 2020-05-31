@@ -84,6 +84,12 @@ public abstract class ChessPiece {
         return validMovePath && validPieceMovement && !kingUnderCheck;
     }
 
+    protected void movePiece(Board board, BoardPosition dstPosition) {
+        this.unmarkGuardedPlot(board.getBoardPlot(), board);
+        board.movePiece(this, dstPosition);
+        this.markGuardedPlot(board.getBoardPlot(), board);
+    }
+
     /**
      * Set the targeted position plot status into guarded
      *

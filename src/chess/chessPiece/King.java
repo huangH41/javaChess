@@ -73,6 +73,7 @@ public class King extends ChessPiece {
         boolean isCastlablePosition = board.isOccupied(new BoardPosition(this.getPosition().getRow(), 3))
                 || board.isOccupied(new BoardPosition(this.getPosition().getRow(), 7));
         if (!this.isFirstMove() && isCastlablePosition) {
+            this.unmarkGuardedPlot(board.getBoardPlot(), board);
             if (dstPosition.getColumn() == 3) {
                 ChessMechanics.performCastlingMove(board, true);
             } else if (dstPosition.getColumn() == 7) {
@@ -80,8 +81,7 @@ public class King extends ChessPiece {
             }
             this.markGuardedPlot(board.getBoardPlot(), board);
         } else if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
-            board.movePiece(this, dstPosition);
-            this.markGuardedPlot(board.getBoardPlot(), board);
+            movePiece(board, dstPosition);
         } else {
             throw new InvalidMoveException(this, dstPosition);
         }

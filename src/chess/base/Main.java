@@ -7,8 +7,8 @@ import chess.chessPiece.King;
 import java.util.Scanner;
 
 public class Main {
-    private Board board;
-    private Scanner scan = new Scanner(System.in);
+    private final Board board;
+    private final Scanner scan = new Scanner(System.in);
 
     public Main() {
         board = new Board();

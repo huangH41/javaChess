@@ -6,7 +6,7 @@ import chess.chessPiece.King;
 
 public class Board {
 
-    private ChessPiece[][] pieceBoard = new ChessPiece[8][8];
+    private final ChessPiece[][] pieceBoard = new ChessPiece[8][8];
 
     private King blackKing, whiteKing;
     private ChessPieceColor currentColor = ChessPieceColor.WHITE;
@@ -40,7 +40,7 @@ public class Board {
         return blackKing;
     }
 
-    public void setBlackKing(King blackKing) {
+    private void setBlackKing(King blackKing) {
         this.blackKing = blackKing;
     }
 
@@ -48,7 +48,7 @@ public class Board {
         return whiteKing;
     }
 
-    public void setWhiteKing(King whiteKing) {
+    private void setWhiteKing(King whiteKing) {
         this.whiteKing = whiteKing;
     }
 

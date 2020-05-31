@@ -17,9 +17,7 @@ public class Pawn extends ChessPiece {
     public void move(BoardPosition dstPosition, Board board) {
         if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
             if (!isFirstMove()) hasMoved();
-            this.unmarkGuardedPlot(board.getBoardPlot(), board);
-            board.movePiece(this, dstPosition);
-            this.markGuardedPlot(board.getBoardPlot(), board);
+            movePiece(board, dstPosition);
         } else {
             throw new InvalidMoveException(this, dstPosition);
         }

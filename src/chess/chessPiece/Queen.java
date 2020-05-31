@@ -20,9 +20,7 @@ public class Queen extends ChessPiece {
     @Override
     public void move(BoardPosition dstPosition, Board board) {
         if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
-            this.unmarkGuardedPlot(board.getBoardPlot(), board);
-            board.movePiece(this, dstPosition);
-            this.markGuardedPlot(board.getBoardPlot(), board);
+            movePiece(board, dstPosition);
         } else {
             throw new InvalidMoveException(this, dstPosition);
         }
@@ -46,112 +44,44 @@ public class Queen extends ChessPiece {
     protected Vector<BoardPosition> generateGuardedArea(Board board) {
         Vector<BoardPosition> guardedPositions = new Vector<>();
         BoardPosition currentPosition = new BoardPosition(this.getPosition().getRow(), this.getPosition().getColumn());
-        guardedPositions.addAll(generateLeftRightDirectionMove(board, currentPosition));
-        guardedPositions.addAll(generateTopBottomDirectionMove(board, currentPosition));
-        guardedPositions.addAll(generateDiagonalDirectionMove(board, currentPosition));
+        guardedPositions.addAll(generateHorizontalGuardedArea(board, currentPosition));
+        guardedPositions.addAll(generateVerticalGuardedArea(board, currentPosition));
+        guardedPositions.addAll(generateDiagonalGuardedArea(board, currentPosition));
 
         return guardedPositions;
     }
 
-    //TODO generate lest right move function is duplicate with generate top bottom move
-    private Vector<BoardPosition> generateLeftRightDirectionMove(Board board, BoardPosition currentPosition) {
+    private Vector<BoardPosition> generateHorizontalGuardedArea(Board board, BoardPosition currentPosition){
         Vector<BoardPosition> guardedPositions = new Vector<>();
-
-        BoardPosition position;
         if (currentPosition.getColumn() < 8) {
-            for (int col = currentPosition.getColumn() + 1; col <= 8; col++) {
-                position = new BoardPosition(currentPosition.getRow(), col);
-                guardedPositions.add(position);
-                if (board.isOccupied(position)) {
-                    break;
-                }
-            }
-        }
-
-        if (currentPosition.getColumn() > 1) {
-            for (int col = currentPosition.getColumn() - 1; col >= 1; col--) {
-                position = new BoardPosition(currentPosition.getRow(), col);
-                guardedPositions.add(position);
-                if (board.isOccupied(position)) {
-                    break;
-                }
-            }
+            guardedPositions.addAll(generatePossibleGuardedPositions(board, currentPosition, MovementDirection.RIGHT));
+        } if (currentPosition.getColumn() > 1) {
+            guardedPositions.addAll(generatePossibleGuardedPositions(board, currentPosition, MovementDirection.LEFT));
         }
         return guardedPositions;
     }
 
-    private Vector<BoardPosition> generateTopBottomDirectionMove(Board board, BoardPosition currentPosition) {
+    private Vector<BoardPosition> generateVerticalGuardedArea(Board board, BoardPosition currentPosition){
         Vector<BoardPosition> guardedPositions = new Vector<>();
-
-        BoardPosition position;
         if (currentPosition.getRow() < 8) {
-            for (int row = currentPosition.getRow() + 1; row <= 8; row++) {
-                position = new BoardPosition(row, currentPosition.getColumn());
-                guardedPositions.add(position);
-                if (board.isOccupied(position)) {
-                    break;
-                }
-            }
-        }
-
-        if (currentPosition.getRow() > 1) {
-            for (int row = currentPosition.getRow() - 1; row >= 1; row--) {
-                position = new BoardPosition(row, currentPosition.getColumn());
-                guardedPositions.add(position);
-                if (board.isOccupied(position)) {
-                    break;
-                }
-            }
+            guardedPositions.addAll(generatePossibleGuardedPositions(board, currentPosition, MovementDirection.UP));
+        } if (currentPosition.getRow() > 1) {
+            guardedPositions.addAll(generatePossibleGuardedPositions(board, currentPosition, MovementDirection.DOWN));
         }
         return guardedPositions;
     }
 
-    private Vector<BoardPosition> generateDiagonalDirectionMove(Board board, BoardPosition currentPosition) {
+    private Vector<BoardPosition> generateDiagonalGuardedArea(Board board, BoardPosition currentPosition) {
         Vector<BoardPosition> guardedPositions = new Vector<>();
 
-        BoardPosition position;
         if (currentPosition.getColumn() < 8 || currentPosition.getRow() < 8) {
-            for (int row = currentPosition.getRow() + 1, col = currentPosition.getColumn() + 1;
-                 row <= 8 && col <= 8; row++, col++) {
-                position = new BoardPosition(row, col);
-                guardedPositions.add(position);
-                if (board.isOccupied(position)) {
-                    break;
-                }
-            }
-        }
-
-        if (currentPosition.getColumn() > 1 || currentPosition.getRow() < 8) {
-            for (int row = currentPosition.getRow() + 1, col = currentPosition.getColumn() - 1;
-                 row <= 8 && col >= 1; row++, col--) {
-                position = new BoardPosition(row, col);
-                guardedPositions.add(position);
-                if (board.isOccupied(position)) {
-                    break;
-                }
-            }
-        }
-
-        if (currentPosition.getColumn() < 8 || currentPosition.getRow() > 1) {
-            for (int row = currentPosition.getRow() - 1, col = currentPosition.getColumn() + 1;
-                 row >= 1 && col <= 8; row--, col++) {
-                position = new BoardPosition(row, col);
-                guardedPositions.add(position);
-                if (board.isOccupied(position)) {
-                    break;
-                }
-            }
-        }
-
-        if (currentPosition.getColumn() > 1 || currentPosition.getRow() > 1) {
-            for (int row = currentPosition.getRow() - 1, col = currentPosition.getColumn() - 1;
-                 row >= 1 && col >= 1; row--, col--) {
-                position = new BoardPosition(row, col);
-                guardedPositions.add(position);
-                if (board.isOccupied(position)) {
-                    break;
-                }
-            }
+            guardedPositions.addAll(generatePossibleGuardedPositions(board, currentPosition, MovementDirection.UP_RIGHT));
+        } if (currentPosition.getColumn() > 1 || currentPosition.getRow() < 8) {
+            guardedPositions.addAll(generatePossibleGuardedPositions(board, currentPosition, MovementDirection.UP_LEFT));
+        } if (currentPosition.getColumn() < 8 || currentPosition.getRow() > 1) {
+            guardedPositions.addAll(generatePossibleGuardedPositions(board, currentPosition, MovementDirection.DOWN_RIGHT));
+        } if (currentPosition.getColumn() > 1 || currentPosition.getRow() > 1) {
+            guardedPositions.addAll(generatePossibleGuardedPositions(board, currentPosition, MovementDirection.DOWN_LEFT));
         }
         return guardedPositions;
     }
