@@ -8,16 +8,30 @@ import java.util.Vector;
 public class Pawn extends ChessPiece {
 
     private int maxStep = 2;
+    private int movementCount = 0;
 
     public Pawn(ChessPieceColor chessColor, BoardPosition position) {
         super(ChessPieceRank.PAWN, chessColor, position);
     }
 
     @Override
+    public void hasMoved() {
+        firstMove = true;
+        maxStep = 1;
+    }
+
+    @Override
     public void move(BoardPosition dstPosition, Board board) {
         if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
+            boolean enPassable = isEnPassable(board, dstPosition);
+
             if (!isFirstMove()) hasMoved();
             movePiece(board, dstPosition);
+
+            if (enPassable) {
+                enPassant(board, dstPosition);
+            }
+            movementCount++;
         } else {
             throw new InvalidMoveException(this, dstPosition);
         }
@@ -31,7 +45,9 @@ public class Pawn extends ChessPiece {
 
     @Override
     protected boolean isValidMovePath(Board board, BoardPosition dstPosition) {
-        return isCapturable(board, dstPosition) || (isRegularMovement(dstPosition) && !board.isOccupied(dstPosition));
+        return (isCapturable(board, dstPosition) || isEnPassable(board, dstPosition))
+                || (isRegularMovement(dstPosition)
+                && !board.isOccupied(dstPosition));
     }
 
     @Override
@@ -39,11 +55,41 @@ public class Pawn extends ChessPiece {
         return board.isOccupied(targetPosition) && isOpponent(board.getPiece(targetPosition)) && isCrossMovement(targetPosition);
     }
 
-    @Override
-    public void hasMoved() {
-        firstMove = true;
-        maxStep = 1;
+    /**
+     * Capture opponent pawn beside of your pawn by pass and capture them behind
+     *
+     * @param board          board to execute the piece en-passant and capturing stage
+     * @param targetPosition the opponent pawn position besides your pawn
+     */
+    private void enPassant(Board board, BoardPosition targetPosition) {
+        MovementDirection direction = (getChessColor() == ChessPieceColor.WHITE) ? MovementDirection.DOWN : MovementDirection.UP;
+        BoardPosition opponentPosition = targetPosition.moveBy(1, 0, direction);
+        board.setPiece(opponentPosition, null);
     }
+
+    /**
+     * Verify that your pawn moved 3 rows away from initial position able to
+     * passes and capture side opponent who moves 2 rows away for first time beside your's pawn
+     *
+     * @param board          board to execute the piece en-passant and capturing stage
+     * @param targetPosition the opponent pawn position besides your pawn
+     * @return pawn ability to pass & capture opponent pawn beside your pawn
+     */
+    public boolean isEnPassable(Board board, BoardPosition targetPosition) {
+        MovementDirection direction = (getChessColor() == ChessPieceColor.WHITE) ? MovementDirection.DOWN : MovementDirection.UP;
+
+        if (!(!board.isOccupied(targetPosition)
+                && getPosition().getRow() == this.getChessColor().getStartPosition() + 4)
+                && isCrossMovement(targetPosition)) {
+            return false;
+        }
+
+        ChessPiece opponent = board.getPiece(targetPosition.moveBy(1, 0, direction));
+        return isOpponent(opponent)
+                && (opponent instanceof Pawn)
+                && ((Pawn) opponent).movementCount == 1;
+    }
+
 
     /**
      * Promotes pawn into Rook, Knight, Bishop, or Queen
@@ -52,15 +98,18 @@ public class Pawn extends ChessPiece {
      * @return Rook, Knight, Bishop, or Queen
      */
     public ChessPiece promote(ChessPieceRank upgradedRank) {
-        int promotableRowPosition = (getChessColor() == ChessPieceColor.WHITE) ? 7 : 2;
-
-        if (getPosition().getRow() != promotableRowPosition || !upgradedRank.isPromotable()) {
+        if (isPawnPromotable() || !upgradedRank.isPromotable()) {
             throw new IllegalStateException("Can not promote pawn to king or pawn itself!");
         }
 
         if (this.getChessColor() == ChessPieceColor.WHITE) {
             return defineWhitePiece(upgradedRank, this.getPosition());
         } else return defineBlackPiece(upgradedRank, this.getPosition());
+    }
+
+    public boolean isPawnPromotable() {
+        int promotableRowPosition = (getChessColor() == ChessPieceColor.WHITE) ? 7 : 2;
+        return getPosition().getRow() != promotableRowPosition;
     }
 
     /**

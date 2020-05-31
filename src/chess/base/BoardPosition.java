@@ -76,8 +76,14 @@ public class BoardPosition {
         this.column = column;
     }
 
-    public static boolean isValidCoordinateNumber(int coordinateNumber){
+    public static boolean isValidCoordinateNumber(int coordinateNumber) {
         return (coordinateNumber >= 1 && coordinateNumber <= 8);
+    }
+
+    public BoardPosition moveBy(int row, int column, MovementDirection direction) {
+        int newRow = this.row + (row * direction.getRowOrdinate());
+        int newColumn = this.column + (column * direction.getColumnOrdinate());
+        return new BoardPosition(newRow, newColumn);
     }
 
     /**
