@@ -6,8 +6,8 @@ import java.util.Vector;
 
 public abstract class ChessPiece {
     protected boolean firstMove = false;
-    private ChessPieceRank pieceRank;
-    private ChessPieceColor chessColor;
+    private final ChessPieceRank pieceRank;
+    private final ChessPieceColor chessColor;
     private BoardPosition position;
 
     /**
@@ -23,42 +23,12 @@ public abstract class ChessPiece {
         this.position = position;
     }
 
-    public static ChessPiece defineWhitePawn(ChessPieceRank rank, BoardPosition position) {
-        switch (rank) {
-            case KING:
-                return new King(ChessPieceColor.WHITE, position);
-            case QUEEN:
-                return new Queen(ChessPieceColor.WHITE, position);
-            case BISHOP:
-                return new Bishop(ChessPieceColor.WHITE, position);
-            case KNIGHT:
-                return new Knight(ChessPieceColor.WHITE, position);
-            case ROOK:
-                return new Rook(ChessPieceColor.WHITE, position);
-            case PAWN:
-                return new Pawn(ChessPieceColor.WHITE, position);
-            default:
-                throw new IllegalArgumentException("Invalid piece rank!");
-        }
+    public static ChessPiece defineWhitePiece(ChessPieceRank rank, BoardPosition position) {
+        return ChessPieceFactory.newPiece(ChessPieceColor.WHITE, rank, position);
     }
 
-    public static ChessPiece defineBlackPawn(ChessPieceRank rank, BoardPosition position) {
-        switch (rank) {
-            case KING:
-                return new King(ChessPieceColor.BLACK, position);
-            case QUEEN:
-                return new Queen(ChessPieceColor.BLACK, position);
-            case BISHOP:
-                return new Bishop(ChessPieceColor.BLACK, position);
-            case KNIGHT:
-                return new Knight(ChessPieceColor.BLACK, position);
-            case ROOK:
-                return new Rook(ChessPieceColor.BLACK, position);
-            case PAWN:
-                return new Pawn(ChessPieceColor.BLACK, position);
-            default:
-                throw new IllegalArgumentException("Invalid piece rank!");
-        }
+    public static ChessPiece defineBlackPiece(ChessPieceRank rank, BoardPosition position) {
+        return ChessPieceFactory.newPiece(ChessPieceColor.BLACK, rank, position);
     }
 
     /**
@@ -75,16 +45,8 @@ public abstract class ChessPiece {
         return pieceRank;
     }
 
-    public void setPieceRank(ChessPieceRank pieceRank) {
-        this.pieceRank = pieceRank;
-    }
-
     public ChessPieceColor getChessColor() {
         return chessColor;
-    }
-
-    public void setChessColor(ChessPieceColor chessColor) {
-        this.chessColor = chessColor;
     }
 
     public BoardPosition getPosition() {
@@ -128,6 +90,7 @@ public abstract class ChessPiece {
      * @param boardPlot to set the guarded status in a targeted position
      */
     //TODO there are some class that need Board object, consider changing the parameter into board later
+    // TODO: lebih baik pindahkan jadi class baru aja, terlalu lelah kalo class ini nanggungjawab untuk plotting
     public void markGuardedPlot(BoardPlot boardPlot, Board board) {
         Vector<BoardPosition> allGuardedArea = generateGuardedArea(board);
         if (allGuardedArea != null) {
@@ -148,6 +111,29 @@ public abstract class ChessPiece {
                 }
             }
         }
+    }
+
+    protected Vector<BoardPosition> generatePossibleGuardedPositions(Board board, BoardPosition currentPosition, MovementDirection direction) {
+        Vector<BoardPosition> guardedPositions = new Vector<>();
+
+        int targetRow = (direction.getRowOrdinate() != 0) ? ((direction.getRowOrdinate() > 0) ? 8 : 1) : currentPosition.getRow();
+        int targetCol = (direction.getColumnOrdinate() != 0) ? ((direction.getColumnOrdinate() > 0) ? 8 : 1) : currentPosition.getColumn();
+
+        BoardPosition targetPosition = new BoardPosition(targetRow, targetCol);
+        MovementOrdinate pointer = new MovementOrdinate(currentPosition, targetPosition);
+
+        int rowDirection = pointer.getRowDegreeOrdinate();
+        int colDirection = pointer.getColumnDegreeOrdinate();
+
+        for (int row = currentPosition.getRow() + rowDirection, col = currentPosition.getColumn() + colDirection;
+             ((rowDirection < 0) ? row <= 8 : row >= 1) || ((colDirection < 0) ? col <= 8 : col >= 1);
+             row += (rowDirection), col += (colDirection)) {
+            BoardPosition position = new BoardPosition(row, col);
+            guardedPositions.add(position);
+            if (board.isOccupied(position)) {
+                break;
+            }
+        } return guardedPositions;
     }
 
     /**

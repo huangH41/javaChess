@@ -135,14 +135,4 @@ public class PieceMovement {
     public static boolean checkObstacles(Board board, BoardPosition dstPosition) {
         return (board.getPiece(dstPosition) == null);
     }
-
-    public static int doSingleRelativeRowMovement(ChessPiece piece, BoardPosition dstPosition) {
-        int relativeRow = dstPosition.getRow() - piece.getPosition().getRow();
-        return Integer.compare(relativeRow, 0);
-    }
-
-    public static int doSingleRelativeColumnMovement(ChessPiece piece, BoardPosition dstPosition) {
-        int relativeColumn = dstPosition.getColumn() - piece.getPosition().getColumn();
-        return Integer.compare(relativeColumn, 0);
-    }
 }

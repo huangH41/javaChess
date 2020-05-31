@@ -46,63 +46,29 @@ public class Rook extends ChessPiece {
     protected Vector<BoardPosition> generateGuardedArea(Board board){
         Vector<BoardPosition> guardedPositions = new Vector<>();
         BoardPosition currentPosition = new BoardPosition(this.getPosition().getRow(), this.getPosition().getColumn());
-        guardedPositions.addAll(generateTopBottomDirectionMove(board, currentPosition));
-        guardedPositions.addAll(generateLeftRightDirectionMove(board, currentPosition));
+
+        guardedPositions.addAll(generateHorizontalGuardedArea(board, currentPosition));
+        guardedPositions.addAll(generateVerticalGuardedArea(board, currentPosition));
 
         return guardedPositions;
     }
 
-    //TODO generate lest right move function is duplicate with generate top bottom move
-    private Vector<BoardPosition> generateLeftRightDirectionMove(Board board, BoardPosition currentPosition) {
+    private Vector<BoardPosition> generateHorizontalGuardedArea(Board board, BoardPosition currentPosition){
         Vector<BoardPosition> guardedPositions = new Vector<>();
-
-        //TODO Duplicate code, Need to get refactored later
-        BoardPosition position;
         if (currentPosition.getColumn() < 8) {
-            for (int col = currentPosition.getColumn() + 1; col <= 8; col++) {
-                position = new BoardPosition(currentPosition.getRow(), col);
-                guardedPositions.add(position);
-                if (board.isOccupied(position)) {
-                    break;
-                }
-            }
-        }
-
-        if (currentPosition.getColumn() > 1) {
-            for (int col = currentPosition.getColumn() - 1; col >= 1; col--) {
-                position = new BoardPosition(currentPosition.getRow(), col);
-                guardedPositions.add(position);
-                if (board.isOccupied(position)) {
-                    break;
-                }
-            }
+            guardedPositions.addAll(generatePossibleGuardedPositions(board, currentPosition, MovementDirection.RIGHT));
+        } if (currentPosition.getColumn() > 1) {
+            guardedPositions.addAll(generatePossibleGuardedPositions(board, currentPosition, MovementDirection.LEFT));
         }
         return guardedPositions;
     }
 
-    private Vector<BoardPosition> generateTopBottomDirectionMove(Board board, BoardPosition currentPosition) {
+    private Vector<BoardPosition> generateVerticalGuardedArea(Board board, BoardPosition currentPosition){
         Vector<BoardPosition> guardedPositions = new Vector<>();
-
-        //TODO Duplicate code, Need to get refactored later
-        BoardPosition position;
         if (currentPosition.getRow() < 8) {
-            for (int row = currentPosition.getRow() + 1; row <= 8; row++) {
-                position = new BoardPosition(row, currentPosition.getColumn());
-                guardedPositions.add(position);
-                if (board.isOccupied(position)) {
-                    break;
-                }
-            }
-        }
-
-        if (currentPosition.getRow() > 1) {
-            for (int row = currentPosition.getRow() - 1; row >= 1; row--) {
-                position = new BoardPosition(row, currentPosition.getColumn());
-                guardedPositions.add(position);
-                if (board.isOccupied(position)) {
-                    break;
-                }
-            }
+            guardedPositions.addAll(generatePossibleGuardedPositions(board, currentPosition, MovementDirection.UP));
+        } if (currentPosition.getRow() > 1) {
+            guardedPositions.addAll(generatePossibleGuardedPositions(board, currentPosition, MovementDirection.DOWN));
         }
         return guardedPositions;
     }
@@ -110,17 +76,17 @@ public class Rook extends ChessPiece {
     @Override
     protected boolean isValidMovePath(Board board, BoardPosition dstPosition) {
         BoardPosition currentPosition = new BoardPosition(this.getPosition().getRow(), this.getPosition().getColumn());
-        int magnitude;
+        MovementOrdinate pointer = new MovementOrdinate(currentPosition, dstPosition);
 
         if (PieceMovement.isVerticalMovement(this, dstPosition)) {
-            magnitude = PieceMovement.doSingleRelativeRowMovement(this, dstPosition);
-            for (int row = currentPosition.getRow() + magnitude; row != dstPosition.getRow(); row += magnitude) {
+            int colMagnitude = pointer.getColumnDegreeOrdinate();
+            for (int row = currentPosition.getRow() + colMagnitude; row != dstPosition.getRow(); row += colMagnitude) {
                 currentPosition.setRow(row);
                 if (board.isOccupied(currentPosition)) return false;
             }
         } else if (PieceMovement.isHorizontalMovement(this, dstPosition)) {
-            magnitude = PieceMovement.doSingleRelativeColumnMovement(this, dstPosition);
-            for (int col = currentPosition.getColumn() + magnitude; col != dstPosition.getColumn(); col += magnitude) {
+            int rowMagnitude = pointer.getRowDegreeOrdinate();
+            for (int col = currentPosition.getColumn() + rowMagnitude; col != dstPosition.getColumn(); col += rowMagnitude) {
                 currentPosition.setColumn(col);
                 if (board.isOccupied(currentPosition)) return false;
             }

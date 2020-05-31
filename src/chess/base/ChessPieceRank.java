@@ -8,12 +8,13 @@ public enum ChessPieceRank {
     QUEEN('Q'),
     KING('K');
 
-    private char initialPieceRank;
+    private final char initialPieceRank;
 
     ChessPieceRank(char initialPieceRank) {
         this.initialPieceRank = initialPieceRank;
     }
 
+    @Override
     public String toString() {
         return this.name();
     }
@@ -21,5 +22,9 @@ public enum ChessPieceRank {
     public char getInitialPieceRank(ChessPieceColor color) {
         return (color == ChessPieceColor.WHITE) ?
                 Character.toLowerCase(this.initialPieceRank) : Character.toUpperCase(this.initialPieceRank);
+    }
+
+    public boolean isPromotable() {
+        return this.equals(ROOK) || this.equals(KNIGHT) || this.equals(BISHOP) || this.equals(QUEEN);
     }
 }

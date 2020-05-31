@@ -25,15 +25,6 @@ public class Main {
 
     }
 
-    private void performAssertion() {
-        board.movePiece(board.getPiece(new BoardPosition("G2")), new BoardPosition("G4"));
-        board.movePiece(board.getPiece(new BoardPosition("A7")), new BoardPosition("A6"));
-        board.movePiece(board.getPiece(new BoardPosition("G1")), new BoardPosition("F3"));
-        board.movePiece(board.getPiece(new BoardPosition("D7")), new BoardPosition("D5"));
-        board.movePiece(board.getPiece(new BoardPosition("C2")), new BoardPosition("C4"));
-        board.movePiece(board.getPiece(new BoardPosition("E7")), new BoardPosition("E6"));
-    }
-
     private void gamePhase() {
         do {
             System.out.println("\n\n\n\n\n\n\n");

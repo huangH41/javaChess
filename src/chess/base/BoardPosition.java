@@ -13,7 +13,7 @@ public class BoardPosition {
     /**
      * Declare board position using defined row and column
      *
-     * @param row    the row
+     * @param row    the row beginning from left white rook
      * @param column the column
      */
     public BoardPosition(int row, int column) {

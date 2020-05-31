@@ -27,7 +27,8 @@ public class Pawn extends ChessPiece {
 
     @Override
     protected boolean isValidPieceMovement(BoardPosition dstPosition) {
-        return (isRegularMovement(dstPosition) || isCrossMovement(dstPosition)) && PieceMovement.getRelativeRowDistance(this, dstPosition.getRow()) <= maxStep;
+        return (isRegularMovement(dstPosition) || isCrossMovement(dstPosition))
+                && PieceMovement.getRelativeRowDistance(this, dstPosition.getRow()) <= maxStep;
     }
 
     @Override
@@ -41,19 +42,27 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    public void hasMoved(){
+    public void hasMoved() {
         firstMove = true;
         maxStep = 1;
     }
 
+    /**
+     * Promotes pawn into Rook, Knight, Bishop, or Queen
+     *
+     * @param upgradedRank upgraded pawn parameter as Rook, Knight, Bishop, or Queen
+     * @return Rook, Knight, Bishop, or Queen
+     */
     public ChessPiece promote(ChessPieceRank upgradedRank) {
-        if (upgradedRank == ChessPieceRank.PAWN || upgradedRank == ChessPieceRank.KING) {
+        int promotableRowPosition = (getChessColor() == ChessPieceColor.WHITE) ? 7 : 2;
+
+        if (getPosition().getRow() != promotableRowPosition || !upgradedRank.isPromotable()) {
             throw new IllegalStateException("Can not promote pawn to king or pawn itself!");
         }
 
         if (this.getChessColor() == ChessPieceColor.WHITE) {
-            return defineWhitePawn(upgradedRank, this.getPosition());
-        } else return defineBlackPawn(upgradedRank, this.getPosition());
+            return defineWhitePiece(upgradedRank, this.getPosition());
+        } else return defineBlackPiece(upgradedRank, this.getPosition());
     }
 
     /**
@@ -84,11 +93,11 @@ public class Pawn extends ChessPiece {
     protected Vector<BoardPosition> generateGuardedArea(Board board) {
         Vector<BoardPosition> guardedArea = new Vector<>();
         int row = (this.getChessColor() == ChessPieceColor.WHITE) ? this.getPosition().getRow() + 1 : this.getPosition().getRow() - 1;
-        for(int i = 0, colMover = 1; i < 2; i++, colMover *= -1){
+        for (int i = 0, colMover = 1; i < 2; i++, colMover *= -1) {
             int column = this.getPosition().getColumn() - colMover;
-            if(column >= 1 && column <= 8){
+            if (column >= 1 && column <= 8) {
                 BoardPosition position = new BoardPosition(row, column);
-                if(Board.isBoardValidPosition(position)){
+                if (Board.isBoardValidPosition(position)) {
                     guardedArea.add(position);
                 }
             }

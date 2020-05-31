@@ -97,8 +97,10 @@ public class Bishop extends ChessPiece {
     @Override
     protected boolean isValidMovePath(Board board, BoardPosition dstPosition) {
         BoardPosition currentPosition = new BoardPosition(this.getPosition().getRow(), this.getPosition().getColumn());
-        int colMagnitude = PieceMovement.doSingleRelativeColumnMovement(this, dstPosition);
-        int rowMagnitude = PieceMovement.doSingleRelativeRowMovement(this, dstPosition);
+        MovementOrdinate pointer = new MovementOrdinate(currentPosition, dstPosition);
+
+        int colMagnitude = pointer.getColumnDegreeOrdinate();
+        int rowMagnitude = pointer.getRowDegreeOrdinate();
 
         for (int row = currentPosition.getRow() + rowMagnitude, col = currentPosition.getColumn() + colMagnitude;
              row != dstPosition.getRow(); row += rowMagnitude, col += colMagnitude) {

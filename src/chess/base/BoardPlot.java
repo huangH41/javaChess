@@ -6,8 +6,8 @@ import chess.chessPiece.ChessPiece;
 // this is a temporary class to avoid breaking the board class functionality
 public class BoardPlot {
 
-    private Board board;
-    private Plot[][] boardPlots = new Plot[8][8];
+    private final Board board;
+    private final Plot[][] boardPlots = new Plot[8][8];
 
     public BoardPlot(Board board){
         this.board = board;
