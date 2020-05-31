@@ -31,15 +31,6 @@ public class Rook extends ChessPiece {
         return true;
     }
 
-
-    public void markGuardedPlot(BoardPlot boardPlot, Board board) {
-        for (BoardPosition guardedPosition : generateGuardedArea(board)) {
-            if (guardedPosition != null && Board.isBoardValidPosition(guardedPosition)) {
-                BoardPlot.setGuardedByColor(boardPlot, guardedPosition, this.getChessColor());
-            }
-        }
-    }
-
     @Override
     protected Vector<BoardPosition> generateGuardedArea(Board board){
         Vector<BoardPosition> guardedPositions = new Vector<>();
