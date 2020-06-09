@@ -190,6 +190,10 @@ public abstract class ChessPiece {
         for (int row = currentPosition.getRow() + rowDirection, col = currentPosition.getColumn() + colDirection;
              ((rowDirection < 0) ? row <= 8 : row >= 1) || ((colDirection < 0) ? col <= 8 : col >= 1);
              row += (rowDirection), col += (colDirection)) {
+            if (row <= 0 || row > 8 || col <= 0 || col > 8) {
+                break;
+            }
+
             BoardPosition position = new BoardPosition(row, col);
             guardedPositions.add(position);
             if (board.isOccupied(position)) {
