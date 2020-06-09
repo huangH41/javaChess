@@ -12,7 +12,6 @@ public class BoardPlot {
     public BoardPlot(Board board){
         this.board = board;
         newBoardPlot();
-        initializePlotGuardStatus(board);
     }
 
     public Plot getPlot(BoardPosition position){
@@ -20,8 +19,36 @@ public class BoardPlot {
     }
 
     /**
-     * assign guarded status to true based on chess color and add the total number of piece that
-     * are guarding a plot
+     * Set all guarded status on the BoardPlot
+     *
+     * @param board
+     */
+    public static void setBoardPlotGuardedStatus(Board board){
+        for (int row = 8; row >= 1; row--){
+            for (int column = 1; column <= 8; column++){
+                ChessPiece chessPiece = board.getPiece(new BoardPosition(row, column));
+                if(chessPiece != null) chessPiece.markGuardedPlot(board.getBoardPlot(), board);
+            }
+        }
+    }
+
+    /**
+     * Unset all guarded status on the BoardPlot
+     *
+     * @param board the current Board associated with the BoardPlot
+     */
+    public static void unsetBoardPlotGuardedStatus(Board board) {
+        for (int row = 8; row >= 1; row--){
+            for (int column = 1; column <= 8; column++){
+                ChessPiece chessPiece = board.getPiece(new BoardPosition(row, column));
+                if(chessPiece != null) chessPiece.unmarkGuardedPlot(board.getBoardPlot(), board);
+            }
+        }
+    }
+
+    /**
+     * set guarded status to true based on chess color and add the total number of piece that
+     * are guarding boardPlot guardedPosition
      *
      * @param boardPlot         boardPlot to set the plot guarded status
      * @param guardedPosition   Plot position to set as guarded by chess piece color
@@ -36,21 +63,20 @@ public class BoardPlot {
         }
     }
 
+    /**
+     * unset guarded status to false based on chess color and substract the total number of piece that
+     * are guarding boardPlot guardedPosition
+     *
+     * @param boardPlot         boardPlot to set the plot guarded status
+     * @param guardedPosition   Plot position to set as guarded by chess piece color
+     * @param pieceColor        piece color that are guarding the plot
+     */
     public static void unsetGuardedByColor(BoardPlot boardPlot, BoardPosition guardedPosition, ChessPieceColor pieceColor){
         Plot plot = boardPlot.getPlot(guardedPosition);
         if(pieceColor == ChessPieceColor.WHITE){
             plot.unsetGuardedByWhite(true);
         } else {
             plot.unsetGuardedByBlack(true);
-        }
-    }
-
-    public void initializePlotGuardStatus(Board board){
-        for (int row = 8; row >= 1; row--){
-            for (int column = 1; column <= 8; column++){
-                ChessPiece chessPiece = board.getPiece(new BoardPosition(row, column));
-                if(chessPiece != null) chessPiece.markGuardedPlot(this, board);
-            }
         }
     }
 

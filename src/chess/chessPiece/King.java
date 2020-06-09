@@ -105,6 +105,7 @@ public class King extends ChessPiece {
 
     @Override
     protected Vector<BoardPosition> generateGuardedArea(Board board) {
+
         return null;
     }
 

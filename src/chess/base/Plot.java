@@ -39,20 +39,20 @@ public class Plot {
         if(guardingBlackPieceTotal == 0) this.guardedByBlack = false;
     }
 
-    public BoardPosition getPosition() {
-        return position;
-    }
-
-    public void setPosition(BoardPosition position) {
-        this.position = position;
-    }
-
     public int getGuardingWhitePieceTotal() {
         return guardingWhitePieceTotal;
     }
 
     public int getGuardingBlackPieceTotal() {
         return guardingBlackPieceTotal;
+    }
+
+    public BoardPosition getPosition() {
+        return position;
+    }
+
+    public void setPosition(BoardPosition position) {
+        this.position = position;
     }
 
     //TODO Temporary method, alter or delete it later

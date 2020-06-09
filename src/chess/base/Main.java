@@ -18,16 +18,14 @@ public class Main {
         new Main().gamePhase();
     }
 
-    private void checkGuardStatus(String targetPosition) {
-        Plot plot = board.getBoardPlot().getPlot(new BoardPosition(targetPosition));
-        System.out.println(targetPosition + " is guarded by " + plot.getGuardingWhitePieceTotal() +
-                " white piece & " + plot.getGuardingBlackPieceTotal() + " black piece");
-
-    }
-
     private void gamePhase() {
         do {
+            BoardPlot.unsetBoardPlotGuardedStatus(board);
+            BoardPlot.setBoardPlotGuardedStatus(board);
+
             System.out.println("\n\n\n\n\n\n\n");
+            System.out.println(BoardDrawer.drawBoardGuardedPlot(board.getBoardPlot()));
+            System.out.println("\n\n\n");
             System.out.println(BoardDrawer.drawBoard(board));
             System.out.printf("Input %s player [ex: A2-A3] : ", board.getCurrentColor());
 

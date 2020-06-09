@@ -19,6 +19,10 @@ public class Rook extends ChessPiece {
 
     @Override
     public void move(BoardPosition dstPosition, Board board) {
+        System.out.println(String.format("dstPosition: row %d & col %d", dstPosition.getRow(), dstPosition.getColumn()));
+
+        System.out.println(Board.isBoardValidPosition(dstPosition)); //ini udah bener
+        System.out.println(isValidMove(board, dstPosition)); //ini ada masalah
         if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
             movePiece(board, dstPosition);
         } else {
@@ -68,14 +72,15 @@ public class Rook extends ChessPiece {
         MovementOrdinate pointer = new MovementOrdinate(currentPosition, dstPosition);
 
         if (PieceMovement.isVerticalMovement(this, dstPosition)) {
-            int colMagnitude = pointer.getColumnDegreeOrdinate();
-            for (int row = currentPosition.getRow() + colMagnitude; row != dstPosition.getRow(); row += colMagnitude) {
+            int verticalMagnitude = pointer.getRowDegreeOrdinate();
+
+            for (int row = currentPosition.getRow() + verticalMagnitude; row != dstPosition.getRow(); row += verticalMagnitude) {
                 currentPosition.setRow(row);
                 if (board.isOccupied(currentPosition)) return false;
             }
         } else if (PieceMovement.isHorizontalMovement(this, dstPosition)) {
-            int rowMagnitude = pointer.getRowDegreeOrdinate();
-            for (int col = currentPosition.getColumn() + rowMagnitude; col != dstPosition.getColumn(); col += rowMagnitude) {
+            int horizontalMagnitude = pointer.getColumnDegreeOrdinate();
+            for (int col = currentPosition.getColumn() + horizontalMagnitude; col != dstPosition.getColumn(); col += horizontalMagnitude) {
                 currentPosition.setColumn(col);
                 if (board.isOccupied(currentPosition)) return false;
             }
