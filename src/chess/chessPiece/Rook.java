@@ -73,7 +73,6 @@ public class Rook extends ChessPiece {
 
         if (PieceMovement.isVerticalMovement(this, dstPosition)) {
             int verticalMagnitude = pointer.getRowDegreeOrdinate();
-
             for (int row = currentPosition.getRow() + verticalMagnitude; row != dstPosition.getRow(); row += verticalMagnitude) {
                 currentPosition.setRow(row);
                 if (board.isOccupied(currentPosition)) return false;

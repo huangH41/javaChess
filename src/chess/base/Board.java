@@ -27,15 +27,6 @@ public class Board {
         } else return targetPosition.getColumn() >= 1 && targetPosition.getColumn() <= 8;
     }
 
-    // TODO: Possibly removed method!
-    public static boolean hasChessPiece(ChessPiece[][] pieceBoard, BoardPosition targetPosition) {
-        return pieceBoard[targetPosition.getRow()][targetPosition.getColumn()] != null;
-    }
-
-    public ChessPiece[][] getPieceBoard() {
-        return pieceBoard;
-    }
-
     public King getBlackKing() {
         return blackKing;
     }

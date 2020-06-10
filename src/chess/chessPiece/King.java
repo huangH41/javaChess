@@ -105,8 +105,38 @@ public class King extends ChessPiece {
 
     @Override
     protected Vector<BoardPosition> generateGuardedArea(Board board) {
+        return generateCircleGuardedArea(this.getPosition());
+    }
 
-        return null;
+    private Vector<BoardPosition> generateCircleGuardedArea(BoardPosition currPosition) {
+        Vector<BoardPosition> guardedPositions = new Vector<>();
+
+        for (MovementDirection direction: MovementDirection.values()) {
+            if(direction != MovementDirection.STATIC && isValidGuardedPosition(currPosition, direction)) {
+                BoardPosition dstPosition = currPosition.moveBy(Math.abs(direction.getRowOrdinate()),
+                        Math.abs(direction.getColumnOrdinate()), direction);
+
+                if(Board.isBoardValidPosition(dstPosition)) guardedPositions.add(dstPosition);
+            }
+        }
+
+        return guardedPositions;
+    }
+
+    /**
+     * Validate next expected guard position 1 BoardPosition away from the
+     * chess piece
+     *
+     * @param currPosition The chess piece current position
+     * @param direction The move direction it will go
+     * @return True if the position is valid and false if not
+     */
+    private boolean isValidGuardedPosition(BoardPosition currPosition, MovementDirection direction) {
+        int nextRowCoordinate = currPosition.getRow() + (direction.getRowOrdinate());
+        int nextColCoordinate = currPosition.getColumn() + (direction.getColumnOrdinate());
+
+        return BoardPosition.isValidCoordinateNumber(nextRowCoordinate)
+                && BoardPosition.isValidCoordinateNumber(nextColCoordinate);
     }
 
     public enum KingCheckState {

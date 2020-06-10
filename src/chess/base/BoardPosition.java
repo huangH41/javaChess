@@ -80,9 +80,18 @@ public class BoardPosition {
         return (coordinateNumber >= 1 && coordinateNumber <= 8);
     }
 
+    /**
+     * Move chess piece relative to its direction and specified coordinate
+     *
+     * @param row number of row away from the current row
+     * @param column number of col away from the current col
+     * @param direction moving direction
+     * @return
+     */
     public BoardPosition moveBy(int row, int column, MovementDirection direction) {
         int newRow = this.row + (row * direction.getRowOrdinate());
         int newColumn = this.column + (column * direction.getColumnOrdinate());
+
         return new BoardPosition(newRow, newColumn);
     }
 

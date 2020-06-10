@@ -85,11 +85,12 @@ public class Pawn extends ChessPiece {
         }
 
         ChessPiece opponent = board.getPiece(targetPosition.moveBy(1, 0, direction));
-        return isOpponent(opponent)
-                && (opponent instanceof Pawn)
-                && ((Pawn) opponent).movementCount == 1;
+        if(opponent != null) {
+            return isOpponent(opponent) && (opponent instanceof Pawn) && ((Pawn) opponent).movementCount == 1;
+        } else {
+            return false;
+        }
     }
-
 
     /**
      * Promotes pawn into Rook, Knight, Bishop, or Queen
