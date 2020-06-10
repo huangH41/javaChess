@@ -70,16 +70,21 @@ public class King extends ChessPiece {
 
     @Override
     public void move(BoardPosition dstPosition, Board board) {
-        boolean isCastlablePosition = board.isOccupied(new BoardPosition(this.getPosition().getRow(), 3))
+        boolean isCastlablePosition =
+                board.isOccupied(new BoardPosition(this.getPosition().getRow(), 3))
                 || board.isOccupied(new BoardPosition(this.getPosition().getRow(), 7));
-        if (!this.isFirstMove() && isCastlablePosition) {
+
+        if (this.isFirstMove() && isCastlablePosition) {
             this.unmarkGuardedPlot(board.getBoardPlot(), board);
+
             if (dstPosition.getColumn() == 3) {
                 ChessMechanics.performCastlingMove(board, true);
             } else if (dstPosition.getColumn() == 7) {
                 ChessMechanics.performCastlingMove(board, false);
             }
+
             this.markGuardedPlot(board.getBoardPlot(), board);
+
         } else if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
             movePiece(board, dstPosition);
         } else {
