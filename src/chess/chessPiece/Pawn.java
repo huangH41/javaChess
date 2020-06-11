@@ -14,6 +14,10 @@ public class Pawn extends ChessPiece {
         super(ChessPieceRank.PAWN, chessColor, position);
     }
 
+    private int getMovementCount() {
+        return movementCount;
+    }
+
     @Override
     public void hasMoved() {
         firstMove = true;
@@ -77,9 +81,10 @@ public class Pawn extends ChessPiece {
      */
     public boolean isEnPassable(Board board, BoardPosition targetPosition) {
         MovementDirection direction = (getChessColor() == ChessPieceColor.WHITE) ? MovementDirection.DOWN : MovementDirection.UP;
+        MovementDirection pieceColorDirection = direction.flipDirection();
 
         if (!(!board.isOccupied(targetPosition)
-                && getPosition().getRow() == this.getChessColor().getStartPosition() + 4)
+                && getPosition().getRow() == (this.getChessColor().getStartPosition() + (pieceColorDirection.getRowOrdinate() * 4)))
                 && isCrossMovement(targetPosition)) {
             return false;
         }
