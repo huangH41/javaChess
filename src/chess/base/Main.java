@@ -38,7 +38,7 @@ public class Main {
             try {
                 String[] coordinates = inputtedCoordinates.split("-");
                 if (coordinates.length != 2) {
-                    throw new IllegalNotationException("Invalid movement notation!");
+                    throw IllegalNotationException.notation(inputtedCoordinates);
                 }
                 System.out.println(String.format("Piece moved from %s to %s!", coordinates[0], coordinates[1]));
 

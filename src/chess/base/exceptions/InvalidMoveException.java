@@ -11,12 +11,12 @@ import chess.chessPiece.ChessPiece;
  */
 public class InvalidMoveException extends IndexOutOfBoundsException {
     /**
-     * Which piece caused to throw invalid move?
+     * Which piece caused to throw illegal move?
      *
-     * @param causer the piece caused invalid move
+     * @param causer the piece caused illegal move
      */
     public InvalidMoveException(ChessPiece causer) {
-        super(String.format("Invalid move: %s moved out of bound!", causer.toString()));
+        super(String.format("Invalid move: %s performed illegal move or moved out of bound!", causer.toString()));
     }
 
     /**
@@ -30,17 +30,17 @@ public class InvalidMoveException extends IndexOutOfBoundsException {
     }
 
     /**
-     * Which piece caused to throw invalid move with specified coordinates?
+     * Which piece caused to throw illegal move with specified coordinates?
      *
-     * @param causer   the piece caused invalid move
+     * @param causer   the piece caused illegal move
      * @param rowIndex index at row position
      * @param colIndex index at column position
      */
     public InvalidMoveException(ChessPiece causer, int rowIndex, int colIndex) {
-        super(String.format("Invalid move: %s moved out of bound! (value: [row %d, col %d])",
+        super(String.format("Invalid move: %s performed illegal move or moved out of bound! (value: [row %d, col %d])",
                 causer.toString(), rowIndex, colIndex));
     }
-    
+
     /**
      * The subject or detailed message that leads to invalid move
      *
