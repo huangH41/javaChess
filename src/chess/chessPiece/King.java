@@ -70,20 +70,81 @@ public class King extends ChessPiece {
 
     @Override
     public void move(BoardPosition dstPosition, Board board) {
-        boolean isCastlablePosition = board.isOccupied(new BoardPosition(this.getPosition().getRow(), 3))
-                || board.isOccupied(new BoardPosition(this.getPosition().getRow(), 7));
-        if (!this.isFirstMove() && isCastlablePosition) {
+        if (isCastlable(board, dstPosition)) {
             this.unmarkGuardedPlot(board.getBoardPlot(), board);
+
             if (dstPosition.getColumn() == 3) {
                 ChessMechanics.performCastlingMove(board, true);
             } else if (dstPosition.getColumn() == 7) {
                 ChessMechanics.performCastlingMove(board, false);
             }
+
             this.markGuardedPlot(board.getBoardPlot(), board);
+
         } else if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
             movePiece(board, dstPosition);
         } else {
             throw new InvalidMoveException(this, dstPosition);
+        }
+    }
+
+    private boolean isCastlable(Board board, BoardPosition dstPosition) {
+        if(this.isFirstMove()) {
+            return isValidRookToCastling(board, getCastlingDirection(dstPosition))
+                    && isValidPositionsToCastling(board, dstPosition, getCastlingDirection(dstPosition));
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Validate if rook is located on it's initial position and haven't moved as the requirment to perform castling
+     *
+     * @param board Current game board
+     * @param dstPosDirection The direction of the king movement to perform castling
+     * @return
+     */
+    private boolean isValidRookToCastling(Board board, MovementDirection dstPosDirection) {
+        BoardPosition rookInitialPos = new BoardPosition(getValidCastlingRow(), dstPosDirection == MovementDirection.LEFT ? 1 : 8);
+        ChessPiece targetPosChessPiece = board.getPiece(rookInitialPos);
+
+        if(targetPosChessPiece.getPieceRank() == ChessPieceRank.ROOK && targetPosChessPiece.isFirstMove()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Validate if the king and rook is in valid position to do castling, also validate if the king and rook position
+     * after castling is available for them
+     *
+     * @param board Current game board
+     * @param dstPosition The destination position king will go to
+     * @param dstPosDirection The direction of the king movement to perform castling
+     * @return
+     */
+    private boolean isValidPositionsToCastling(Board board, BoardPosition dstPosition, MovementDirection dstPosDirection) {
+        if(this.getPosition().getRow() == getValidCastlingRow() && !board.isOccupied(dstPosition)) {
+            BoardPosition rookNextPosition = dstPosition.moveBy(dstPosDirection.getRowOrdinate(),
+                    dstPosDirection.getColumnOrdinate() * -1, dstPosDirection);
+
+            return !board.isOccupied(rookNextPosition) ? true : false;
+        }
+        return false;
+    }
+
+    private int getValidCastlingRow() {
+        return this.getChessColor() == ChessPieceColor.WHITE ? 1 : 8;
+    }
+
+    private MovementDirection getCastlingDirection(BoardPosition dstPosition) {
+        if( dstPosition.getColumn() < 5) {
+            return MovementDirection.LEFT;
+        } else if(dstPosition.getColumn() > 5) {
+            return MovementDirection.RIGHT;
+        } else {
+            throw new InvalidMoveException(this, dstPosition.getRow(), dstPosition.getColumn());
         }
     }
 
