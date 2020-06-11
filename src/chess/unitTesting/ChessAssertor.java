@@ -3,6 +3,7 @@ package chess.unitTesting;
 import chess.base.Board;
 import chess.base.BoardDrawer;
 import chess.base.BoardPosition;
+import chess.base.ChessPieceRank;
 import chess.chessPiece.ChessPiece;
 
 import java.lang.reflect.InvocationTargetException;
@@ -11,6 +12,40 @@ import java.lang.reflect.Method;
 class ChessAssertor {
 
     private static final int PREVIEW_DELAY = 2000;
+
+    /**
+     * Clear all chess piece in the board
+     *
+     * @param board Current game board
+     * @return empty board
+     */
+    public Board clearBoard(Board board) {
+        for (int row = 7; row >= 0; row--) {
+            for (int column = 0; column <= 7; column++) {
+                board.getPieceBoard()[row][column] = null;
+            }
+        }
+
+        return board;
+    }
+
+    /**
+     * Validate if the targeted position contain expected chess piece
+     *
+     * @param board Current game board
+     * @param targetPosition Position to validate
+     * @param rank Expected chess piece rank
+     * @return True if the chess piece equals expected chess piece and false if no chess piece found
+     * or don't have expected rank
+     */
+    public boolean isExpectedPiece(Board board, BoardPosition targetPosition, ChessPieceRank rank) {
+        ChessPiece targetLocationChessPiece = board.getPiece(targetPosition);
+        if(targetLocationChessPiece != null && targetLocationChessPiece.getPieceRank() == rank){
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /**
      * Move piece & display board for preview after movement. If you want to skip preview, add false to fourth parameter.

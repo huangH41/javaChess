@@ -8,7 +8,6 @@ import java.util.Vector;
 public class King extends ChessPiece {
 
     private KingCheckState checkState = KingCheckState.SAFE;
-
     /**
      * Define King with defined color and position
      *
@@ -71,16 +70,7 @@ public class King extends ChessPiece {
     @Override
     public void move(BoardPosition dstPosition, Board board) {
         if (isCastlable(board, dstPosition)) {
-            this.unmarkGuardedPlot(board.getBoardPlot(), board);
-
-            if (dstPosition.getColumn() == 3) {
-                ChessMechanics.performCastlingMove(board, true);
-            } else if (dstPosition.getColumn() == 7) {
-                ChessMechanics.performCastlingMove(board, false);
-            }
-
-            this.markGuardedPlot(board.getBoardPlot(), board);
-
+            doCastling(board, dstPosition);
         } else if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
             movePiece(board, dstPosition);
         } else {
@@ -88,10 +78,22 @@ public class King extends ChessPiece {
         }
     }
 
+    private void doCastling(Board board, BoardPosition dstPosition) {
+        this.unmarkGuardedPlot(board.getBoardPlot(), board);
+
+        if (dstPosition.getColumn() == 3) {
+            ChessMechanics.performCastlingMove(board, true, this.getChessColor());
+        } else if (dstPosition.getColumn() == 7) {
+            ChessMechanics.performCastlingMove(board, false, this.getChessColor());
+        }
+
+        this.markGuardedPlot(board.getBoardPlot(), board);
+    }
+
     private boolean isCastlable(Board board, BoardPosition dstPosition) {
-        if(this.isFirstMove()) {
-            return isValidRookToCastling(board, getCastlingDirection(dstPosition))
-                    && isValidPositionsToCastling(board, dstPosition, getCastlingDirection(dstPosition));
+        if(!this.hasMovedOnce() && dstPosition.getRow() == getValidCastlingRow()) {
+            return isValidPositionsToCastling(board, dstPosition, getCastlingDirection(dstPosition))
+                    && isValidRookToCastling(board, getCastlingDirection(dstPosition));
         } else {
             return false;
         }
@@ -108,7 +110,7 @@ public class King extends ChessPiece {
         BoardPosition rookInitialPos = new BoardPosition(getValidCastlingRow(), dstPosDirection == MovementDirection.LEFT ? 1 : 8);
         ChessPiece targetPosChessPiece = board.getPiece(rookInitialPos);
 
-        if(targetPosChessPiece.getPieceRank() == ChessPieceRank.ROOK && targetPosChessPiece.isFirstMove()) {
+        if(targetPosChessPiece.getPieceRank() == ChessPieceRank.ROOK && !targetPosChessPiece.hasMovedOnce()) {
             return true;
         } else {
             return false;
@@ -126,10 +128,9 @@ public class King extends ChessPiece {
      */
     private boolean isValidPositionsToCastling(Board board, BoardPosition dstPosition, MovementDirection dstPosDirection) {
         if(this.getPosition().getRow() == getValidCastlingRow() && !board.isOccupied(dstPosition)) {
-            BoardPosition rookNextPosition = dstPosition.moveBy(dstPosDirection.getRowOrdinate(),
-                    dstPosDirection.getColumnOrdinate() * -1, dstPosDirection);
-
-            return !board.isOccupied(rookNextPosition) ? true : false;
+            BoardPosition rookNextPosition = new BoardPosition(getValidCastlingRow(),
+                    dstPosDirection == MovementDirection.LEFT ? 4 : 6);
+            return board.isOccupied(rookNextPosition) ? false : true;
         }
         return false;
     }

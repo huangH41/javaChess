@@ -5,7 +5,7 @@ import chess.base.*;
 import java.util.Vector;
 
 public abstract class ChessPiece {
-    protected boolean firstMove = false;
+    protected boolean hasMovedOnce = false;
     private final ChessPieceRank pieceRank;
     private final ChessPieceColor chessColor;
     private BoardPosition position;
@@ -57,12 +57,12 @@ public abstract class ChessPiece {
         this.position = newPosition;
     }
 
-    public boolean isFirstMove() {
-        return firstMove;
+    public boolean hasMovedOnce() {
+        return hasMovedOnce;
     }
 
-    public void hasMoved() {
-        firstMove = true;
+    public void AlreadyMovedOnce() {
+        hasMovedOnce = true;
     }
 
     public boolean isOpponent(ChessPiece counterPiece) {

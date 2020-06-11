@@ -37,19 +37,19 @@ public class ChessMechanics {
     /**
      * Do castling move for a king and a rook, with direction of queen-side castling (Ex-Cx) or king-side castling (Ex-Gx).
      * Make sure that both of the king and rook hasn't been moved before before perform castling move!
-     *
-     * @param board             the board to perform castling move
+     *  @param board             the board to perform castling move
      * @param queenSidePosition selects rook at queen side or king side?
+     * @param currSideColor
      */
-    public static void performCastlingMove(Board board, boolean queenSidePosition) {
+    public static void performCastlingMove(Board board, boolean queenSidePosition, ChessPieceColor currSideColor) {
         int cornerColumnPosition = queenSidePosition ? BoardPosition.MIN_INDEX : BoardPosition.MAX_INDEX;
-        King king = (board.getCurrentColor() == ChessPieceColor.WHITE) ?
+        King king = (currSideColor == ChessPieceColor.WHITE) ?
                 board.getWhiteKing() : board.getBlackKing();
-        Rook rook = (Rook) ((board.getCurrentColor() == ChessPieceColor.WHITE) ?
+        Rook rook = (Rook) ((currSideColor == ChessPieceColor.WHITE) ?
                 board.getPiece(new BoardPosition(BoardPosition.WHITE_SIDE, cornerColumnPosition)) :
                 board.getPiece(new BoardPosition(BoardPosition.BLACK_SIDE, cornerColumnPosition)));
 
-        if (!king.isFirstMove() && !rook.isFirstMove()) {
+        if (!king.hasMovedOnce() && !rook.hasMovedOnce()) {
             try {
                 board.movePieceBy(king, 0, (queenSidePosition ? -2 : 2));
                 board.movePieceBy(rook, 0, (queenSidePosition ? 3 : -2));

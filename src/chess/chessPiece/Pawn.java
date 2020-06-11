@@ -19,8 +19,8 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    public void hasMoved() {
-        firstMove = true;
+    public void AlreadyMovedOnce() {
+        hasMovedOnce = true;
         maxStep = 1;
     }
 
@@ -29,7 +29,7 @@ public class Pawn extends ChessPiece {
         if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
             boolean enPassable = isEnPassable(board, dstPosition);
 
-            if (!isFirstMove()) hasMoved();
+            if (!hasMovedOnce()) AlreadyMovedOnce();
             movePiece(board, dstPosition);
 
             if (enPassable) {

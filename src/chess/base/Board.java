@@ -21,10 +21,8 @@ public class Board {
         return boardPlot;
     }
 
-    public static boolean isBoardValidPosition(BoardPosition targetPosition) {
-        if (targetPosition.getRow() < 1 || targetPosition.getRow() > 8) {
-            return false;
-        } else return targetPosition.getColumn() >= 1 && targetPosition.getColumn() <= 8;
+    public ChessPiece[][] getPieceBoard() {
+        return this.pieceBoard;
     }
 
     public King getBlackKing() {
@@ -61,6 +59,20 @@ public class Board {
         } else {
             this.setCurrentColor(ChessPieceColor.WHITE);
         }
+    }
+
+    public ChessPiece getPiece(BoardPosition position) {
+        return pieceBoard[position.getRow() - 1][position.getColumn() - 1];
+    }
+
+    public void setPiece(BoardPosition position, ChessPiece piece) {
+        this.pieceBoard[position.getRow() - 1][position.getColumn() - 1] = piece;
+    }
+
+    public static boolean isBoardValidPosition(BoardPosition targetPosition) {
+        if (targetPosition.getRow() < 1 || targetPosition.getRow() > 8) {
+            return false;
+        } else return targetPosition.getColumn() >= 1 && targetPosition.getColumn() <= 8;
     }
 
     /**
@@ -112,8 +124,8 @@ public class Board {
         toNewPosition(piece, dstPosition);
         removeOldPosition(oldPosition);
 
-        if (!piece.isFirstMove()) {
-            piece.hasMoved();
+        if (!piece.hasMovedOnce()) {
+            piece.AlreadyMovedOnce();
         }
     }
 
@@ -136,14 +148,6 @@ public class Board {
 
     private void removeOldPosition(BoardPosition oldPosition) {
         setPiece(oldPosition, null);
-    }
-
-    public ChessPiece getPiece(BoardPosition position) {
-        return pieceBoard[position.getRow() - 1][position.getColumn() - 1];
-    }
-
-    public void setPiece(BoardPosition position, ChessPiece piece) {
-        this.pieceBoard[position.getRow() - 1][position.getColumn() - 1] = piece;
     }
 
     public boolean isOccupied(BoardPosition position) {
