@@ -53,9 +53,8 @@ class ChessAssertor {
      * @param board          Board to display
      * @param startPosition  Locate a piece at startPosition
      * @param targetPosition Target position for piece movement
-     * @throws InterruptedException if any interruption happened
      */
-    public void movePiece(Board board, String startPosition, String targetPosition) throws InterruptedException {
+    public void movePiece(Board board, String startPosition, String targetPosition) {
         movePiece(board, startPosition, targetPosition, false);
     }
 
@@ -65,17 +64,16 @@ class ChessAssertor {
      * @param board          Board to plot and display
      * @param startPosition  Locate a piece at startPosition
      * @param targetPosition Target position for piece movement
-     * @param fastForward    Skip preview?
-     * @throws InterruptedException if any interruption happened
+     * @param skipPreview    Skip preview?
      */
-    public void movePiece(Board board, String startPosition, String targetPosition, boolean fastForward) throws InterruptedException {
+    public void movePiece(Board board, String startPosition, String targetPosition, boolean skipPreview) {
         ChessPiece piece = board.getPiece(new BoardPosition(startPosition));
         piece.move(new BoardPosition(targetPosition), board);
 
         System.out.println();
         drawBoard(board);
         System.out.println(String.format("\nPerform move from %s to %s...", startPosition, targetPosition));
-        Thread.sleep(fastForward ? 500 : PREVIEW_DELAY);
+        wait(skipPreview ? 500 : PREVIEW_DELAY);
         System.out.println("\n\n");
     }
 
@@ -83,12 +81,11 @@ class ChessAssertor {
      * Display board guard plot.
      *
      * @param board Board to display it's guard plot
-     * @throws InterruptedException if any interruption happened
      */
-    public void previewGuardedPlot(Board board) throws InterruptedException {
+    public void previewGuardedPlot(Board board) {
         drawGuardBoard(board);
         System.out.println("\nDisplay board guard plot after a piece moves...");
-        Thread.sleep(PREVIEW_DELAY);
+        wait(PREVIEW_DELAY);
     }
 
     public void drawBoard(Board board) {
@@ -117,6 +114,12 @@ class ChessAssertor {
         } catch (Exception ex) {
             throw new IllegalAccessException("Unable to access private method!\nReferences:" + ex.toString());
         }
+    }
 
+    private static void wait(int interval) {
+        try {
+            Thread.sleep(interval);
+        } catch (InterruptedException ex) {
+        }
     }
 }

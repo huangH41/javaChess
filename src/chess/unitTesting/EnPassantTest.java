@@ -4,13 +4,14 @@ import chess.base.*;
 import chess.base.exceptions.InvalidMoveException;
 import chess.chessPiece.Pawn;
 import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 public class EnPassantTest {
 
     private final ChessAssertor assertor = new ChessAssertor();
 
     @org.junit.jupiter.api.Test
-    void whiteEnpassLeft() throws InterruptedException {
+    void whiteEnpassLeft() {
         Board board = new Board();
         assertor.drawBoard(board);
         assertor.movePiece(board, "A2", "A4", true);
@@ -33,7 +34,7 @@ public class EnPassantTest {
     }
 
     @org.junit.jupiter.api.Test
-    void whiteEnpassRight() throws InterruptedException {
+    void whiteEnpassRight() {
         Board board = new Board();
         assertor.drawBoard(board);
         assertor.movePiece(board, "C2", "C4", true);
@@ -56,7 +57,54 @@ public class EnPassantTest {
     }
 
     @org.junit.jupiter.api.Test
-    void DoNotEnpassTwoMovers() throws InterruptedException {
+    void blackEnpassLeft() {
+        Board board = new Board();
+        assertor.drawBoard(board);
+        assertor.movePiece(board, "C2", "C4", true);
+        assertor.movePiece(board, "D7", "D5", true);
+        assertor.movePiece(board, "B2", "B4", true);
+        assertor.movePiece(board, "D5", "D4", true);
+        assertor.movePiece(board, "B1", "A3");
+
+        // Test en-passability
+        Pawn p = (Pawn) board.getPiece(new BoardPosition("D4"));
+        assert (p.isEnPassable(board, new BoardPosition("C3")));
+
+        // Move to apply en-passment
+        assertor.movePiece(board, "D4", "C3");
+
+        // Post En-Passant test
+        assert (board.getPiece(new BoardPosition("C3")).getChessColor() == ChessPieceColor.BLACK);
+        assert (!board.isOccupied(new BoardPosition("C4")));
+    }
+
+    @org.junit.jupiter.api.Test
+    void blackEnpassRight() {
+        Board board = new Board();
+        assertor.drawBoard(board);
+        assertor.movePiece(board, "D2", "D4", true);
+        assertor.movePiece(board, "C7", "C5", true);
+        assertor.movePiece(board, "C1", "H6", true);
+        assertor.movePiece(board, "C5", "C4", true);
+        assertor.movePiece(board, "H6", "G7");
+
+        // Test en-passability
+        Pawn p = (Pawn) board.getPiece(new BoardPosition("C4"));
+        assert (p.isEnPassable(board, new BoardPosition("D3")));
+
+        // Move to apply en-passment
+        assertor.movePiece(board, "C4", "D3");
+
+        // Post En-Passant test
+        assert (board.getPiece(new BoardPosition("D3")).getChessColor() == ChessPieceColor.BLACK);
+        assert (!board.isOccupied(new BoardPosition("D4")));
+    }
+
+    /**
+     * Assert that the piece do not enpass opponent pieces who moved single row twice.
+     */
+    @org.junit.jupiter.api.Test
+    void DoNotEnpassTwoMovers() {
         Board board = new Board();
         assertor.drawBoard(board);
         assertor.movePiece(board, "C2", "C4", true);
@@ -78,37 +126,10 @@ public class EnPassantTest {
         assert (!p.isEnPassable(board, new BoardPosition("B6")));
 
         // Move to apply en-passant
-        try {
+        Assertions.assertThrows(InvalidMoveException.class, () -> {
             assertor.movePiece(board, "B5", "C6");
-            Assert.fail("En-passed opponent piece that should not passable due of second moves");
-        } catch (InvalidMoveException e) {
-            assert(e.getClass().equals(InvalidMoveException.class));
-            System.out.println("En-passant to opponent piece who moved two moves are not applicable!");
-        }
+        }).printStackTrace();
+        System.out.println("En-passant to opponent piece who moved two moves are not applicable!");
     }
-
-    @org.junit.jupiter.api.Test
-    void blackEnpassRight() throws InterruptedException {
-        Board board = new Board();
-        assertor.drawBoard(board);
-        assertor.movePiece(board, "C2", "C4", true);
-        assertor.movePiece(board, "D7", "D5", true);
-        assertor.movePiece(board, "B2", "B4", true);
-        assertor.movePiece(board, "D5", "D4", true);
-        assertor.movePiece(board, "B1", "A3");
-
-        // Test en-passability
-        Pawn p = (Pawn) board.getPiece(new BoardPosition("D4"));
-        assert (p.isEnPassable(board, new BoardPosition("C3")));
-
-        // Move to apply en-passment
-        assertor.movePiece(board, "D4", "C3");
-
-        // Post En-Passant test
-        assert (board.getPiece(new BoardPosition("C3")).getChessColor() == ChessPieceColor.BLACK);
-        assert (!board.isOccupied(new BoardPosition("C4")));
-    }
-
-
 
 }

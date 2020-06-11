@@ -1,6 +1,6 @@
 package chess.base;
 
-import chess.base.exceptions.InvalidMoveException;
+import chess.base.exceptions.IllegalNotationException;
 
 /**
  * This class includes chess board position and notations
@@ -39,7 +39,7 @@ public class BoardPosition {
             setColumn(coordinateNotation.codePointAt(0) - 'A' + 1);
             setRow(Integer.parseInt(String.valueOf(coordinateNotation.charAt(1))));
         } else {
-            throw new InvalidMoveException("Invalid notation: must be [A-H][1-8]");
+            throw IllegalNotationException.notation(coordinateNotation);
         }
     }
 
@@ -50,8 +50,12 @@ public class BoardPosition {
      * @param column new column position
      */
     public void setPosition(int row, int column) {
-        setRow(row);
-        setColumn(column);
+        try {
+            setRow(row);
+            setColumn(column);
+        } catch (IllegalNotationException ex) {
+            throw new IllegalNotationException(row, column);
+        }
     }
 
     public int getRow() {
@@ -60,7 +64,7 @@ public class BoardPosition {
 
     public void setRow(int row) {
         if (!isValidCoordinateNumber(row)) {
-            throw new InvalidMoveException(row);
+            throw IllegalNotationException.row(row);
         }
         this.row = row;
     }
@@ -71,7 +75,7 @@ public class BoardPosition {
 
     public void setColumn(int column) {
         if (!isValidCoordinateNumber(column)) {
-            throw new InvalidMoveException(column);
+            throw IllegalNotationException.column(column);
         }
         this.column = column;
     }
