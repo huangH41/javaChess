@@ -4,6 +4,7 @@ import chess.base.*;
 import chess.base.exceptions.InvalidMoveException;
 import chess.chessPiece.Pawn;
 import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 public class EnPassantTest {
 
@@ -125,13 +126,10 @@ public class EnPassantTest {
         assert (!p.isEnPassable(board, new BoardPosition("B6")));
 
         // Move to apply en-passant
-        try {
+        Assertions.assertThrows(InvalidMoveException.class, () -> {
             assertor.movePiece(board, "B5", "C6");
-            Assert.fail("En-passed opponent piece that should not passable due of second moves");
-        } catch (InvalidMoveException e) {
-            assert(e.getClass().equals(InvalidMoveException.class));
-            System.out.println("En-passant to opponent piece who moved two moves are not applicable!");
-        }
+        }).printStackTrace();
+        System.out.println("En-passant to opponent piece who moved two moves are not applicable!");
     }
 
 }

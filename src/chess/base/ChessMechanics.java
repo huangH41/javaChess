@@ -24,17 +24,6 @@ public class ChessMechanics {
     }
 
     /**
-     * Simulate a piece movement. Useful for king safety checking.
-     *
-     * @param piece    piece to perform simulated movement
-     * @param position simulated movement position.
-     * @return valid move?
-     */
-    private static boolean performSimulateMove(ChessPiece piece, BoardPosition position) {
-        return false;
-    }
-
-    /**
      * Do castling move for a king and a rook, with direction of queen-side castling (Ex-Cx) or king-side castling (Ex-Gx).
      * Make sure that both of the king and rook hasn't been moved before before perform castling move!
      *
