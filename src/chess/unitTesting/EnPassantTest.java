@@ -10,7 +10,7 @@ public class EnPassantTest {
     private final ChessAssertor assertor = new ChessAssertor();
 
     @org.junit.jupiter.api.Test
-    void whiteEnpassLeft() throws InterruptedException {
+    void whiteEnpassLeft() {
         Board board = new Board();
         assertor.drawBoard(board);
         assertor.movePiece(board, "A2", "A4", true);
@@ -33,7 +33,7 @@ public class EnPassantTest {
     }
 
     @org.junit.jupiter.api.Test
-    void whiteEnpassRight() throws InterruptedException {
+    void whiteEnpassRight() {
         Board board = new Board();
         assertor.drawBoard(board);
         assertor.movePiece(board, "C2", "C4", true);
@@ -56,7 +56,7 @@ public class EnPassantTest {
     }
 
     @org.junit.jupiter.api.Test
-    void blackEnpassLeft() throws InterruptedException {
+    void blackEnpassLeft() {
         Board board = new Board();
         assertor.drawBoard(board);
         assertor.movePiece(board, "C2", "C4", true);
@@ -78,7 +78,7 @@ public class EnPassantTest {
     }
 
     @org.junit.jupiter.api.Test
-    void blackEnpassRight() throws InterruptedException {
+    void blackEnpassRight() {
         Board board = new Board();
         assertor.drawBoard(board);
         assertor.movePiece(board, "D2", "D4", true);
@@ -101,10 +101,9 @@ public class EnPassantTest {
 
     /**
      * Assert that the piece do not enpass opponent pieces who moved single row twice.
-     * @throws InterruptedException
      */
     @org.junit.jupiter.api.Test
-    void DoNotEnpassTwoMovers() throws InterruptedException {
+    void DoNotEnpassTwoMovers() {
         Board board = new Board();
         assertor.drawBoard(board);
         assertor.movePiece(board, "C2", "C4", true);

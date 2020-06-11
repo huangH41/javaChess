@@ -1,6 +1,7 @@
 package chess.base;
 
 import chess.base.exceptions.InvalidMoveException;
+import chess.base.exceptions.IllegalNotationException;
 import chess.chessPiece.ChessPiece;
 import chess.chessPiece.King;
 
@@ -37,7 +38,7 @@ public class Main {
             try {
                 String[] coordinates = inputtedCoordinates.split("-");
                 if (coordinates.length != 2) {
-                    throw new InvalidMoveException("Invalid movement notation!");
+                    throw new IllegalNotationException("Invalid movement notation!");
                 }
                 System.out.println(String.format("Piece moved from %s to %s!", coordinates[0], coordinates[1]));
 
@@ -59,7 +60,7 @@ public class Main {
                 } else {
                     throw new InvalidMoveException(String.format("You moved an opponent board! (%s)", piece.toString()));
                 }
-            } catch (InvalidMoveException ex) {
+            } catch (InvalidMoveException | IllegalNotationException ex) {
                 System.err.println(ex.getMessage());
             }
         } while (true);
