@@ -104,7 +104,7 @@ public class Pawn extends ChessPiece {
      * @return Rook, Knight, Bishop, or Queen
      */
     public ChessPiece promote(ChessPieceRank upgradedRank) {
-        if (isPawnPromotable() || !upgradedRank.isPromotable()) {
+        if (!isPawnPromotable() || !upgradedRank.isPromotable()) {
             throw new IllegalStateException("Can not promote pawn to king or pawn itself!");
         }
 
@@ -114,8 +114,8 @@ public class Pawn extends ChessPiece {
     }
 
     public boolean isPawnPromotable() {
-        int promotableRowPosition = (getChessColor() == ChessPieceColor.WHITE) ? 7 : 2;
-        return getPosition().getRow() != promotableRowPosition;
+        int promotableRowPosition = (getChessColor() == ChessPieceColor.WHITE) ? 8 : 1;
+        return getPosition().getRow() == promotableRowPosition;
     }
 
     /**
@@ -146,6 +146,10 @@ public class Pawn extends ChessPiece {
     protected Vector<BoardPosition> generateGuardedArea(Board board) {
         Vector<BoardPosition> guardedArea = new Vector<>();
         int row = (this.getChessColor() == ChessPieceColor.WHITE) ? this.getPosition().getRow() + 1 : this.getPosition().getRow() - 1;
+        if (row < 1 || row > 8) {
+            return null;
+        }
+
         for (int i = 0, colMover = 1; i < 2; i++, colMover *= -1) {
             int column = this.getPosition().getColumn() - colMover;
             if (column >= 1 && column <= 8) {
