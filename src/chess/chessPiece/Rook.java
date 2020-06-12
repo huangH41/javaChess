@@ -19,10 +19,6 @@ public class Rook extends ChessPiece {
 
     @Override
     public void move(BoardPosition dstPosition, Board board) {
-        System.out.println(String.format("dstPosition: row %d & col %d", dstPosition.getRow(), dstPosition.getColumn()));
-
-        System.out.println(Board.isBoardValidPosition(dstPosition)); //ini udah bener
-        System.out.println(isValidMove(board, dstPosition)); //ini ada masalah
         if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
             movePiece(board, dstPosition);
         } else {

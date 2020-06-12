@@ -27,12 +27,10 @@ public class Pawn extends ChessPiece {
     @Override
     public void move(BoardPosition dstPosition, Board board) {
         if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
-            boolean enPassable = isEnPassable(board, dstPosition);
-
             if (!hasMovedOnce()) AlreadyMovedOnce();
             movePiece(board, dstPosition);
 
-            if (enPassable) {
+            if (isEnPassable(board, dstPosition)) {
                 enPassant(board, dstPosition);
             }
             movementCount++;

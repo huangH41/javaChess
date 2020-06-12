@@ -18,36 +18,6 @@ public class King extends ChessPiece {
         super(ChessPieceRank.KING, chessColor, position);
     }
 
-    /**
-     * To check if the intended king piece current position is checked by other opponent piece
-     *
-     * @param board     Board to get the king position plot
-     * @param kingPiece King piece to validate
-     * @return King check state
-     */
-    public static boolean isKingUnderCheckState(Board board, King kingPiece) {
-        return isKingUnderCheckState(board, kingPiece, kingPiece.getPosition());
-    }
-
-    /**
-     * To check the king movement validity
-     *
-     * @param board       Board to get the king position plot
-     * @param kingPiece   King piece to validate
-     * @param dstPosition The King position
-     * @return King check state
-     */
-    // TODO "CHECKMATE" haven't implemented
-    public static boolean isKingUnderCheckState(Board board, King kingPiece, BoardPosition dstPosition) {
-        Plot plot = board.getBoardPlot().getPlot(dstPosition);
-        if (kingPiece.getChessColor() == ChessPieceColor.WHITE ? plot.isGuardedByBlack() : plot.isGuardedByWhite()) {
-            kingPiece.checkState = KingCheckState.CHECK;
-        } else {
-            kingPiece.checkState = KingCheckState.SAFE;
-        }
-        return kingPiece.checkState != KingCheckState.SAFE;
-    }
-
     public void setCheck(KingCheckState checkState) {
         this.checkState = checkState;
     }
@@ -97,6 +67,64 @@ public class King extends ChessPiece {
         } else {
             return false;
         }
+    }
+
+    /**
+     * To check if the intended king piece current position is checked by other opponent piece
+     *
+     * @param board     Board to get the king position plot
+     * @param kingPiece King piece to validate
+     * @return King check state
+     */
+    public static boolean isKingUnderCheckState(Board board, King kingPiece) {
+        return isKingUnderCheckState(board, kingPiece, kingPiece.getPosition());
+    }
+
+    /**
+     * Check if king is under check state after one piece move into a certain position
+     *
+     * @param board Current game board
+     * @param toMovePiece Chess Piece that will perform a move
+     * @param dstPosition Destination position of the toMovePiece
+     * @return true if the king not under check state, otherwise false
+     */
+    public static boolean isKingSafeAfterMove(Board board, ChessPiece toMovePiece, BoardPosition dstPosition) {
+        Board boardCopy = board;
+        King currSideKing = toMovePiece.getChessColor() == ChessPieceColor.WHITE ? boardCopy.getWhiteKing() : boardCopy.getBlackKing();
+        currSideKing.movePiece(boardCopy, dstPosition);
+
+        if(!isKingUnderCheckState(boardCopy, currSideKing)) {
+            return true;
+        } else {
+            throw new InvalidMoveException(String.format("Invalid Move!! %s will be checked", currSideKing));
+        }
+    }
+
+    public static boolean isKingSafeAfterCastling() {
+        return true;
+    }
+
+    public static boolean isKingSafeAfterEnPassant() {
+        return true;
+    }
+
+    /**
+     * To check the king movement validity
+     *
+     * @param board       Board to get the king position plot
+     * @param kingPiece   King piece to validate
+     * @param dstPosition The King position
+     * @return King check state
+     */
+    // TODO "CHECKMATE" haven't implemented
+    public static boolean isKingUnderCheckState(Board board, King kingPiece, BoardPosition dstPosition) {
+        Plot plot = board.getBoardPlot().getPlot(dstPosition);
+        if (kingPiece.getChessColor() == ChessPieceColor.WHITE ? plot.isGuardedByBlack() : plot.isGuardedByWhite()) {
+            kingPiece.checkState = KingCheckState.CHECK;
+        } else {
+            kingPiece.checkState = KingCheckState.SAFE;
+        }
+        return kingPiece.checkState != KingCheckState.SAFE;
     }
 
     /**

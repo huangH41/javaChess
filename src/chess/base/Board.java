@@ -4,7 +4,7 @@ import chess.base.exceptions.InvalidMoveException;
 import chess.chessPiece.ChessPiece;
 import chess.chessPiece.King;
 
-public class Board {
+public class Board{
 
     private final ChessPiece[][] pieceBoard = new ChessPiece[8][8];
 
