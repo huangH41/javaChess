@@ -55,8 +55,8 @@ class PawnPromotionTest {
         doSampleMovesToPromotion(board);
 
         assertor.movePiece(board, "G7", "G8");
-        assert(board.getPiece(new BoardPosition("G8")).equals(whitePawn));
-        assert(((Pawn) whitePawn).isPawnPromotable());
+        assert (board.getPiece(new BoardPosition("G8")).equals(whitePawn));
+        assert (((Pawn) whitePawn).isPawnPromotable());
 
         try {
             whitePawn = ((Pawn) whitePawn).promote(rank);
@@ -66,9 +66,9 @@ class PawnPromotionTest {
 
         board.setPiece(new BoardPosition("G8"), whitePawn);
 
-        assert(whitePawn.getClass().equals(ChessPieceClassificator.getClassInstance(rank)));
-        assert(board.getPiece(new BoardPosition("G8")).equals(whitePawn));
-        assert(assertor.isExpectedPiece(board, new BoardPosition("G8"),
+        assert (whitePawn.getClass().equals(ChessPieceClassificator.getClassInstance(rank)));
+        assert (board.getPiece(new BoardPosition("G8")).equals(whitePawn));
+        assert (assertor.isExpectedPiece(board, new BoardPosition("G8"),
                 rank, ChessPieceColor.WHITE));
 
         assertor.drawBoard(board);

@@ -7,7 +7,7 @@ import chess.base.exceptions.InvalidMoveException;
 import chess.chessPiece.ChessPiece;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CastlingTest {
     private final ChessAssertor assertor = new ChessAssertor();

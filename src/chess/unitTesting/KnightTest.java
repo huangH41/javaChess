@@ -1,50 +1,70 @@
 package chess.unitTesting;
 
-import chess.base.Board;
-import chess.base.BoardPosition;
+import chess.base.ChessPieceRank;
 import chess.base.exceptions.InvalidMoveException;
-import chess.chessPiece.ChessPiece;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class KnightTest {
-
-    private static final ChessAssertor assertor = new ChessAssertor();
+class KnightTest extends ChessPieceTestEssentials {
+    @Test
+    void moveUpperLeft() {
+        basicMove(ChessPieceRank.KNIGHT, "C6");
+    }
 
     @Test
-    void move() {
-        Exception ex;
-        Board board = new Board();
-        ChessPiece knight = board.getPiece(new BoardPosition("B1"));
+    void moveUpperRight() {
+        basicMove(ChessPieceRank.KNIGHT, "E6");
+    }
 
-        assertor.movePiece(board, "B1", "C3");
-        assert(knight.getPosition().toString().equals("C3"));
+    @Test
+    void moveRightyUp() {
+        basicMove(ChessPieceRank.KNIGHT, "F5");
+    }
 
-        assertor.movePiece(board, "C3", "B1");
-        assert(knight.getPosition().toString().equals("B1"));
+    @Test
+    void moveRightyDown() {
+        basicMove(ChessPieceRank.KNIGHT, "F3");
+    }
 
-        assertor.movePiece(board, "B1", "A3");
-        assert(knight.getPosition().toString().equals("A3"));
+    @Test
+    void moveBelowRight() {
+        basicMove(ChessPieceRank.KNIGHT, "E2");
+    }
 
-        assertor.movePiece(board, "A3", "B1");
-        assert(knight.getPosition().toString().equals("B1"));
+    @Test
+    void moveBelowLeft() {
+        basicMove(ChessPieceRank.KNIGHT, "C2");
+    }
 
-        assertThrows(InvalidMoveException.class, () -> {
-            assertor.movePiece(board, "B1", "D2");
-        }).printStackTrace();
+    @Test
+    void moveLeftyDown() {
+        basicMove(ChessPieceRank.KNIGHT, "B3");
+    }
 
-        assertor.movePiece(board, "B1", "C3");
-        assertThrows(InvalidMoveException.class, () -> {
-            assertor.movePiece(board, "C3", "E2");
-        }).printStackTrace();
+    @Test
+    void moveLeftyUp() {
+        basicMove(ChessPieceRank.KNIGHT, "B5");
+    }
 
-        assertor.movePiece(board, "C3", "E4");
-        assert(knight.getPosition().toString().equals("E4"));
+    @org.junit.jupiter.api.Test
+    void doNotMoveUp() {
+        assertThrows(InvalidMoveException.class, () ->
+                basicMove(ChessPieceRank.KNIGHT, "D8")
+        );
+    }
 
-        assertor.movePiece(board, "E4", "C3");
-        assertor.movePiece(board, "C3", "A4");
-        assert(knight.getPosition().toString().equals("A4"));
+    @org.junit.jupiter.api.Test
+    void doNotMoveLeft() {
+        assertThrows(InvalidMoveException.class, () ->
+                basicMove(ChessPieceRank.KNIGHT, "A4")
+        );
+    }
 
+    @org.junit.jupiter.api.Test
+    void doNotMoveDownRight() {
+        assertThrows(InvalidMoveException.class, () ->
+                basicMove(ChessPieceRank.KNIGHT, "G1")
+        );
     }
 }

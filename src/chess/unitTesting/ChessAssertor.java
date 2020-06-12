@@ -2,6 +2,7 @@ package chess.unitTesting;
 
 import chess.base.*;
 import chess.chessPiece.ChessPiece;
+
 import java.lang.reflect.Method;
 
 class ChessAssertor {
@@ -73,7 +74,7 @@ class ChessAssertor {
      * @param targetPosition Position to validate
      * @param color          Expected chess piece color
      * @return True if the chess piece equals expected chess piece color and false when else nothing
-     *      * matched with that criteria
+     * * matched with that criteria
      */
     public boolean isExpectedPiece(Board board, BoardPosition targetPosition, ChessPieceColor color) {
         ChessPiece targetLocationChessPiece = board.getPiece(targetPosition);

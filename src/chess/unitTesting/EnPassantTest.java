@@ -1,6 +1,9 @@
 package chess.unitTesting;
 
-import chess.base.*;
+import chess.base.Board;
+import chess.base.BoardPosition;
+import chess.base.ChessPieceColor;
+import chess.base.ChessPieceRank;
 import chess.base.exceptions.InvalidMoveException;
 import chess.chessPiece.Pawn;
 import org.junit.Assert;
@@ -100,7 +103,7 @@ class EnPassantTest {
 
         // Post En-Passant test
         assert (assertor.isExpectedPiece(board, new BoardPosition("D3"),
-                ChessPieceRank.PAWN, ChessPieceColor.BLACK));;
+                ChessPieceRank.PAWN, ChessPieceColor.BLACK));
         assert (!board.isOccupied(new BoardPosition("D4")));
     }
 

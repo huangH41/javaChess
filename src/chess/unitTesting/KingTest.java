@@ -1,105 +1,47 @@
 package chess.unitTesting;
 
-import chess.base.Board;
-import chess.base.BoardPosition;
 import chess.base.ChessPieceRank;
-import chess.chessPiece.ChessPiece;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class KingTest {
-
-    private final ChessAssertor assertor = new ChessAssertor();
+class KingTest extends ChessPieceTestEssentials {
 
     @Test
-    void moveUp() throws InterruptedException {
-        Board board = assertor.clearBoard(new Board());
-
-        ChessPiece king = ChessPiece.defineWhitePiece(ChessPieceRank.KING, new BoardPosition("D4"));
-        board.setPiece(king.getPosition(), king);
-
-        BoardPosition nextKingPosition = new BoardPosition("D5");
-        assertor.movePiece(board, "D4", "D5");
-
-        assert(assertor.isExpectedPiece(board, nextKingPosition, ChessPieceRank.KING));
+    void moveUp() {
+        basicMove(ChessPieceRank.KING, "D5");
     }
 
     @Test
-    void moveUpRight() throws InterruptedException {
-        Board board = assertor.clearBoard(new Board());
-
-        ChessPiece king = ChessPiece.defineWhitePiece(ChessPieceRank.KING, new BoardPosition("D4"));
-        board.setPiece(king.getPosition(), king);
-
-        BoardPosition nextKingPosition = new BoardPosition("E5");
-        assertor.movePiece(board, "D4", "E5");
-
-        assert(assertor.isExpectedPiece(board, nextKingPosition, ChessPieceRank.KING));
+    void moveUpRight() {
+        basicMove(ChessPieceRank.KING, "E5");
     }
 
     @Test
-    void moveRight() throws InterruptedException {
-        Board board = assertor.clearBoard(new Board());
-
-        ChessPiece king = ChessPiece.defineWhitePiece(ChessPieceRank.KING, new BoardPosition("D4"));
-        board.setPiece(king.getPosition(), king);
-
-        BoardPosition nextKingPosition = new BoardPosition("E4");
-        assertor.movePiece(board, "D4", "E4");
-
-        assert(assertor.isExpectedPiece(board, nextKingPosition, ChessPieceRank.KING));
+    void moveRight() {
+        basicMove(ChessPieceRank.KING, "E4");
     }
 
     @Test
-    void moveDownRight() throws InterruptedException {
-        Board board = assertor.clearBoard(new Board());
-
-        ChessPiece king = ChessPiece.defineWhitePiece(ChessPieceRank.KING, new BoardPosition("D4"));
-        board.setPiece(king.getPosition(), king);
-
-        BoardPosition nextKingPosition = new BoardPosition("E3");
-        assertor.movePiece(board, "D4", "E3");
-
-        assert(assertor.isExpectedPiece(board, nextKingPosition, ChessPieceRank.KING));
+    void moveDownRight() {
+        basicMove(ChessPieceRank.KING, "E3");
     }
 
     @Test
-    void moveDown() throws InterruptedException {
-        Board board = assertor.clearBoard(new Board());
-
-        ChessPiece king = ChessPiece.defineWhitePiece(ChessPieceRank.KING, new BoardPosition("D4"));
-        board.setPiece(king.getPosition(), king);
-
-        BoardPosition nextKingPosition = new BoardPosition("D3");
-        assertor.movePiece(board, "D4", "D3");
-
-        assert(assertor.isExpectedPiece(board, nextKingPosition, ChessPieceRank.KING));
+    void moveDown() {
+        basicMove(ChessPieceRank.KING, "D3");
     }
 
     @Test
-    void moveDownLeft() throws InterruptedException {
-        Board board = assertor.clearBoard(new Board());
-
-        ChessPiece king = ChessPiece.defineWhitePiece(ChessPieceRank.KING, new BoardPosition("D4"));
-        board.setPiece(king.getPosition(), king);
-
-        BoardPosition nextKingPosition = new BoardPosition("C3");
-        assertor.movePiece(board, "D4", "C3");
-
-        assert(assertor.isExpectedPiece(board, nextKingPosition, ChessPieceRank.KING));
+    void moveDownLeft() {
+        basicMove(ChessPieceRank.KING, "C3");
     }
 
     @Test
-    void moveLeft() throws InterruptedException {
-        Board board = assertor.clearBoard(new Board());
+    void moveLeft() {
+        basicMove(ChessPieceRank.KING, "C4");
+    }
 
-        ChessPiece king = ChessPiece.defineWhitePiece(ChessPieceRank.KING, new BoardPosition("D4"));
-        board.setPiece(king.getPosition(), king);
-
-        BoardPosition nextKingPosition = new BoardPosition("C4");
-        assertor.movePiece(board, "D4", "C4");
-
-        assert(assertor.isExpectedPiece(board, nextKingPosition, ChessPieceRank.KING));
+    @Test
+    void moveUpLeft() {
+        basicMove(ChessPieceRank.KING, "C5");
     }
 }

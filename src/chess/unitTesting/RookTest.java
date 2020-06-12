@@ -5,52 +5,52 @@ import chess.base.exceptions.InvalidMoveException;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class BishopTest extends ChessPieceTestEssentials {
+class RookTest extends ChessPieceTestEssentials {
     @org.junit.jupiter.api.Test
-    void moveUpLeft() {
-        basicMove(ChessPieceRank.BISHOP, "A7");
+    void moveUp() {
+        basicMove(ChessPieceRank.ROOK, "D8");
     }
 
     @org.junit.jupiter.api.Test
-    void moveUpRight() {
-        basicMove(ChessPieceRank.BISHOP, "G7");
+    void moveDown() {
+        basicMove(ChessPieceRank.ROOK, "D1");
     }
 
     @org.junit.jupiter.api.Test
-    void moveDownLeft() {
-        basicMove(ChessPieceRank.BISHOP, "A1");
+    void moveLeft() {
+        basicMove(ChessPieceRank.ROOK, "A4");
     }
 
     @org.junit.jupiter.api.Test
-    void moveDownRight() {
-        basicMove(ChessPieceRank.BISHOP, "G1");
+    void moveRight() {
+        basicMove(ChessPieceRank.ROOK, "H4");
     }
 
     @org.junit.jupiter.api.Test
-    void doNotMoveUp() {
+    void doNotMoveUpLeft() {
         assertThrows(InvalidMoveException.class, () ->
-                basicMove(ChessPieceRank.BISHOP, "D8")
+                basicMove(ChessPieceRank.ROOK, "A7")
         );
     }
 
     @org.junit.jupiter.api.Test
-    void doNotMoveDown() {
+    void doNotMoveUpRight() {
         assertThrows(InvalidMoveException.class, () ->
-                basicMove(ChessPieceRank.BISHOP, "D1")
+                basicMove(ChessPieceRank.ROOK, "G7")
         );
     }
 
     @org.junit.jupiter.api.Test
-    void doNotMoveLeft() {
+    void doNotMoveDownLeft() {
         assertThrows(InvalidMoveException.class, () ->
-                basicMove(ChessPieceRank.BISHOP, "A4")
+                basicMove(ChessPieceRank.ROOK, "A1")
         );
     }
 
     @org.junit.jupiter.api.Test
-    void doNotMoveRight() {
+    void doNotMoveDownRight() {
         assertThrows(InvalidMoveException.class, () ->
-                basicMove(ChessPieceRank.BISHOP, "H4")
+                basicMove(ChessPieceRank.ROOK, "G1")
         );
     }
 }
