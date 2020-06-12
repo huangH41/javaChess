@@ -20,9 +20,9 @@ class KingTest {
         board.setPiece(king.getPosition(), king);
 
         BoardPosition nextKingPosition = new BoardPosition("D5");
-        assertor.movePiece(board, "D4", "D5", false);
+        assertor.movePiece(board, "D4", "D5");
 
-        assertEquals(true, assertor.isExpectedPiece(board, nextKingPosition, ChessPieceRank.KING));
+        assert(assertor.isExpectedPiece(board, nextKingPosition, ChessPieceRank.KING));
     }
 
     @Test
@@ -33,9 +33,9 @@ class KingTest {
         board.setPiece(king.getPosition(), king);
 
         BoardPosition nextKingPosition = new BoardPosition("E5");
-        assertor.movePiece(board, "D4", "E5", false);
+        assertor.movePiece(board, "D4", "E5");
 
-        assertEquals(true, assertor.isExpectedPiece(board, nextKingPosition, ChessPieceRank.KING));
+        assert(assertor.isExpectedPiece(board, nextKingPosition, ChessPieceRank.KING));
     }
 
     @Test
@@ -46,9 +46,9 @@ class KingTest {
         board.setPiece(king.getPosition(), king);
 
         BoardPosition nextKingPosition = new BoardPosition("E4");
-        assertor.movePiece(board, "D4", "E4", false);
+        assertor.movePiece(board, "D4", "E4");
 
-        assertEquals(true, assertor.isExpectedPiece(board, nextKingPosition, ChessPieceRank.KING));
+        assert(assertor.isExpectedPiece(board, nextKingPosition, ChessPieceRank.KING));
     }
 
     @Test
@@ -59,9 +59,9 @@ class KingTest {
         board.setPiece(king.getPosition(), king);
 
         BoardPosition nextKingPosition = new BoardPosition("E3");
-        assertor.movePiece(board, "D4", "E3", false);
+        assertor.movePiece(board, "D4", "E3");
 
-        assertEquals(true, assertor.isExpectedPiece(board, nextKingPosition, ChessPieceRank.KING));
+        assert(assertor.isExpectedPiece(board, nextKingPosition, ChessPieceRank.KING));
     }
 
     @Test
@@ -72,9 +72,9 @@ class KingTest {
         board.setPiece(king.getPosition(), king);
 
         BoardPosition nextKingPosition = new BoardPosition("D3");
-        assertor.movePiece(board, "D4", "D3", false);
+        assertor.movePiece(board, "D4", "D3");
 
-        assertEquals(true, assertor.isExpectedPiece(board, nextKingPosition, ChessPieceRank.KING));
+        assert(assertor.isExpectedPiece(board, nextKingPosition, ChessPieceRank.KING));
     }
 
     @Test
@@ -85,9 +85,9 @@ class KingTest {
         board.setPiece(king.getPosition(), king);
 
         BoardPosition nextKingPosition = new BoardPosition("C3");
-        assertor.movePiece(board, "D4", "C3", false);
+        assertor.movePiece(board, "D4", "C3");
 
-        assertEquals(true, assertor.isExpectedPiece(board, nextKingPosition, ChessPieceRank.KING));
+        assert(assertor.isExpectedPiece(board, nextKingPosition, ChessPieceRank.KING));
     }
 
     @Test
@@ -98,8 +98,8 @@ class KingTest {
         board.setPiece(king.getPosition(), king);
 
         BoardPosition nextKingPosition = new BoardPosition("C4");
-        assertor.movePiece(board, "D4", "C4", false);
+        assertor.movePiece(board, "D4", "C4");
 
-        assertEquals(true, assertor.isExpectedPiece(board, nextKingPosition, ChessPieceRank.KING));
+        assert(assertor.isExpectedPiece(board, nextKingPosition, ChessPieceRank.KING));
     }
 }

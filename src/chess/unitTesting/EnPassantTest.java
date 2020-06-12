@@ -6,7 +6,7 @@ import chess.chessPiece.Pawn;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 
-public class EnPassantTest {
+class EnPassantTest {
 
     private final ChessAssertor assertor = new ChessAssertor();
 
@@ -14,11 +14,11 @@ public class EnPassantTest {
     void whiteEnpassLeft() {
         Board board = new Board();
         assertor.drawBoard(board);
-        assertor.movePiece(board, "A2", "A4", true);
-        assertor.movePiece(board, "B7", "B6", true);
-        assertor.movePiece(board, "B2", "B4", true);
-        assertor.movePiece(board, "B8", "C6", true);
-        assertor.movePiece(board, "B4", "B5", true);
+        assertor.movePiece(board, "A2", "A4");
+        assertor.movePiece(board, "B7", "B6");
+        assertor.movePiece(board, "B2", "B4");
+        assertor.movePiece(board, "B8", "C6");
+        assertor.movePiece(board, "B4", "B5");
         assertor.movePiece(board, "A7", "A5");
 
         // Test en-passability
@@ -38,11 +38,11 @@ public class EnPassantTest {
     void whiteEnpassRight() {
         Board board = new Board();
         assertor.drawBoard(board);
-        assertor.movePiece(board, "C2", "C4", true);
-        assertor.movePiece(board, "B7", "B6", true);
-        assertor.movePiece(board, "B2", "B4", true);
-        assertor.movePiece(board, "B8", "A6", true);
-        assertor.movePiece(board, "B4", "B5", true);
+        assertor.movePiece(board, "C2", "C4");
+        assertor.movePiece(board, "B7", "B6");
+        assertor.movePiece(board, "B2", "B4");
+        assertor.movePiece(board, "B8", "A6");
+        assertor.movePiece(board, "B4", "B5");
         assertor.movePiece(board, "C7", "C5");
 
         // Test en-passability
@@ -62,10 +62,10 @@ public class EnPassantTest {
     void blackEnpassLeft() {
         Board board = new Board();
         assertor.drawBoard(board);
-        assertor.movePiece(board, "B2", "B4", true);
-        assertor.movePiece(board, "D7", "D5", true);
-        assertor.movePiece(board, "B1", "A3", true);
-        assertor.movePiece(board, "D5", "D4", true);
+        assertor.movePiece(board, "B2", "B4");
+        assertor.movePiece(board, "D7", "D5");
+        assertor.movePiece(board, "B1", "A3");
+        assertor.movePiece(board, "D5", "D4");
         assertor.movePiece(board, "C2", "C4");
 
         // Test en-passability
@@ -85,10 +85,10 @@ public class EnPassantTest {
     void blackEnpassRight() {
         Board board = new Board();
         assertor.drawBoard(board);
-        assertor.movePiece(board, "B1", "A3", true);
-        assertor.movePiece(board, "C7", "C5", true);
-        assertor.movePiece(board, "A2", "A4", true);
-        assertor.movePiece(board, "C5", "C4", true);
+        assertor.movePiece(board, "B1", "A3");
+        assertor.movePiece(board, "C7", "C5");
+        assertor.movePiece(board, "A2", "A4");
+        assertor.movePiece(board, "C5", "C4");
         assertor.movePiece(board, "D2", "D4");
 
         // Test en-passability
@@ -112,10 +112,10 @@ public class EnPassantTest {
     void DoNotEnpassOldMover() {
         Board board = new Board();
         assertor.drawBoard(board);
-        assertor.movePiece(board, "D2", "D4", true);
-        assertor.movePiece(board, "C7", "C5", true);
-        assertor.movePiece(board, "C1", "H6", true);
-        assertor.movePiece(board, "C5", "C4", true);
+        assertor.movePiece(board, "D2", "D4");
+        assertor.movePiece(board, "C7", "C5");
+        assertor.movePiece(board, "C1", "H6");
+        assertor.movePiece(board, "C5", "C4");
         assertor.movePiece(board, "H6", "G7");
 
         // Test en-passability
@@ -135,11 +135,11 @@ public class EnPassantTest {
     void DoNotEnpassTwoMover() {
         Board board = new Board();
         assertor.drawBoard(board);
-        assertor.movePiece(board, "C2", "C4", true);
-        assertor.movePiece(board, "B7", "B6", true);
-        assertor.movePiece(board, "B2", "B4", true);
-        assertor.movePiece(board, "F7", "F5", true);
-        assertor.movePiece(board, "C4", "C5", true);
+        assertor.movePiece(board, "C2", "C4");
+        assertor.movePiece(board, "B7", "B6");
+        assertor.movePiece(board, "B2", "B4");
+        assertor.movePiece(board, "F7", "F5");
+        assertor.movePiece(board, "C4", "C5");
         assertor.movePiece(board, "B6", "B5");
 
         try {

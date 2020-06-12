@@ -22,10 +22,9 @@ class CastlingTest {
         board.setPiece(rook.getPosition(), rook);
 
         assertor.drawBoard(board);
-        king.move(new BoardPosition("C1"), board);
-        assertor.drawBoard(board);
+        assertor.movePiece(board, king, "C1");
 
-        assertEquals(true, expectedCastlingPosition(board, new BoardPosition("C1"),
+        assert (expectedCastlingPosition(board, new BoardPosition("C1"),
                 new BoardPosition("D1")));
     }
 
@@ -39,10 +38,9 @@ class CastlingTest {
         board.setPiece(rook.getPosition(), rook);
 
         assertor.drawBoard(board);
-        king.move(new BoardPosition("G1"), board);
-        assertor.drawBoard(board);
+        assertor.movePiece(board, king, "G1");
 
-        assertEquals(true, expectedCastlingPosition(board, new BoardPosition("G1"),
+        assert (expectedCastlingPosition(board, new BoardPosition("G1"),
                 new BoardPosition("F1")));
     }
 
@@ -56,10 +54,9 @@ class CastlingTest {
         board.setPiece(rook.getPosition(), rook);
 
         assertor.drawBoard(board);
-        king.move(new BoardPosition("C8"), board);
-        assertor.drawBoard(board);
+        assertor.movePiece(board, king, "C8");
 
-        assertEquals(true, expectedCastlingPosition(board, new BoardPosition("C8"),
+        assert (expectedCastlingPosition(board, new BoardPosition("C8"),
                 new BoardPosition("D8")));
     }
 
@@ -73,10 +70,9 @@ class CastlingTest {
         board.setPiece(rook.getPosition(), rook);
 
         assertor.drawBoard(board);
-        king.move(new BoardPosition("G8"), board);
-        assertor.drawBoard(board);
+        assertor.movePiece(board, king, "G8");
 
-        assertEquals(true, expectedCastlingPosition(board, new BoardPosition("G8"),
+        assert (expectedCastlingPosition(board, new BoardPosition("G8"),
                 new BoardPosition("F8")));
     }
 
@@ -92,7 +88,9 @@ class CastlingTest {
         assertor.drawBoard(board);
         rook.move(new BoardPosition("B1"), board);
         rook.move(new BoardPosition("A1"), board);
-        assertThrows(InvalidMoveException.class, () -> king.move(new BoardPosition("C1"), board));
+        assertThrows(InvalidMoveException.class, () ->
+                assertor.movePiece(board, king, "C1")
+        );
     }
 
     @Test
@@ -107,7 +105,9 @@ class CastlingTest {
         assertor.drawBoard(board);
         king.move(new BoardPosition("E2"), board);
         king.move(new BoardPosition("E1"), board);
-        assertThrows(InvalidMoveException.class, () -> king.move(new BoardPosition("C1"), board));
+        assertThrows(InvalidMoveException.class, () ->
+                assertor.movePiece(board, king, "C1")
+        );
     }
 
     @Test
@@ -122,15 +122,13 @@ class CastlingTest {
         board.setPiece(queen.getPosition(), queen);
 
         assertor.drawBoard(board);
-        assertThrows(InvalidMoveException.class, () -> king.move(new BoardPosition("C1"), board));
+        assertThrows(InvalidMoveException.class, () ->
+                assertor.movePiece(board, king, "C1")
+        );
     }
 
     private boolean expectedCastlingPosition(Board board, BoardPosition ExpectedKingPosition, BoardPosition ExpectedRookPosition) {
-        if(assertor.isExpectedPiece(board, ExpectedKingPosition, ChessPieceRank.KING)
-                && assertor.isExpectedPiece(board, ExpectedRookPosition, ChessPieceRank.ROOK)) {
-            return true;
-        } else {
-            return false;
-        }
+        return assertor.isExpectedPiece(board, ExpectedKingPosition, ChessPieceRank.KING)
+                && assertor.isExpectedPiece(board, ExpectedRookPosition, ChessPieceRank.ROOK);
     }
 }

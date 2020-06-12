@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class KnightTest {
+class KnightTest {
 
     private static final ChessAssertor assertor = new ChessAssertor();
 
@@ -18,32 +18,32 @@ public class KnightTest {
         Board board = new Board();
         ChessPiece knight = board.getPiece(new BoardPosition("B1"));
 
-        assertor.movePiece(board, "B1", "C3", true);
+        assertor.movePiece(board, "B1", "C3");
         assert(knight.getPosition().toString().equals("C3"));
 
-        assertor.movePiece(board, "C3", "B1", true);
+        assertor.movePiece(board, "C3", "B1");
         assert(knight.getPosition().toString().equals("B1"));
 
-        assertor.movePiece(board, "B1", "A3", true);
+        assertor.movePiece(board, "B1", "A3");
         assert(knight.getPosition().toString().equals("A3"));
 
-        assertor.movePiece(board, "A3", "B1", true);
+        assertor.movePiece(board, "A3", "B1");
         assert(knight.getPosition().toString().equals("B1"));
 
         assertThrows(InvalidMoveException.class, () -> {
-            assertor.movePiece(board, "B1", "D2", true);
+            assertor.movePiece(board, "B1", "D2");
         }).printStackTrace();
 
-        assertor.movePiece(board, "B1", "C3", true);
+        assertor.movePiece(board, "B1", "C3");
         assertThrows(InvalidMoveException.class, () -> {
-            assertor.movePiece(board, "C3", "E2", true);
+            assertor.movePiece(board, "C3", "E2");
         }).printStackTrace();
 
-        assertor.movePiece(board, "C3", "E4", true);
+        assertor.movePiece(board, "C3", "E4");
         assert(knight.getPosition().toString().equals("E4"));
 
-        assertor.movePiece(board, "E4", "C3", true);
-        assertor.movePiece(board, "C3", "A4", true);
+        assertor.movePiece(board, "E4", "C3");
+        assertor.movePiece(board, "C3", "A4");
         assert(knight.getPosition().toString().equals("A4"));
 
     }

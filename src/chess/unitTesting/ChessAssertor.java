@@ -2,13 +2,12 @@ package chess.unitTesting;
 
 import chess.base.*;
 import chess.chessPiece.ChessPiece;
-
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 class ChessAssertor {
 
     private static final int PREVIEW_DELAY = 2000;
+    private static final int NON_PREVIEW_DELAY = 100;
 
     /**
      * Access private method valuers (return values) of a Object.
@@ -103,6 +102,17 @@ class ChessAssertor {
      * Move piece & display board for preview after movement. If you want to skip preview, add false to fourth parameter.
      *
      * @param board          Board to display
+     * @param piece          Piece to move
+     * @param targetPosition Target position for piece movement
+     */
+    public void movePiece(Board board, ChessPiece piece, String targetPosition) {
+        movePiece(board, piece.getPosition().toString(), targetPosition, false);
+    }
+
+    /**
+     * Move piece & display board for preview after movement. If you want to skip preview, add false to fourth parameter.
+     *
+     * @param board          Board to display
      * @param startPosition  Locate a piece at startPosition
      * @param targetPosition Target position for piece movement
      */
@@ -116,17 +126,17 @@ class ChessAssertor {
      * @param board          Board to plot and display
      * @param startPosition  Locate a piece at startPosition
      * @param targetPosition Target position for piece movement
-     * @param skipPreview    Skip preview?
+     * @param showPreview    show preview?
      */
-    public void movePiece(Board board, String startPosition, String targetPosition, boolean skipPreview) {
+    public void movePiece(Board board, String startPosition, String targetPosition, boolean showPreview) {
         ChessPiece piece = board.getPiece(new BoardPosition(startPosition));
         piece.move(new BoardPosition(targetPosition), board);
 
         System.out.println();
         drawBoard(board);
         System.out.println(String.format("\nPerform move from %s to %s...", startPosition, targetPosition));
-        wait(skipPreview ? 500 : PREVIEW_DELAY);
-        System.out.println("\n\n");
+        wait(showPreview ? PREVIEW_DELAY : NON_PREVIEW_DELAY);
+        System.out.println("\n");
     }
 
     /**
