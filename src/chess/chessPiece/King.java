@@ -63,8 +63,8 @@ public class King extends ChessPiece {
      * @return true if king moves any-directional by one block
      */
     private boolean isSingleAnyDirectionalMove(BoardPosition dstPosition) {
-        return PieceMovement.getRelativeColDistance(this, dstPosition.getColumn()) == 1
-                || PieceMovement.getRelativeRowDistance(this, dstPosition.getRow()) == 1;
+        return PieceMovement.getRelativeColDistance(this, dstPosition.getColumn()) <= 1
+                && PieceMovement.getRelativeRowDistance(this, dstPosition.getRow()) <= 1;
     }
 
     @Override
