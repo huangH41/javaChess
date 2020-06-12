@@ -25,11 +25,12 @@ public class EnPassantTest {
         Pawn p = (Pawn) board.getPiece(new BoardPosition("B5"));
         assert (p.isEnPassable(board, new BoardPosition("A6")));
 
-        // Move to apply en-passment
+        // Move to apply en-passant
         assertor.movePiece(board, "B5", "A6");
 
         // Post En-Passant test
-        assert (board.getPiece(new BoardPosition("A6")).getChessColor() == ChessPieceColor.WHITE);
+        assert (assertor.isExpectedPiece(board, new BoardPosition("A6"),
+                ChessPieceRank.PAWN, ChessPieceColor.WHITE));
         assert (!board.isOccupied(new BoardPosition("A5")));
     }
 
@@ -52,7 +53,8 @@ public class EnPassantTest {
         assertor.movePiece(board, "B5", "C6");
 
         // Post En-Passant test
-        assert (board.getPiece(new BoardPosition("C6")).getChessColor() == ChessPieceColor.WHITE);
+        assert (assertor.isExpectedPiece(board, new BoardPosition("C6"),
+                ChessPieceRank.PAWN, ChessPieceColor.WHITE));
         assert (!board.isOccupied(new BoardPosition("C5")));
     }
 
@@ -60,11 +62,11 @@ public class EnPassantTest {
     void blackEnpassLeft() {
         Board board = new Board();
         assertor.drawBoard(board);
-        assertor.movePiece(board, "C2", "C4", true);
-        assertor.movePiece(board, "D7", "D5", true);
         assertor.movePiece(board, "B2", "B4", true);
+        assertor.movePiece(board, "D7", "D5", true);
+        assertor.movePiece(board, "B1", "A3", true);
         assertor.movePiece(board, "D5", "D4", true);
-        assertor.movePiece(board, "B1", "A3");
+        assertor.movePiece(board, "C2", "C4");
 
         // Test en-passability
         Pawn p = (Pawn) board.getPiece(new BoardPosition("D4"));
@@ -74,12 +76,40 @@ public class EnPassantTest {
         assertor.movePiece(board, "D4", "C3");
 
         // Post En-Passant test
-        assert (board.getPiece(new BoardPosition("C3")).getChessColor() == ChessPieceColor.BLACK);
+        assertor.isExpectedPiece(board, new BoardPosition("C3"),
+                ChessPieceRank.PAWN, ChessPieceColor.BLACK);
         assert (!board.isOccupied(new BoardPosition("C4")));
     }
 
     @org.junit.jupiter.api.Test
     void blackEnpassRight() {
+        Board board = new Board();
+        assertor.drawBoard(board);
+        assertor.movePiece(board, "B1", "A3", true);
+        assertor.movePiece(board, "C7", "C5", true);
+        assertor.movePiece(board, "A2", "A4", true);
+        assertor.movePiece(board, "C5", "C4", true);
+        assertor.movePiece(board, "D2", "D4");
+
+        // Test en-passability
+        Pawn p = (Pawn) board.getPiece(new BoardPosition("C4"));
+        assert (p.isEnPassable(board, new BoardPosition("D3")));
+
+        // Move to apply en-passment
+        assertor.movePiece(board, "C4", "D3");
+
+        // Post En-Passant test
+        assert (assertor.isExpectedPiece(board, new BoardPosition("D3"),
+                ChessPieceRank.PAWN, ChessPieceColor.BLACK));;
+        assert (!board.isOccupied(new BoardPosition("D4")));
+    }
+
+    /**
+     * Assert that the piece do not enpass opponent pieces who already move before
+     * your pawn stand beside the opponent pawn
+     */
+    @org.junit.jupiter.api.Test
+    void DoNotEnpassOldMover() {
         Board board = new Board();
         assertor.drawBoard(board);
         assertor.movePiece(board, "D2", "D4", true);
@@ -90,29 +120,27 @@ public class EnPassantTest {
 
         // Test en-passability
         Pawn p = (Pawn) board.getPiece(new BoardPosition("C4"));
-        assert (p.isEnPassable(board, new BoardPosition("D3")));
+        assert (!p.isEnPassable(board, new BoardPosition("D3")));
 
-        // Move to apply en-passment
-        assertor.movePiece(board, "C4", "D3");
-
-        // Post En-Passant test
-        assert (board.getPiece(new BoardPosition("D3")).getChessColor() == ChessPieceColor.BLACK);
-        assert (!board.isOccupied(new BoardPosition("D4")));
+        // Expect that en-passment is not appliable
+        Assertions.assertThrows(InvalidMoveException.class, () -> {
+            assertor.movePiece(board, "C4", "D3");
+        }).printStackTrace();
     }
 
     /**
      * Assert that the piece do not enpass opponent pieces who moved single row twice.
      */
     @org.junit.jupiter.api.Test
-    void DoNotEnpassTwoMovers() {
+    void DoNotEnpassTwoMover() {
         Board board = new Board();
         assertor.drawBoard(board);
         assertor.movePiece(board, "C2", "C4", true);
         assertor.movePiece(board, "B7", "B6", true);
         assertor.movePiece(board, "B2", "B4", true);
-        assertor.movePiece(board, "B6", "B5", true);
+        assertor.movePiece(board, "F7", "F5", true);
         assertor.movePiece(board, "C4", "C5", true);
-        assertor.movePiece(board, "F7", "F5");
+        assertor.movePiece(board, "B6", "B5");
 
         try {
             Pawn twoMover = (Pawn) board.getPiece(new BoardPosition("B5"));
@@ -129,7 +157,6 @@ public class EnPassantTest {
         Assertions.assertThrows(InvalidMoveException.class, () -> {
             assertor.movePiece(board, "B5", "C6");
         }).printStackTrace();
-        System.out.println("En-passant to opponent piece who moved two moves are not applicable!");
     }
 
 }

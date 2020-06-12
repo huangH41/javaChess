@@ -9,6 +9,7 @@ public abstract class ChessPiece {
     private final ChessPieceRank pieceRank;
     private final ChessPieceColor chessColor;
     private BoardPosition position;
+    private int firstMoveAt = -1;
 
     /**
      * Define chess piece with status, color (either black or white), and position on the chess
@@ -57,6 +58,14 @@ public abstract class ChessPiece {
         this.position = newPosition;
     }
 
+    int getFirstMoveAt() {
+        return firstMoveAt;
+    }
+
+    private void setFirstMoveAt(int firstMoveAt) {
+        this.firstMoveAt = firstMoveAt;
+    }
+
     public boolean hasMovedOnce() {
         return hasMovedOnce;
     }
@@ -88,6 +97,12 @@ public abstract class ChessPiece {
         this.unmarkGuardedPlot(board.getBoardPlot(), board);
         board.movePiece(this, dstPosition);
         this.markGuardedPlot(board.getBoardPlot(), board);
+        setMoveCounter(board);
+    }
+
+    private void setMoveCounter(Board board) {
+        board.setNumOfTurns(board.getNumOfTurns() + 1);
+        setFirstMoveAt(board.getNumOfTurns());
     }
 
     /**

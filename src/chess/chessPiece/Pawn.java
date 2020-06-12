@@ -91,7 +91,10 @@ public class Pawn extends ChessPiece {
 
         ChessPiece opponent = board.getPiece(targetPosition.moveBy(1, 0, direction));
         if(opponent != null) {
-            return isOpponent(opponent) && (opponent instanceof Pawn) && ((Pawn) opponent).movementCount == 1;
+            return isOpponent(opponent)
+                    && (opponent instanceof Pawn)
+                    && ((Pawn) opponent).movementCount == 1
+                    && opponent.getFirstMoveAt() == board.getNumOfTurns();
         } else {
             return false;
         }

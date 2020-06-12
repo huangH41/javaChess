@@ -1,9 +1,6 @@
 package chess.unitTesting;
 
-import chess.base.Board;
-import chess.base.BoardDrawer;
-import chess.base.BoardPosition;
-import chess.base.ChessPieceRank;
+import chess.base.*;
 import chess.chessPiece.ChessPiece;
 
 import java.lang.reflect.InvocationTargetException;
@@ -12,6 +9,33 @@ import java.lang.reflect.Method;
 class ChessAssertor {
 
     private static final int PREVIEW_DELAY = 2000;
+
+    /**
+     * Access private method valuers (return values) of a Object.
+     *
+     * @param object        Object to access private method valuers
+     * @param privateMethod Name of private/inaccessible methods
+     * @param args          Parameters within private method to access
+     * @return Value of an object's private method valuers
+     * @throws IllegalAccessException if the object's private methods are inaccessible either invalid parameter, private method names, or wrong accessors.
+     */
+    @SuppressWarnings("JavaReflectionInvocation")
+    static Object accessPrivateMethodValuers(Object object, String privateMethod, Object... args) throws IllegalAccessException {
+        try {
+            Method method = object.getClass().getDeclaredMethod(privateMethod);
+            method.setAccessible(true);
+            return method.invoke(object, args);
+        } catch (Exception ex) {
+            throw new IllegalAccessException("Unable to access private method!\nReferences:" + ex.toString());
+        }
+    }
+
+    private static void wait(int interval) {
+        try {
+            Thread.sleep(interval);
+        } catch (InterruptedException ex) {
+        }
+    }
 
     /**
      * Clear all chess piece in the board
@@ -30,21 +54,49 @@ class ChessAssertor {
     }
 
     /**
-     * Validate if the targeted position contain expected chess piece
+     * Validate if the targeted position contain expected chess piece rank
      *
-     * @param board Current game board
+     * @param board          Current game board
      * @param targetPosition Position to validate
-     * @param rank Expected chess piece rank
+     * @param rank           Expected chess piece rank
      * @return True if the chess piece equals expected chess piece and false if no chess piece found
      * or don't have expected rank
      */
     public boolean isExpectedPiece(Board board, BoardPosition targetPosition, ChessPieceRank rank) {
         ChessPiece targetLocationChessPiece = board.getPiece(targetPosition);
-        if(targetLocationChessPiece != null && targetLocationChessPiece.getPieceRank() == rank){
-            return true;
-        } else {
-            return false;
-        }
+        return targetLocationChessPiece != null && targetLocationChessPiece.getPieceRank() == rank;
+    }
+
+    /**
+     * Validate if the targeted position contain expected chess piece color
+     *
+     * @param board          Current game board
+     * @param targetPosition Position to validate
+     * @param color          Expected chess piece color
+     * @return True if the chess piece equals expected chess piece color and false when else nothing
+     *      * matched with that criteria
+     */
+    public boolean isExpectedPiece(Board board, BoardPosition targetPosition, ChessPieceColor color) {
+        ChessPiece targetLocationChessPiece = board.getPiece(targetPosition);
+        return targetLocationChessPiece != null
+                && targetLocationChessPiece.getChessColor() == color;
+    }
+
+    /**
+     * Validate if the targeted position contain expected chess piece rank & color
+     *
+     * @param board          Current game board
+     * @param targetPosition Position to validate
+     * @param rank           Expected chess piece rank
+     * @param color          Expected chess piece color
+     * @return True if the chess piece equals expected chess piece rank & color and false when else nothing
+     * matched with that criteria
+     */
+    public boolean isExpectedPiece(Board board, BoardPosition targetPosition, ChessPieceRank rank, ChessPieceColor color) {
+        ChessPiece targetLocationChessPiece = board.getPiece(targetPosition);
+        return targetLocationChessPiece != null
+                && targetLocationChessPiece.getPieceRank() == rank
+                && targetLocationChessPiece.getChessColor() == color;
     }
 
     /**
@@ -94,32 +146,5 @@ class ChessAssertor {
 
     public void drawGuardBoard(Board board) {
         System.out.println(BoardDrawer.drawBoardGuardedPlot(board.getBoardPlot()));
-    }
-
-    /**
-     * Access private method valuers (return values) of a Object.
-     *
-     * @param object        Object to access private method valuers
-     * @param privateMethod Name of private/inaccessible methods
-     * @param args          Parameters within private method to access
-     * @return Value of an object's private method valuers
-     * @throws IllegalAccessException if the object's private methods are inaccessible either invalid parameter, private method names, or wrong accessors.
-     */
-    @SuppressWarnings("JavaReflectionInvocation")
-    static Object accessPrivateMethodValuers(Object object, String privateMethod, Object... args) throws IllegalAccessException {
-        try {
-            Method method = object.getClass().getDeclaredMethod(privateMethod);
-            method.setAccessible(true);
-            return method.invoke(object, args);
-        } catch (Exception ex) {
-            throw new IllegalAccessException("Unable to access private method!\nReferences:" + ex.toString());
-        }
-    }
-
-    private static void wait(int interval) {
-        try {
-            Thread.sleep(interval);
-        } catch (InterruptedException ex) {
-        }
     }
 }

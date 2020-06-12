@@ -11,10 +11,12 @@ public class Board {
     private King blackKing, whiteKing;
     private ChessPieceColor currentColor = ChessPieceColor.WHITE;
     private BoardPlot boardPlot;
+    private int numOfTurns = 0;
 
     public Board() {
         initializeChessPieces();
         boardPlot = new BoardPlot(this);
+        numOfTurns = 0;
     }
 
     public BoardPlot getBoardPlot() {
@@ -73,6 +75,14 @@ public class Board {
         if (targetPosition.getRow() < 1 || targetPosition.getRow() > 8) {
             return false;
         } else return targetPosition.getColumn() >= 1 && targetPosition.getColumn() <= 8;
+    }
+
+    public int getNumOfTurns() {
+        return numOfTurns;
+    }
+
+    public void setNumOfTurns(int numOfTurns) {
+        this.numOfTurns = numOfTurns;
     }
 
     /**
