@@ -128,7 +128,7 @@ public class Board {
         removeOldPosition(oldPosition);
 
         if (!piece.hasMovedOnce()) {
-            piece.AlreadyMovedOnce();
+            piece.setFirstMoveCounter(numOfTurns);
         }
     }
 

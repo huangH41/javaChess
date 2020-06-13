@@ -72,8 +72,13 @@ public abstract class ChessPiece {
         return hasMovedOnce;
     }
 
-    public void AlreadyMovedOnce() {
+    public void alreadyMovedOnce() {
         hasMovedOnce = true;
+    }
+
+    public void setFirstMoveCounter(int turn) {
+        alreadyMovedOnce();
+        setFirstMoveAt(turn);
     }
 
     public boolean isOpponent(ChessPiece counterPiece) {
@@ -108,8 +113,10 @@ public abstract class ChessPiece {
     }
 
     private void setMoveCounter(Board board) {
+        if (!hasMovedOnce) {
+            setFirstMoveAt(board.getNumOfTurns());
+        }
         board.setNumOfTurns(board.getNumOfTurns() + 1);
-        setFirstMoveAt(board.getNumOfTurns());
     }
 
     /**

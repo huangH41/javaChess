@@ -19,7 +19,7 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    public void AlreadyMovedOnce() {
+    public void alreadyMovedOnce() {
         hasMovedOnce = true;
         maxStep = 1;
     }
@@ -27,10 +27,10 @@ public class Pawn extends ChessPiece {
     @Override
     public void move(BoardPosition dstPosition, Board board) {
         if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
-            if (!hasMovedOnce()) AlreadyMovedOnce();
+            boolean enPassable = isEnPassable(board, dstPosition);
             movePiece(board, dstPosition);
 
-            if (isEnPassable(board, dstPosition)) {
+            if (enPassable) {
                 enPassant(board, dstPosition);
             }
             movementCount++;
@@ -88,11 +88,11 @@ public class Pawn extends ChessPiece {
         }
 
         ChessPiece opponent = board.getPiece(targetPosition.moveBy(1, 0, direction));
-        if(opponent != null) {
+        if (opponent != null) {
             return isOpponent(opponent)
                     && (opponent instanceof Pawn)
                     && ((Pawn) opponent).movementCount == 1
-                    && opponent.getFirstMoveAt() == board.getNumOfTurns();
+                    && opponent.getFirstMoveAt() == board.getNumOfTurns() - 1;
         } else {
             return false;
         }
