@@ -1,7 +1,13 @@
 package chess.unitTesting;
 
+import chess.base.Board;
+import chess.base.BoardPosition;
 import chess.base.ChessPieceRank;
+import chess.base.exceptions.InvalidMoveException;
+import chess.chessPiece.ChessPiece;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class KingTest extends ChessPieceTestEssentials {
 
@@ -43,5 +49,17 @@ class KingTest extends ChessPieceTestEssentials {
     @Test
     void moveUpLeft() {
         basicMove(ChessPieceRank.KING, "C5");
+    }
+
+    @Test
+    void invalidMove() {
+        Board board = assertor.clearBoard(new Board());
+
+        ChessPiece king = ChessPiece.defineWhitePiece(ChessPieceRank.KING, new BoardPosition("D4"));
+        board.setPiece(king.getPosition(), king);
+
+        BoardPosition nextKingPosition = new BoardPosition("D6");
+        assertor.drawBoard(board);
+        assertThrows(InvalidMoveException.class, () -> king.move(nextKingPosition, board));
     }
 }

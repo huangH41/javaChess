@@ -46,6 +46,11 @@ public class BoardPlot {
         }
     }
 
+    public static void resetBoardPlotGuardStatus(Board board) {
+        unsetBoardPlotGuardedStatus(board);
+        setBoardPlotGuardedStatus(board);
+    }
+
     /**
      * set guarded status to true based on chess color and add the total number of piece that
      * are guarding boardPlot guardedPosition

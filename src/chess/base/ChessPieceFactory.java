@@ -21,4 +21,12 @@ public class ChessPieceFactory {
                 throw new IllegalArgumentException("Invalid piece rank!");
         }
     }
+
+    //TODO this method still doing shallow copy, create new objeck to deep copy each attribute
+    public static ChessPiece copyChessPiece(ChessPiece chessPiece) {
+        return ChessPieceFactory.newPiece(
+                chessPiece.getChessColor(),
+                chessPiece.getPieceRank(),
+                new BoardPosition(chessPiece.getPosition().toString()));
+    }
 }
