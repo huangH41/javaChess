@@ -3,6 +3,7 @@ package chess.base;
 import chess.base.exceptions.InvalidMoveException;
 import chess.chessPiece.ChessPiece;
 import chess.chessPiece.King;
+import chess.chessPiece.KingCheckState;
 
 public class Board {
 
@@ -14,7 +15,7 @@ public class Board {
     private int numOfTurns = 0;
 
     public Board() {
-        initializeChessPieces();
+        BoardFactory.initializeChessPieces(this);
         boardPlot = new BoardPlot(this);
         numOfTurns = 0;
     }
@@ -45,6 +46,36 @@ public class Board {
 
     public King getKing(ChessPieceColor color) {
         return color == ChessPieceColor.WHITE ? getWhiteKing() : getBlackKing();
+    }
+
+    public boolean isAnyKingBeingChecked() {
+        return isKingUnderCheckState(getBlackKing()) || isKingUnderCheckState(getWhiteKing());
+    }
+
+    /**
+     * To check if the intended king piece current position is checked by other opponent piece
+     *
+     * @param kingPiece King piece to validate
+     * @return King check state
+     */
+    public boolean isKingUnderCheckState(King kingPiece) {
+        return isKingUnderCheckState(kingPiece, kingPiece.getPosition());
+    }
+
+    /**
+     * To check the king movement validity
+     *
+     * @param kingPiece   King piece to validate
+     * @param dstPosition The King position
+     * @return King check state
+     */
+    // TODO "CHECKMATE" haven't implemented
+    public boolean isKingUnderCheckState(King kingPiece, BoardPosition dstPosition) {
+        Plot plot = getBoardPlot().getPlot(dstPosition);
+        if (kingPiece.getChessColor() == ChessPieceColor.WHITE ? plot.isGuardedByBlack() : plot.isGuardedByWhite()) {
+            return kingPiece.isChecked().equals(KingCheckState.CHECK)
+                    || kingPiece.isChecked().equals(KingCheckState.CHECKMATE);
+        } return false;
     }
 
     public ChessPieceColor getCurrentColor() {

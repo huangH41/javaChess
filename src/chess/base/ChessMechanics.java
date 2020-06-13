@@ -1,8 +1,8 @@
 package chess.base;
 
 import chess.base.exceptions.InvalidMoveException;
-import chess.chessPiece.ChessPiece;
 import chess.chessPiece.King;
+import chess.chessPiece.KingCheckState;
 import chess.chessPiece.Rook;
 
 /**
@@ -20,7 +20,7 @@ public class ChessMechanics {
      * @return king safety status (true if SAFE, false if CHECK or CHECKMATE)
      */
     public static boolean isKingChecked(King king) {
-        return !(king.isChecked() == King.KingCheckState.SAFE);
+        return !(king.isChecked() == KingCheckState.SAFE);
     }
 
     /**

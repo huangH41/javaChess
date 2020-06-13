@@ -76,4 +76,10 @@ public class Knight extends ChessPiece {
         return guardedPosition;
     }
 
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        Knight copy = new Knight(this.getChessColor(), this.getPosition());
+        copyProperties(copy);
+        return copy;
+    }
 }

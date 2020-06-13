@@ -114,4 +114,10 @@ public class Queen extends ChessPiece {
         return (PieceMovement.isAnyDirectionalMove(this, dstPosition));
     }
 
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        Queen copy = new Queen(this.getChessColor(), this.getPosition());
+        copyProperties(copy);
+        return copy;
+    }
 }

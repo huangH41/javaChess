@@ -18,12 +18,20 @@ public class King extends ChessPiece {
         super(ChessPieceRank.KING, chessColor, position);
     }
 
-    public void setCheck(KingCheckState checkState) {
-        this.checkState = checkState;
-    }
-
     public KingCheckState isChecked() {
         return checkState;
+    }
+
+    public void safe() {
+        checkState = KingCheckState.SAFE;
+    }
+
+    public void check() {
+        checkState = KingCheckState.CHECK;
+    }
+
+    public void checkmate() {
+        checkState = KingCheckState.CHECKMATE;
     }
 
     /**
@@ -234,7 +242,11 @@ public class King extends ChessPiece {
                 && BoardPosition.isValidCoordinateNumber(nextColCoordinate);
     }
 
-    public enum KingCheckState {
-        SAFE, CHECK, CHECKMATE
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        King copy = new King(this.getChessColor(), this.getPosition());
+        copyProperties(copy);
+        copy.checkState = checkState;
+        return copy;
     }
 }

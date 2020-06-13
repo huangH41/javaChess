@@ -162,4 +162,13 @@ public class Pawn extends ChessPiece {
         }
         return guardedArea;
     }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        Pawn copy = new Pawn(this.getChessColor(), this.getPosition());
+        copyProperties(copy);
+        copy.movementCount = movementCount;
+        copy.maxStep = maxStep;
+        return copy;
+    }
 }

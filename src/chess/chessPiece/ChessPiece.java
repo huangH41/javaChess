@@ -6,9 +6,9 @@ import chess.base.exceptions.InvalidMoveException;
 import java.util.Vector;
 
 public abstract class ChessPiece {
-    protected boolean hasMovedOnce = false;
     private final ChessPieceRank pieceRank;
     private final ChessPieceColor chessColor;
+    protected boolean hasMovedOnce = false;
     private BoardPosition position;
     private int firstMoveAt = -1;
 
@@ -24,6 +24,15 @@ public abstract class ChessPiece {
         this.chessColor = chessColor;
         this.position = position;
     }
+
+    @Override
+    protected abstract Object clone() throws CloneNotSupportedException;
+
+    protected void copyProperties(ChessPiece copy) {
+        copy.hasMovedOnce = hasMovedOnce;
+        copy.setFirstMoveAt(getFirstMoveAt());
+    }
+
 
     /**
      * Return this object as String by format: "Color, Rank, Chess-Position-Notation"
@@ -51,11 +60,11 @@ public abstract class ChessPiece {
         this.position = newPosition;
     }
 
-    int getFirstMoveAt() {
+    protected int getFirstMoveAt() {
         return firstMoveAt;
     }
 
-    private void setFirstMoveAt(int firstMoveAt) {
+    protected void setFirstMoveAt(int firstMoveAt) {
         this.firstMoveAt = firstMoveAt;
     }
 
@@ -81,7 +90,7 @@ public abstract class ChessPiece {
      * @return is able to move and has no obstacles
      */
     protected boolean isValidMove(Board board, BoardPosition dstPosition) {
-        if(!King.isKingUnderCheckState(board, board.getKing(board.getCurrentColor()))) {
+        if (!board.isKingUnderCheckState(board.getKing(board.getCurrentColor()))) {
 
             return isValidMovePath(board, dstPosition)
                     && isValidPieceMovement(dstPosition)
@@ -102,6 +111,49 @@ public abstract class ChessPiece {
         board.setNumOfTurns(board.getNumOfTurns() + 1);
         setFirstMoveAt(board.getNumOfTurns());
     }
+
+    /**
+     * Verify movement path of the piece. Do recursive check of the obstacle to make sure that
+     * every movement steps are valid and not obstructed by other piece.
+     *
+     * @param board       board to check the validity
+     * @param dstPosition the new position of that piece
+     * @return has no obstacle after some recursive
+     */
+    protected abstract boolean isValidMovePath(Board board, BoardPosition dstPosition);
+
+    /**
+     * Verify piece movement style to make sure the movement are valid and not out-of-bound
+     *
+     * @param dstPosition the new position of that piece
+     * @return correct movement style of the piece
+     */
+    protected abstract boolean isValidPieceMovement(BoardPosition dstPosition);
+
+    /**
+     * Allow the capture and voids of a piece if it is an opponent. For en-passant, pawn requires to move
+     * diagonally at empty board behind the opponent piece to capture them.
+     *
+     * @param board          board to execute the piece capturing stage
+     * @param targetPosition target piece position to capture and void
+     */
+    protected abstract boolean isCapturable(Board board, BoardPosition targetPosition);
+
+    /**
+     * Declare an abstract method that every class extended from this class to perform a movement.
+     * Throws exception if any invalid move or obstacle occurred.
+     *
+     * @param dstPosition destination position
+     */
+    public abstract void move(BoardPosition dstPosition, Board board);
+
+    /**
+     * Generates all possible guarded positions from that piece
+     *
+     * @param board to plot guarded position
+     * @return generated positions at each directions
+     */
+    protected abstract Vector<BoardPosition> generateGuardedArea(Board board);
 
     /**
      * Set the targeted position plot status into guarded
@@ -169,49 +221,7 @@ public abstract class ChessPiece {
             if (board.isOccupied(position)) {
                 break;
             }
-        } return guardedPositions;
+        }
+        return guardedPositions;
     }
-
-    /**
-     * Verify movement path of the piece. Do recursive check of the obstacle to make sure that
-     * every movement steps are valid and not obstructed by other piece.
-     *
-     * @param board       board to check the validity
-     * @param dstPosition the new position of that piece
-     * @return has no obstacle after some recursive
-     */
-    protected abstract boolean isValidMovePath(Board board, BoardPosition dstPosition);
-
-    /**
-     * Verify piece movement style to make sure the movement are valid and not out-of-bound
-     *
-     * @param dstPosition the new position of that piece
-     * @return correct movement style of the piece
-     */
-    protected abstract boolean isValidPieceMovement(BoardPosition dstPosition);
-
-    /**
-     * Allow the capture and voids of a piece if it is an opponent. For en-passant, pawn requires to move
-     * diagonally at empty board behind the opponent piece to capture them.
-     *
-     * @param board          board to execute the piece capturing stage
-     * @param targetPosition target piece position to capture and void
-     */
-    protected abstract boolean isCapturable(Board board, BoardPosition targetPosition);
-
-    /**
-     * Declare an abstract method that every class extended from this class to perform a movement.
-     * Throws exception if any invalid move or obstacle occurred.
-     *
-     * @param dstPosition destination position
-     */
-    public abstract void move(BoardPosition dstPosition, Board board);
-
-    /**
-     * Generates all possible guarded positions from that piece
-     *
-     * @param board to plot guarded position
-     * @return generated positions at each directions
-     */
-    protected abstract Vector<BoardPosition> generateGuardedArea(Board board);
 }
