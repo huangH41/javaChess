@@ -21,4 +21,14 @@ abstract class ChessPieceTestEssentials {
         assertor.movePiece(board, piece, targetPosition);
         assert (assertor.isExpectedPiece(board, new BoardPosition(targetPosition), rank));
     }
+
+    boolean mustThrowException(boolean methods) {
+        try {
+            if (methods) {
+                return false;
+            } return false;
+        } catch (Exception e) {
+            return true;
+        }
+    }
 }

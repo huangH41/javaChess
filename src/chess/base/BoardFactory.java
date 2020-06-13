@@ -63,36 +63,36 @@ public class BoardFactory {
     private static void initializeWhitePieces(Board board) {
         ChessPiece[][] pieceBoard = board.getPieceBoard();
 
-        board.setKing((King) ChessPiece.defineWhitePiece(ChessPieceRank.KING, new BoardPosition("E1")));
-        pieceBoard[0][0] = ChessPiece.defineWhitePiece(ChessPieceRank.ROOK, new BoardPosition("A1"));
-        pieceBoard[0][7] = ChessPiece.defineWhitePiece(ChessPieceRank.ROOK, new BoardPosition("H1"));
-        pieceBoard[0][1] = ChessPiece.defineWhitePiece(ChessPieceRank.KNIGHT, new BoardPosition("B1"));
-        pieceBoard[0][6] = ChessPiece.defineWhitePiece(ChessPieceRank.KNIGHT, new BoardPosition("G1"));
-        pieceBoard[0][2] = ChessPiece.defineWhitePiece(ChessPieceRank.BISHOP, new BoardPosition("C1"));
-        pieceBoard[0][5] = ChessPiece.defineWhitePiece(ChessPieceRank.BISHOP, new BoardPosition("F1"));
-        pieceBoard[0][3] = ChessPiece.defineWhitePiece(ChessPieceRank.QUEEN, new BoardPosition("D1"));
+        board.setKing((King) ChessPieceFactory.defineWhitePiece(ChessPieceRank.KING, new BoardPosition("E1")));
+        pieceBoard[0][0] = ChessPieceFactory.defineWhitePiece(ChessPieceRank.ROOK, new BoardPosition("A1"));
+        pieceBoard[0][7] = ChessPieceFactory.defineWhitePiece(ChessPieceRank.ROOK, new BoardPosition("H1"));
+        pieceBoard[0][1] = ChessPieceFactory.defineWhitePiece(ChessPieceRank.KNIGHT, new BoardPosition("B1"));
+        pieceBoard[0][6] = ChessPieceFactory.defineWhitePiece(ChessPieceRank.KNIGHT, new BoardPosition("G1"));
+        pieceBoard[0][2] = ChessPieceFactory.defineWhitePiece(ChessPieceRank.BISHOP, new BoardPosition("C1"));
+        pieceBoard[0][5] = ChessPieceFactory.defineWhitePiece(ChessPieceRank.BISHOP, new BoardPosition("F1"));
+        pieceBoard[0][3] = ChessPieceFactory.defineWhitePiece(ChessPieceRank.QUEEN, new BoardPosition("D1"));
         pieceBoard[0][4] = board.getKing(ChessPieceColor.WHITE);
 
         for (int i = 0; i < 8; i++) {
-            pieceBoard[1][i] = ChessPiece.defineWhitePiece(ChessPieceRank.PAWN, new BoardPosition(2, i + 1));
+            pieceBoard[1][i] = ChessPieceFactory.defineWhitePiece(ChessPieceRank.PAWN, new BoardPosition(2, i + 1));
         }
     }
 
     private static void initializeBlackPieces(Board board) {
         ChessPiece[][] pieceBoard = board.getPieceBoard();
 
-        board.setKing((King) ChessPiece.defineBlackPiece(ChessPieceRank.KING, new BoardPosition("E8")));
-        pieceBoard[7][0] = ChessPiece.defineBlackPiece(ChessPieceRank.ROOK, new BoardPosition("A8"));
-        pieceBoard[7][7] = ChessPiece.defineBlackPiece(ChessPieceRank.ROOK, new BoardPosition("H8"));
-        pieceBoard[7][1] = ChessPiece.defineBlackPiece(ChessPieceRank.KNIGHT, new BoardPosition("B8"));
-        pieceBoard[7][6] = ChessPiece.defineBlackPiece(ChessPieceRank.KNIGHT, new BoardPosition("G8"));
-        pieceBoard[7][2] = ChessPiece.defineBlackPiece(ChessPieceRank.BISHOP, new BoardPosition("C8"));
-        pieceBoard[7][5] = ChessPiece.defineBlackPiece(ChessPieceRank.BISHOP, new BoardPosition("F8"));
-        pieceBoard[7][3] = ChessPiece.defineBlackPiece(ChessPieceRank.QUEEN, new BoardPosition("D8"));
+        board.setKing((King) ChessPieceFactory.defineBlackPiece(ChessPieceRank.KING, new BoardPosition("E8")));
+        pieceBoard[7][0] = ChessPieceFactory.defineBlackPiece(ChessPieceRank.ROOK, new BoardPosition("A8"));
+        pieceBoard[7][7] = ChessPieceFactory.defineBlackPiece(ChessPieceRank.ROOK, new BoardPosition("H8"));
+        pieceBoard[7][1] = ChessPieceFactory.defineBlackPiece(ChessPieceRank.KNIGHT, new BoardPosition("B8"));
+        pieceBoard[7][6] = ChessPieceFactory.defineBlackPiece(ChessPieceRank.KNIGHT, new BoardPosition("G8"));
+        pieceBoard[7][2] = ChessPieceFactory.defineBlackPiece(ChessPieceRank.BISHOP, new BoardPosition("C8"));
+        pieceBoard[7][5] = ChessPieceFactory.defineBlackPiece(ChessPieceRank.BISHOP, new BoardPosition("F8"));
+        pieceBoard[7][3] = ChessPieceFactory.defineBlackPiece(ChessPieceRank.QUEEN, new BoardPosition("D8"));
         pieceBoard[7][4] = board.getKing(ChessPieceColor.WHITE);
 
         for (int i = 0; i < 8; i++) {
-            pieceBoard[6][i] = ChessPiece.defineBlackPiece(ChessPieceRank.PAWN, new BoardPosition(7, i + 1));
+            pieceBoard[6][i] = ChessPieceFactory.defineBlackPiece(ChessPieceRank.PAWN, new BoardPosition(7, i + 1));
         }
     }
 }

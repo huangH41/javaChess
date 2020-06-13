@@ -22,19 +22,19 @@ public class ChessPieceFactory {
         }
     }
 
-    public static ChessPiece defineWhitePiece(ChessPieceRank rank, BoardPosition position) {
-        return newPiece(ChessPieceColor.WHITE, rank, position);
-    }
-
-    public static ChessPiece defineBlackPiece(ChessPieceRank rank, BoardPosition position) {
-        return newPiece(ChessPieceColor.BLACK, rank, position);
-    }
-
     //TODO this method still doing shallow copy, create new objeck to deep copy each attribute
     public static ChessPiece copyChessPiece(ChessPiece chessPiece) {
         return ChessPieceFactory.newPiece(
                 chessPiece.getChessColor(),
                 chessPiece.getPieceRank(),
                 new BoardPosition(chessPiece.getPosition().toString()));
+    }
+
+    public static ChessPiece defineWhitePiece(ChessPieceRank rank, BoardPosition position) {
+        return newPiece(ChessPieceColor.WHITE, rank, position);
+    }
+
+    public static ChessPiece defineBlackPiece(ChessPieceRank rank, BoardPosition position) {
+        return newPiece(ChessPieceColor.BLACK, rank, position);
     }
 }

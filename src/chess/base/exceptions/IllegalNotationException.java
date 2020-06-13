@@ -54,6 +54,24 @@ public class IllegalNotationException extends IllegalArgumentException {
     }
 
     /**
+     * The user inputted notation coordinate do not follow notation format [A-H][1-8] (A-H for column, 1-8 for row)
+     *
+     */
+    public static IllegalNotationException userInputMismatch() {
+        return IllegalNotationException.userInputMismatch(false);
+    }
+
+    /**
+     * The user inputted notation coordinate do not follow notation format [A-H][1-8] (A-H for column, 1-8 for row)
+     *
+     */
+    public static IllegalNotationException userInputMismatch(boolean promotion) {
+        return new IllegalNotationException("Invalid notation: must be [A-H][1-8]! " +
+                (promotion ? "(with additional R/N/K/Q for promotion if pawn reaches enemy base)" : ""));
+
+    }
+
+    /**
      * The subject or detailed message that leads to invalid movement notation
      *
      * @param s detail message about invalid moves

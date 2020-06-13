@@ -17,12 +17,12 @@ class KingSafetyAfterNormalMoveTest {
     void PawnNormalMoveShouldEnsureKingSafety() {
         Board board = assertor.clearBoard(new Board());
 
-        ChessPiece whiteKing = ChessPiece.defineWhitePiece(ChessPieceRank.KING, new BoardPosition("E2"));
-        ChessPiece blackRook = ChessPiece.defineBlackPiece(ChessPieceRank.ROOK, new BoardPosition("A2"));
-        ChessPiece whitePawm = ChessPiece.defineWhitePiece(ChessPieceRank.PAWN, new BoardPosition("D2"));
+        ChessPiece whiteKing = ChessPieceFactory.defineWhitePiece(ChessPieceRank.KING, new BoardPosition("E2"));
+        ChessPiece blackRook = ChessPieceFactory.defineBlackPiece(ChessPieceRank.ROOK, new BoardPosition("A2"));
+        ChessPiece whitePawn = ChessPieceFactory.defineWhitePiece(ChessPieceRank.PAWN, new BoardPosition("D2"));
         board.setPiece(whiteKing.getPosition(), whiteKing);
         board.setPiece(blackRook.getPosition(), blackRook);
-        board.setPiece(whitePawm.getPosition(), whitePawm);
+        board.setPiece(whitePawn.getPosition(), whitePawn);
         BoardPlot.setBoardPlotGuardedStatus(board);
 
         System.out.println("Initial Board and guard board");
@@ -30,6 +30,6 @@ class KingSafetyAfterNormalMoveTest {
         assertor.drawGuardBoard(board);
 //        whitePawm.move(new BoardPosition("D3"), board);
 
-        assertThrows(InvalidMoveException.class, () -> whitePawm.move(new BoardPosition("D3"), board));
+        assertThrows(InvalidMoveException.class, () -> whitePawn.move(new BoardPosition("D3"), board));
     }
 }

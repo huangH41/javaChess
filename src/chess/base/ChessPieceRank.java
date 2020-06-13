@@ -1,5 +1,7 @@
 package chess.base;
 
+import chess.base.exceptions.IllegalNotationException;
+
 public enum ChessPieceRank {
     PAWN('P'),
     ROOK('R'),
@@ -12,6 +14,14 @@ public enum ChessPieceRank {
 
     ChessPieceRank(char initialPieceRank) {
         this.initialPieceRank = initialPieceRank;
+    }
+
+    public static ChessPieceRank getPieceRankByInitial(char initialPieceRank) throws IllegalNotationException {
+        for (ChessPieceRank rank : ChessPieceRank.values()) {
+            if (rank.initialPieceRank == initialPieceRank) {
+                return rank;
+            }
+        } throw new IllegalNotationException("Initial must be P, R, N, B, Q, or K (must be uppercase!)");
     }
 
     @Override
