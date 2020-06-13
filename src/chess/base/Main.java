@@ -21,8 +21,7 @@ public class Main {
 
     private void gamePhase() {
         do {
-            BoardPlot.unsetBoardPlotGuardedStatus(board);
-            BoardPlot.setBoardPlotGuardedStatus(board);
+            BoardPlot.resetBoardPlotGuardStatus(board);
 
             System.out.println("\n\n\n\n\n\n\n");
             System.out.println(BoardDrawer.drawBoardGuardedPlot(board.getBoardPlot()));

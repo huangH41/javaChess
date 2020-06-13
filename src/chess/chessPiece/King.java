@@ -84,14 +84,19 @@ public class King extends ChessPiece {
      * Check if king is under check state after one piece move into a certain position
      *
      * @param board Current game board
-     * @param toMovePiece Chess Piece that will perform a move
+     * @param startPosition Start Position of the
      * @param dstPosition Destination position of the toMovePiece
      * @return true if the king not under check state, otherwise false
      */
-    public static boolean isKingSafeAfterMove(Board board, ChessPiece toMovePiece, BoardPosition dstPosition) {
-        Board boardCopy = board;
+    public static boolean isKingSafeAfterMove(Board board, BoardPosition startPosition, BoardPosition dstPosition) {
+        Board boardCopy = BoardFactory.copyBoard(board);
+        ChessPiece toMovePiece = boardCopy.getPiece(startPosition);
+
         King currSideKing = toMovePiece.getChessColor() == ChessPieceColor.WHITE ? boardCopy.getWhiteKing() : boardCopy.getBlackKing();
-        currSideKing.movePiece(boardCopy, dstPosition);
+        if(currSideKing != null) System.out.println("Curr side king: " + currSideKing + " position " + currSideKing.getPosition());
+
+        toMovePiece.movePiece(boardCopy, dstPosition);
+        BoardPlot.resetBoardPlotGuardStatus(boardCopy);
 
         if(!isKingUnderCheckState(boardCopy, currSideKing)) {
             return true;
