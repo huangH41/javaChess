@@ -110,8 +110,8 @@ public class Pawn extends ChessPiece {
         }
 
         if (this.getChessColor() == ChessPieceColor.WHITE) {
-            return defineWhitePiece(upgradedRank, this.getPosition());
-        } else return defineBlackPiece(upgradedRank, this.getPosition());
+            return ChessPieceFactory.defineWhitePiece(upgradedRank, this.getPosition());
+        } else return ChessPieceFactory.defineBlackPiece(upgradedRank, this.getPosition());
     }
 
     public boolean isPawnPromotable() {

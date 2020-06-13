@@ -4,7 +4,7 @@ import chess.base.exceptions.InvalidMoveException;
 import chess.chessPiece.ChessPiece;
 import chess.chessPiece.King;
 
-public class Board{
+public class Board {
 
     private final ChessPiece[][] pieceBoard = new ChessPiece[8][8];
 
@@ -14,13 +14,9 @@ public class Board{
     private int numOfTurns = 0;
 
     public Board() {
-        BoardFactory.initializeChessPieces(this);
+        initializeChessPieces();
         boardPlot = new BoardPlot(this);
         numOfTurns = 0;
-    }
-
-    public void setBoardPlot(BoardPlot boardPlot) {
-        this.boardPlot = boardPlot;
     }
 
     public BoardPlot getBoardPlot() {

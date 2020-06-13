@@ -2,6 +2,7 @@ package chess.unitTesting;
 
 import chess.base.Board;
 import chess.base.BoardPosition;
+import chess.base.ChessPieceFactory;
 import chess.base.ChessPieceRank;
 import chess.base.exceptions.InvalidMoveException;
 import chess.chessPiece.ChessPiece;
@@ -15,8 +16,8 @@ class CastlingTest {
     @Test
     void whiteLeftCastling() {
         Board board = assertor.clearBoard(new Board());
-        ChessPiece king = ChessPiece.defineWhitePiece(ChessPieceRank.KING, new BoardPosition("E1"));
-        ChessPiece rook = ChessPiece.defineWhitePiece(ChessPieceRank.ROOK, new BoardPosition("A1"));
+        ChessPiece king = ChessPieceFactory.defineWhitePiece(ChessPieceRank.KING, new BoardPosition("E1"));
+        ChessPiece rook = ChessPieceFactory.defineWhitePiece(ChessPieceRank.ROOK, new BoardPosition("A1"));
 
         board.setPiece(king.getPosition(), king);
         board.setPiece(rook.getPosition(), rook);
@@ -31,8 +32,8 @@ class CastlingTest {
     @Test
     void whiteRightCastling() {
         Board board = assertor.clearBoard(new Board());
-        ChessPiece king = ChessPiece.defineWhitePiece(ChessPieceRank.KING, new BoardPosition("E1"));
-        ChessPiece rook = ChessPiece.defineWhitePiece(ChessPieceRank.ROOK, new BoardPosition("H1"));
+        ChessPiece king = ChessPieceFactory.defineWhitePiece(ChessPieceRank.KING, new BoardPosition("E1"));
+        ChessPiece rook = ChessPieceFactory.defineWhitePiece(ChessPieceRank.ROOK, new BoardPosition("H1"));
 
         board.setPiece(king.getPosition(), king);
         board.setPiece(rook.getPosition(), rook);
@@ -47,8 +48,8 @@ class CastlingTest {
     @Test
     void blackLeftCastling() {
         Board board = assertor.clearBoard(new Board());
-        ChessPiece king = ChessPiece.defineBlackPiece(ChessPieceRank.KING, new BoardPosition("E8"));
-        ChessPiece rook = ChessPiece.defineBlackPiece(ChessPieceRank.ROOK, new BoardPosition("A8"));
+        ChessPiece king = ChessPieceFactory.defineBlackPiece(ChessPieceRank.KING, new BoardPosition("E8"));
+        ChessPiece rook = ChessPieceFactory.defineBlackPiece(ChessPieceRank.ROOK, new BoardPosition("A8"));
 
         board.setPiece(king.getPosition(), king);
         board.setPiece(rook.getPosition(), rook);
@@ -63,8 +64,8 @@ class CastlingTest {
     @Test
     void blackRightCastling() {
         Board board = assertor.clearBoard(new Board());
-        ChessPiece king = ChessPiece.defineBlackPiece(ChessPieceRank.KING, new BoardPosition("E8"));
-        ChessPiece rook = ChessPiece.defineBlackPiece(ChessPieceRank.ROOK, new BoardPosition("H8"));
+        ChessPiece king = ChessPieceFactory.defineBlackPiece(ChessPieceRank.KING, new BoardPosition("E8"));
+        ChessPiece rook = ChessPieceFactory.defineBlackPiece(ChessPieceRank.ROOK, new BoardPosition("H8"));
 
         board.setPiece(king.getPosition(), king);
         board.setPiece(rook.getPosition(), rook);
@@ -79,8 +80,8 @@ class CastlingTest {
     @Test
     void notValidRookToCastling() {
         Board board = assertor.clearBoard(new Board());
-        ChessPiece king = ChessPiece.defineWhitePiece(ChessPieceRank.KING, new BoardPosition("E1"));
-        ChessPiece rook = ChessPiece.defineWhitePiece(ChessPieceRank.ROOK, new BoardPosition("A1"));
+        ChessPiece king = ChessPieceFactory.defineWhitePiece(ChessPieceRank.KING, new BoardPosition("E1"));
+        ChessPiece rook = ChessPieceFactory.defineWhitePiece(ChessPieceRank.ROOK, new BoardPosition("A1"));
 
         board.setPiece(king.getPosition(), king);
         board.setPiece(rook.getPosition(), rook);
@@ -96,8 +97,8 @@ class CastlingTest {
     @Test
     void notValidKingToCastling() {
         Board board = assertor.clearBoard(new Board());
-        ChessPiece king = ChessPiece.defineWhitePiece(ChessPieceRank.KING, new BoardPosition("E1"));
-        ChessPiece rook = ChessPiece.defineWhitePiece(ChessPieceRank.ROOK, new BoardPosition("A1"));
+        ChessPiece king = ChessPieceFactory.defineWhitePiece(ChessPieceRank.KING, new BoardPosition("E1"));
+        ChessPiece rook = ChessPieceFactory.defineWhitePiece(ChessPieceRank.ROOK, new BoardPosition("A1"));
 
         board.setPiece(king.getPosition(), king);
         board.setPiece(rook.getPosition(), rook);
@@ -113,9 +114,9 @@ class CastlingTest {
     @Test
     void notValidCastlingPosition() {
         Board board = assertor.clearBoard(new Board());
-        ChessPiece king = ChessPiece.defineWhitePiece(ChessPieceRank.KING, new BoardPosition("E1"));
-        ChessPiece rook = ChessPiece.defineWhitePiece(ChessPieceRank.ROOK, new BoardPosition("A1"));
-        ChessPiece queen = ChessPiece.defineWhitePiece(ChessPieceRank.QUEEN, new BoardPosition("D1"));
+        ChessPiece king = ChessPieceFactory.defineWhitePiece(ChessPieceRank.KING, new BoardPosition("E1"));
+        ChessPiece rook = ChessPieceFactory.defineWhitePiece(ChessPieceRank.ROOK, new BoardPosition("A1"));
+        ChessPiece queen = ChessPieceFactory.defineWhitePiece(ChessPieceRank.QUEEN, new BoardPosition("D1"));
 
         board.setPiece(king.getPosition(), king);
         board.setPiece(rook.getPosition(), rook);

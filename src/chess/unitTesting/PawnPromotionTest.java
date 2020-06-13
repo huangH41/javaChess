@@ -61,7 +61,7 @@ class PawnPromotionTest {
         try {
             whitePawn = ((Pawn) whitePawn).promote(rank);
         } catch (IllegalStateException ex) {
-            throw ex;
+            throw new IllegalStateException(ex);
         }
 
         board.setPiece(new BoardPosition("G8"), whitePawn);

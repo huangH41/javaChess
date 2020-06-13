@@ -25,14 +25,6 @@ public abstract class ChessPiece {
         this.position = position;
     }
 
-    public static ChessPiece defineWhitePiece(ChessPieceRank rank, BoardPosition position) {
-        return ChessPieceFactory.newPiece(ChessPieceColor.WHITE, rank, position);
-    }
-
-    public static ChessPiece defineBlackPiece(ChessPieceRank rank, BoardPosition position) {
-        return ChessPieceFactory.newPiece(ChessPieceColor.BLACK, rank, position);
-    }
-
     /**
      * Return this object as String by format: "Color, Rank, Chess-Position-Notation"
      *

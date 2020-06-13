@@ -1,9 +1,6 @@
 package chess.unitTesting;
 
-import chess.base.Board;
-import chess.base.BoardPosition;
-import chess.base.ChessPieceColor;
-import chess.base.ChessPieceRank;
+import chess.base.*;
 import chess.base.exceptions.InvalidMoveException;
 import chess.chessPiece.ChessPiece;
 import chess.chessPiece.Pawn;
@@ -53,8 +50,8 @@ class PawnTest extends ChessPieceTestEssentials {
     @Test
     void attackLeft() {
         Board board = assertor.clearBoard(new Board());
-        ChessPiece pawn = ChessPiece.defineWhitePiece(ChessPieceRank.PAWN, new BoardPosition("D4"));
-        ChessPiece enemyPawn = ChessPiece.defineBlackPiece(ChessPieceRank.PAWN, new BoardPosition("C5"));
+        ChessPiece pawn = ChessPieceFactory.defineWhitePiece(ChessPieceRank.PAWN, new BoardPosition("D4"));
+        ChessPiece enemyPawn = ChessPieceFactory.defineBlackPiece(ChessPieceRank.PAWN, new BoardPosition("C5"));
 
         board.setPiece(pawn.getPosition(), pawn);
         board.setPiece(enemyPawn.getPosition(), enemyPawn);
@@ -68,8 +65,8 @@ class PawnTest extends ChessPieceTestEssentials {
     @Test
     void attackRight() {
         Board board = assertor.clearBoard(new Board());
-        ChessPiece pawn = ChessPiece.defineWhitePiece(ChessPieceRank.PAWN, new BoardPosition("D4"));
-        ChessPiece enemyPawn = ChessPiece.defineBlackPiece(ChessPieceRank.PAWN, new BoardPosition("E5"));
+        ChessPiece pawn = ChessPieceFactory.defineWhitePiece(ChessPieceRank.PAWN, new BoardPosition("D4"));
+        ChessPiece enemyPawn = ChessPieceFactory.defineBlackPiece(ChessPieceRank.PAWN, new BoardPosition("E5"));
 
         board.setPiece(pawn.getPosition(), pawn);
         board.setPiece(enemyPawn.getPosition(), enemyPawn);
@@ -83,8 +80,8 @@ class PawnTest extends ChessPieceTestEssentials {
     @Test
     void doNotAttackStraight() {
         Board board = assertor.clearBoard(new Board());
-        ChessPiece pawn = ChessPiece.defineWhitePiece(ChessPieceRank.PAWN, new BoardPosition("D4"));
-        ChessPiece enemyPawn = ChessPiece.defineBlackPiece(ChessPieceRank.PAWN, new BoardPosition("D5"));
+        ChessPiece pawn = ChessPieceFactory.defineWhitePiece(ChessPieceRank.PAWN, new BoardPosition("D4"));
+        ChessPiece enemyPawn = ChessPieceFactory.defineBlackPiece(ChessPieceRank.PAWN, new BoardPosition("D5"));
 
         board.setPiece(pawn.getPosition(), pawn);
         board.setPiece(enemyPawn.getPosition(), enemyPawn);
