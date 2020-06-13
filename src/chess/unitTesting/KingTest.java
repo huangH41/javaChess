@@ -53,13 +53,6 @@ class KingTest extends ChessPieceTestEssentials {
 
     @Test
     void invalidMove() {
-        Board board = assertor.clearBoard(new Board());
-
-        ChessPiece king = ChessPiece.defineWhitePiece(ChessPieceRank.KING, new BoardPosition("D4"));
-        board.setPiece(king.getPosition(), king);
-
-        BoardPosition nextKingPosition = new BoardPosition("D6");
-        assertor.drawBoard(board);
-        assertThrows(InvalidMoveException.class, () -> king.move(nextKingPosition, board));
+        assertThrows(InvalidMoveException.class, () -> basicMove(ChessPieceRank.KING, "D6"));
     }
 }
