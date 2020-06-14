@@ -4,9 +4,8 @@ import chess.base.*;
 import chess.base.exceptions.InvalidMoveException;
 import chess.chessPiece.ChessPiece;
 import chess.chessPiece.King;
+import chess.chessPiece.KingCheckState;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,7 +25,7 @@ class CheckStateTest {
         assertor.drawBoard(board);
 
         blackRook.move(new BoardPosition("A1"), board);
-        assert(King.isKingUnderCheckState(board, (King) whiteKing));
+        assert(KingCheckState.isKingUnderCheckState(board, (King) whiteKing));
     }
 
     @Test
@@ -41,7 +40,7 @@ class CheckStateTest {
         assertor.drawBoard(board);
 
         whiteRook.move(new BoardPosition("A1"), board);
-        assertEquals(false, King.isKingUnderCheckState(board, (King) whiteKing));
+        assertEquals(false, KingCheckState.isKingUnderCheckState(board, (King) whiteKing));
     }
 
     @Test

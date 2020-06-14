@@ -99,7 +99,7 @@ public abstract class ChessPiece {
 
             return isValidMovePath(board, dstPosition)
                     && isValidPieceMovement(dstPosition)
-                    && King.isKingSafeAfterMove(board, this.getPosition(), dstPosition);
+                    && KingCheckState.isKingSafeAfterMovement(board, this.getPosition(), dstPosition);
         } else {
             throw new InvalidMoveException(String.format("Invalid Move! %s is checked", board.getKing(board.getCurrentColor())));
         }

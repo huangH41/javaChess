@@ -22,32 +22,13 @@ public class King extends ChessPiece {
         return checkState;
     }
 
-    public void safe() {
-        checkState = KingCheckState.SAFE;
-    }
-
-    public void check() {
-        checkState = KingCheckState.CHECK;
-    }
-
-    public void checkmate() {
-        checkState = KingCheckState.CHECKMATE;
-    }
-
-    /**
-     * Check if king moves in any direction by one block
-     *
-     * @param dstPosition destination position
-     * @return true if king moves any-directional by one block
-     */
-    private boolean isSingleAnyDirectionalMove(BoardPosition dstPosition) {
-        return PieceMovement.getRelativeColDistance(this, dstPosition.getColumn()) <= 1
-                && PieceMovement.getRelativeRowDistance(this, dstPosition.getRow()) <= 1;
+    public void setCheckState(KingCheckState checkState) {
+        this.checkState = checkState;
     }
 
     @Override
     public void move(BoardPosition dstPosition, Board board) {
-        if (isCastlable(board, dstPosition)) {
+        if (isCastlable(board, dstPosition) && KingCheckState.isKingSafeAfterMovement(board, this.getPosition(), dstPosition)) {
             doCastling(board, dstPosition);
         } else if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
             movePiece(board, dstPosition);
@@ -75,69 +56,6 @@ public class King extends ChessPiece {
         } else {
             return false;
         }
-    }
-
-    /**
-     * To check if the intended king piece current position is checked by other opponent piece
-     *
-     * @param board     Board to get the king position plot
-     * @param kingPiece King piece to validate
-     * @return King check state
-     */
-    public static boolean isKingUnderCheckState(Board board, King kingPiece) {
-        return isKingUnderCheckState(board, kingPiece, kingPiece.getPosition());
-    }
-
-    /**
-     * Check if king is under check state after one piece move into a certain position
-     *
-     * @param board Current game board
-     * @param startPosition Start Position of the
-     * @param dstPosition Destination position of the toMovePiece
-     * @return true if the king not under check state, otherwise false
-     */
-    public static boolean isKingSafeAfterMove(Board board, BoardPosition startPosition, BoardPosition dstPosition) {
-        Board boardCopy = BoardFactory.copyBoard(board);
-        ChessPiece toMovePiece = boardCopy.getPiece(startPosition);
-
-        King currSideKing = toMovePiece.getChessColor() == ChessPieceColor.WHITE ? boardCopy.getWhiteKing() : boardCopy.getBlackKing();
-        if(currSideKing != null) System.out.println("Curr side king: " + currSideKing + " position " + currSideKing.getPosition());
-
-        toMovePiece.movePiece(boardCopy, dstPosition);
-        BoardPlot.resetBoardPlotGuardStatus(boardCopy);
-
-        if(!isKingUnderCheckState(boardCopy, currSideKing)) {
-            return true;
-        } else {
-            throw new InvalidMoveException(String.format("Invalid Move!! %s will be checked", currSideKing));
-        }
-    }
-
-    public static boolean isKingSafeAfterCastling() {
-        return true;
-    }
-
-    public static boolean isKingSafeAfterEnPassant() {
-        return true;
-    }
-
-    /**
-     * To check the king movement validity
-     *
-     * @param board       Board to get the king position plot
-     * @param kingPiece   King piece to validate
-     * @param dstPosition The King position
-     * @return King check state
-     */
-    // TODO "CHECKMATE" haven't implemented
-    public static boolean isKingUnderCheckState(Board board, King kingPiece, BoardPosition dstPosition) {
-        Plot plot = board.getBoardPlot().getPlot(dstPosition);
-        if (kingPiece.getChessColor() == ChessPieceColor.WHITE ? plot.isGuardedByBlack() : plot.isGuardedByWhite()) {
-            kingPiece.checkState = KingCheckState.CHECK;
-        } else {
-            kingPiece.checkState = KingCheckState.SAFE;
-        }
-        return kingPiece.checkState != KingCheckState.SAFE;
     }
 
     /**
@@ -224,6 +142,17 @@ public class King extends ChessPiece {
         }
 
         return guardedPositions;
+    }
+
+    /**
+     * Check if king moves in any direction by one block
+     *
+     * @param dstPosition destination position
+     * @return true if king moves any-directional by one block
+     */
+    private boolean isSingleAnyDirectionalMove(BoardPosition dstPosition) {
+        return PieceMovement.getRelativeColDistance(this, dstPosition.getColumn()) <= 1
+                && PieceMovement.getRelativeRowDistance(this, dstPosition.getRow()) <= 1;
     }
 
     /**
