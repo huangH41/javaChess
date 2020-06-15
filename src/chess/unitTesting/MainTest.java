@@ -21,6 +21,7 @@ class MainTest extends ChessPieceTestEssentials {
             moveAndEvaluate(m, "A2-A3", true);
             moveAndEvaluate(m, "B2-B3", false);
             moveAndEvaluate(m, "E7-E5", true);
+            moveAndEvaluate(m, "E4-E5", false);
         } catch (IllegalAccessException ex) {
             ex.printStackTrace();
             Assert.fail("Unable to start the game!");
