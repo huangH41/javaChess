@@ -89,7 +89,7 @@ public class BoardFactory {
         pieceBoard[7][2] = ChessPieceFactory.defineBlackPiece(ChessPieceRank.BISHOP, new BoardPosition("C8"));
         pieceBoard[7][5] = ChessPieceFactory.defineBlackPiece(ChessPieceRank.BISHOP, new BoardPosition("F8"));
         pieceBoard[7][3] = ChessPieceFactory.defineBlackPiece(ChessPieceRank.QUEEN, new BoardPosition("D8"));
-        pieceBoard[7][4] = board.getKing(ChessPieceColor.WHITE);
+        pieceBoard[7][4] = board.getKing(ChessPieceColor.BLACK);
 
         for (int i = 0; i < 8; i++) {
             pieceBoard[6][i] = ChessPieceFactory.defineBlackPiece(ChessPieceRank.PAWN, new BoardPosition(7, i + 1));
