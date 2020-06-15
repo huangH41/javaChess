@@ -36,15 +36,15 @@ class PawnPromotionTest {
 
     @Test
     void doNotPromoteAsKing() {
-        assertThrows(IllegalStateException.class, () -> {
-            promote(ChessPieceRank.KING);
+        assertThrows(InvalidPromotionException.class, () -> {
+            whitePawnPromotion(ChessPieceRank.KING);
         });
     }
 
     @Test
     void doNotPromoteAsPawn() {
-        assertThrows(IllegalStateException.class, () -> {
-            promote(ChessPieceRank.PAWN);
+        assertThrows(InvalidPromotionException.class, () -> {
+            whitePawnPromotion(ChessPieceRank.PAWN);
         });
     }
 
@@ -60,8 +60,8 @@ class PawnPromotionTest {
 
         try {
             whitePawn = ((Pawn) whitePawn).promote(rank);
-        } catch (IllegalStateException ex) {
-            throw new IllegalStateException(ex);
+        } catch (InvalidPromotionException ex) {
+            throw new InvalidPromotionException(ex);
         }
 
         board.setPiece(new BoardPosition("G8"), whitePawn);

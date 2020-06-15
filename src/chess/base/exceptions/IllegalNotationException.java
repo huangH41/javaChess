@@ -72,6 +72,22 @@ public class IllegalNotationException extends IllegalArgumentException {
     }
 
     /**
+     * The piece rank notation which not contains either P, R, N, B, Q, or K
+     *
+     * @param rank rank notation which invalids notation formatting
+     */
+    public static IllegalNotationException rank(String rank) {
+        return new IllegalNotationException(String.format("Invalid notation: Rank initial must be P, R, N, B, Q, or K (uppercase)! (notation value: %s)", rank));
+    }
+
+    /**
+     * The piece rank notation which not contains either P, R, N, B, Q, or K
+     */
+    public static IllegalNotationException rank() {
+        return new IllegalNotationException("Invalid notation: Rank initial must be P, R, N, B, Q, or K (uppercase)! (notation value: %s)");
+    }
+
+    /**
      * The subject or detailed message that leads to invalid movement notation
      *
      * @param s detail message about invalid moves

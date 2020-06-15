@@ -5,6 +5,7 @@ import chess.base.BoardPosition;
 import chess.base.ChessPieceFactory;
 import chess.base.ChessPieceRank;
 import chess.chessPiece.ChessPiece;
+import org.junit.Assert;
 
 abstract class ChessPieceTestEssentials {
     protected static final ChessAssertor assertor = new ChessAssertor();
@@ -30,5 +31,13 @@ abstract class ChessPieceTestEssentials {
         } catch (Exception e) {
             return true;
         }
+    }
+
+    void assertThat(boolean compare, boolean status) {
+        assert (compare == status);
+    }
+
+    void assertThat(boolean compare, boolean status, String message) {
+        Assert.assertEquals(message, status, compare);
     }
 }

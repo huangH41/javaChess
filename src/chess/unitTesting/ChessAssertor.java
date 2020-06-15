@@ -34,6 +34,7 @@ class ChessAssertor {
         try {
             Thread.sleep(interval);
         } catch (InterruptedException ex) {
+            return;
         }
     }
 

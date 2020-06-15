@@ -15,11 +15,21 @@ public class Main {
     public Main() {
         board = new Board();
         gameplay = new Gameplay();
-        gamePhase();
     }
 
-    public static void main(String[] args) {
-        new Main();
+    public Board getBoard() {
+        return board;
+    }
+
+    public static void newGame(Main main) throws IllegalAccessException {
+        if (main == null) {
+            throw new IllegalAccessException("No game available");
+        }
+        main.gamePhase();
+    }
+
+    public static void main(String[] args) throws IllegalAccessException {
+        newGame(new Main());
     }
 
     private void gamePhase() {
@@ -29,26 +39,31 @@ public class Main {
         String inputtedCoordinates = performUserInputs();
 
         try {
-            if (!gameplay.verifyUserInputs(inputtedCoordinates)){
-                throw IllegalNotationException.userInputMismatch();
-            }
-
-            ChessPieceRank promotionRank = gameplay.getPromotionRank(inputtedCoordinates);
-            String[] coordinates = gameplay.getUserInputtedCoordinates(inputtedCoordinates);
-            BoardPosition source = new BoardPosition(coordinates[0]);
-            BoardPosition destination = new BoardPosition(coordinates[1]);
-
-            movePiece(source, destination, promotionRank);
-
-            System.out.println(String.format("Piece moved from %s to %s!", source, destination));
-
-            board.switchColor();
-            gameplay.verifyKingSafetyState(board);
+            executeUserInputs(inputtedCoordinates);
         } catch (InvalidMoveException | IllegalNotationException ex) {
             System.err.println(ex.getMessage());
         }
 
         gamePhase();
+    }
+
+    public void executeUserInputs(String inputtedCoordinates) throws InvalidMoveException, IllegalNotationException {
+        if (!gameplay.verifyUserInputs(inputtedCoordinates)){
+            throw IllegalNotationException.userInputMismatch();
+        }
+
+        ChessPieceRank promotionRank = gameplay.getPromotionRank(inputtedCoordinates);
+        String[] coordinates = gameplay.getUserInputtedCoordinates(inputtedCoordinates);
+        BoardPosition source = new BoardPosition(coordinates[0]);
+        BoardPosition destination = new BoardPosition(coordinates[1]);
+
+        movePiece(source, destination, promotionRank);
+
+        System.out.println(String.format("Piece moved from %s to %s!", source, destination));
+
+        board.switchColor();
+        BoardPlot.resetBoardPlotGuardStatus(board);
+        gameplay.verifyKingSafetyState(board);
     }
 
     private void drawBoard() {
@@ -61,7 +76,7 @@ public class Main {
     private String performUserInputs() {
         String input = "";
         do {
-            System.out.printf("Input %s player [ex: A2-A3] : ", board.getCurrentColor());
+            System.out.printf("Input %s player [ex: A2-A3]: ", board.getCurrentColor());
             try {
                 input = scan.nextLine();
             } catch (Exception ex) {
@@ -75,7 +90,7 @@ public class Main {
         ChessPiece piece = board.getPiece(source);
         if (piece == null) {
             throw new InvalidMoveException("You tried to move an empty piece!");
-        } else if (piece.getChessColor() != board.getCurrentColor()) {
+        } if (piece.getChessColor() != board.getCurrentColor()) {
             throw new InvalidMoveException(String.format("You moved an opponent board! (%s)", piece.toString()));
         }
         return piece;
@@ -83,10 +98,11 @@ public class Main {
 
     private void movePiece(BoardPosition source, BoardPosition destination, ChessPieceRank promotionRank) {
         ChessPiece piece = getValidChessPiece(source);
+        Pawn currentPawn = gameplay.getPawnToPromote(destination, piece, promotionRank);
+
         piece.move(destination, board);
 
-        Pawn currentPawn = gameplay.getPawnToPromote(destination, piece, promotionRank);
-        if (currentPawn != null && currentPawn.isPawnPromotable()) {
+        if (currentPawn != null && currentPawn.isPawnPromotable(true) && promotionRank != null) {
             piece = currentPawn.promote(promotionRank);
             board.setPiece(piece.getPosition(), piece);
         }

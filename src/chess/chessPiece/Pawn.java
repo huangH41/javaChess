@@ -2,6 +2,7 @@ package chess.chessPiece;
 
 import chess.base.*;
 import chess.base.exceptions.InvalidMoveException;
+import chess.base.exceptions.InvalidPromotionException;
 
 import java.util.Vector;
 
@@ -106,7 +107,7 @@ public class Pawn extends ChessPiece {
      */
     public ChessPiece promote(ChessPieceRank upgradedRank) {
         if (!isPawnPromotable() || !upgradedRank.isPromotable()) {
-            throw new IllegalStateException("Can not promote pawn to king or pawn itself!");
+            throw new InvalidPromotionException("Invalid promotion: can not promote pawn to king or pawn itself!");
         }
 
         if (this.getChessColor() == ChessPieceColor.WHITE) {
