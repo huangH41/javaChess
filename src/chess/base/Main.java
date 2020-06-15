@@ -43,7 +43,6 @@ public class Main {
         } catch (InvalidMoveException | IllegalNotationException ex) {
             System.err.println(ex.getMessage());
         }
-        gamePhase();
     }
 
     public void executeUserInputs(String inputtedCoordinates) throws InvalidMoveException, IllegalNotationException {

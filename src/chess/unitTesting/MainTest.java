@@ -1,14 +1,17 @@
 package chess.unitTesting;
+
 import chess.base.Board;
 import chess.base.BoardFactory;
 import chess.base.Main;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.lang.reflect.Method;
 class MainTest extends ChessPieceTestEssentials {
     private final InputStream system = System.in;
+
     @Test
     void regularMoves() {
         Main m = new Main();
@@ -23,6 +26,7 @@ class MainTest extends ChessPieceTestEssentials {
             Assert.fail("Unable to start the game!");
         }
     }
+
     @Test
     void whitePromotionMoves() {
         Main m = new Main();
@@ -52,6 +56,7 @@ class MainTest extends ChessPieceTestEssentials {
             Assert.fail("Unable to start the game!");
         }
     }
+
     @Test
     void blackPromotionMoves() {
         Main m = new Main();
@@ -77,18 +82,22 @@ class MainTest extends ChessPieceTestEssentials {
             Assert.fail("Unable to start the game!");
         }
     }
+
     private void moveAndEvaluate(Main m, String coordinates, boolean status) throws IllegalAccessException {
         assertThat(execute(m, coordinates), status, "Pawn moved properly");
     }
+
     private boolean execute(Main m, String coordinates) throws IllegalAccessException {
         boolean isMoving = false;
         try {
             Board currBoard = BoardFactory.copyBoard(m.getBoard());
             System.out.println("Current piece color: " + m.getBoard().getCurrentColor());
             System.out.println("-> Input coordinate: " + coordinates);
+
             assertor.drawBoard(m.getBoard());
             m.executeUserInputs(coordinates);
             assertor.drawBoard(m.getBoard());
+
             isMoving = (!m.getBoard().equals(currBoard));
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -98,3 +107,4 @@ class MainTest extends ChessPieceTestEssentials {
         return isMoving;
     }
 }
+
