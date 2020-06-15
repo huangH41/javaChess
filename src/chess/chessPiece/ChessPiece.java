@@ -95,8 +95,7 @@ public abstract class ChessPiece {
      * @return is able to move and has no obstacles
      */
     protected boolean isValidMove(Board board, BoardPosition dstPosition) {
-        if (!board.isKingUnderCheckState(board.getKing(board.getCurrentColor()))) {
-
+        if (!KingCheckState.isKingUnderCheckState(board, board.getKing(board.getCurrentColor()))) {
             return isValidMovePath(board, dstPosition)
                     && isValidPieceMovement(dstPosition)
                     && KingCheckState.isKingSafeAfterMovement(board, this.getPosition(), dstPosition);
@@ -225,10 +224,25 @@ public abstract class ChessPiece {
 
             BoardPosition position = new BoardPosition(row, col);
             guardedPositions.add(position);
+
+//            if(generateGuardAreaIgnoreKing(board)) {
+//                continue;
+//            } else if (board.isOccupied(position)) {
+//                break;
+//            }
+
             if (board.isOccupied(position)) {
                 break;
             }
         }
         return guardedPositions;
     }
+
+//    private boolean generateGuardAreaIgnoreKing(Board board) {
+//        if(board.getPiece(position) != null){
+//            return board.getPiece(position).getPieceRank() != ChessPieceRank.KING;
+//        }
+//
+//        return true;
+//    }
 }

@@ -48,36 +48,6 @@ public class Board {
         return color == ChessPieceColor.WHITE ? getWhiteKing() : getBlackKing();
     }
 
-    public boolean isAnyKingBeingChecked() {
-        return isKingUnderCheckState(getBlackKing()) || isKingUnderCheckState(getWhiteKing());
-    }
-
-    /**
-     * To check if the intended king piece current position is checked by other opponent piece
-     *
-     * @param kingPiece King piece to validate
-     * @return King check state
-     */
-    public boolean isKingUnderCheckState(King kingPiece) {
-        return isKingUnderCheckState(kingPiece, kingPiece.getPosition());
-    }
-
-    /**
-     * To check the king movement validity
-     *
-     * @param kingPiece   King piece to validate
-     * @param dstPosition The King position
-     * @return King check state
-     */
-    // TODO "CHECKMATE" haven't implemented
-    public boolean isKingUnderCheckState(King kingPiece, BoardPosition dstPosition) {
-        Plot plot = getBoardPlot().getPlot(dstPosition);
-        if (kingPiece.getChessColor() == ChessPieceColor.WHITE ? plot.isGuardedByBlack() : plot.isGuardedByWhite()) {
-            return kingPiece.isChecked().equals(KingCheckState.CHECK)
-                    || kingPiece.isChecked().equals(KingCheckState.CHECKMATE);
-        } return false;
-    }
-
     public ChessPieceColor getCurrentColor() {
         return currentColor;
     }
@@ -100,12 +70,7 @@ public class Board {
 
     public void setPiece(BoardPosition position, ChessPiece piece) {
         this.pieceBoard[position.getRow() - 1][position.getColumn() - 1] = piece;
-    }
-
-    public static boolean isBoardValidPosition(BoardPosition targetPosition) {
-        if (targetPosition.getRow() < 1 || targetPosition.getRow() > 8) {
-            return false;
-        } else return targetPosition.getColumn() >= 1 && targetPosition.getColumn() <= 8;
+        if(piece != null && piece.getPieceRank() == ChessPieceRank.KING) this.setKing((King) piece);
     }
 
     public int getNumOfTurns() {
@@ -114,6 +79,19 @@ public class Board {
 
     public void setNumOfTurns(int numOfTurns) {
         this.numOfTurns = numOfTurns;
+    }
+
+    public int getCurrSideRemainingPieceCount() {
+        int currSidePieceTotal = 0;
+        for (ChessPiece[] chessPieceRow : pieceBoard) {
+            for (ChessPiece chessPiece : chessPieceRow) {
+                if(chessPiece != null && chessPiece.getChessColor() == currentColor){
+                    currSidePieceTotal++;
+                }
+            }
+        }
+
+        return currSidePieceTotal;
     }
 
     /**
@@ -157,4 +135,9 @@ public class Board {
         return getPiece(position) != null;
     }
 
+    public static boolean isBoardValidPosition(BoardPosition targetPosition) {
+        if (targetPosition.getRow() < 1 || targetPosition.getRow() > 8) {
+            return false;
+        } else return targetPosition.getColumn() >= 1 && targetPosition.getColumn() <= 8;
+    }
 }

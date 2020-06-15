@@ -45,7 +45,6 @@ public class King extends ChessPiece {
         } else if (dstPosition.getColumn() == 7) {
             ChessMechanics.performCastlingMove(board, false, this.getChessColor());
         }
-
         this.markGuardedPlot(board.getBoardPlot(), board);
     }
 
@@ -140,8 +139,36 @@ public class King extends ChessPiece {
                 if(Board.isBoardValidPosition(dstPosition)) guardedPositions.add(dstPosition);
             }
         }
-
         return guardedPositions;
+    }
+
+    /**
+     * Count
+     *
+     * @param board
+     * @return
+     */
+    public boolean hasSafeMovePath(Board board) {
+        int safePath = 0;
+        BoardPlot currBoardPlot = board.getBoardPlot();
+        ChessPieceColor currentSideColor = this.getChessColor();
+        Vector<BoardPosition> validMovePath = this.generateCircleGuardedArea(this.getPosition());
+
+        for(int i = 0; i < validMovePath.size(); i++) {
+            Plot plot = currBoardPlot.getPlot(validMovePath.get(i));
+            if(!isKingDstPositionSafe(plot, currentSideColor)) {
+                safePath++;
+            }
+        }
+        return safePath > 0 ? true : false;
+    }
+
+    private boolean isKingDstPositionSafe(Plot plot, ChessPieceColor currSideColor) {
+        if(currSideColor == ChessPieceColor.WHITE) {
+            return plot.isGuardedByBlack();
+        } else {
+            return plot.isGuardedByWhite();
+        }
     }
 
     /**

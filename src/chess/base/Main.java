@@ -24,6 +24,7 @@ public class Main {
 
     private void gamePhase() {
         BoardPlot.resetBoardPlotGuardStatus(board);
+        if(Gameplay.isGameEnded(board, board.getKing(board.getCurrentColor()))) return;
 
         drawBoard();
         String inputtedCoordinates = performUserInputs();
@@ -43,12 +44,14 @@ public class Main {
             System.out.println(String.format("Piece moved from %s to %s!", source, destination));
 
             board.switchColor();
-            gameplay.verifyKingSafetyState(board);
+            gameplay.verifyKingSafetyState(board, board.getKing(board.getCurrentColor()));
         } catch (InvalidMoveException | IllegalNotationException ex) {
             System.err.println(ex.getMessage());
         }
 
+
         gamePhase();
+
     }
 
     private void drawBoard() {

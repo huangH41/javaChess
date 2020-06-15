@@ -2,6 +2,8 @@ package chess.unitTesting;
 
 import chess.base.*;
 import chess.chessPiece.ChessPiece;
+import chess.chessPiece.King;
+import chess.chessPiece.KingCheckState;
 
 import java.lang.reflect.Method;
 
@@ -157,5 +159,18 @@ class ChessAssertor {
 
     public void drawGuardBoard(Board board) {
         System.out.println(BoardDrawer.drawBoardGuardedPlot(board.getBoardPlot()));
+    }
+
+    /**
+     * Perform all essential task needed when changing turn
+     *
+     * @param board Current game board
+     */
+    public void changeTurn(Board board) {
+        board.switchColor();
+        BoardPlot.resetBoardPlotGuardStatus(board);
+        KingCheckState.isKingUnderCheckState(board, board.getKing(board.getCurrentColor()));
+
+        if(Gameplay.isGameEnded(board, board.getKing(board.getCurrentColor()))) return;
     }
 }
