@@ -41,10 +41,22 @@ class PawnTest extends ChessPieceTestEssentials {
     }
 
     @org.junit.jupiter.api.Test
-    void doNotOvermove() {
+    void whiteDoNotOvermove() {
         assertThrows(InvalidMoveException.class, () ->
                 basicMove(ChessPieceRank.PAWN, "D8")
         );
+    }
+
+    @Test
+    void blackDoNotOvermove() {
+        Board board = new Board();
+        assertor.drawBoard(board);
+
+        assertor.movePiece(board, "C2", "C4");
+
+        assertThrows(InvalidMoveException.class, () -> {
+            assertor.movePiece(board, "D7", "D3");
+        });
     }
 
     @Test
@@ -91,7 +103,7 @@ class PawnTest extends ChessPieceTestEssentials {
     }
 
     @Test
-    void doNotReverse() {
+    void doNotReverseWhites() {
         Board board = new Board();
         assertor.drawBoard(board);
 
@@ -99,7 +111,20 @@ class PawnTest extends ChessPieceTestEssentials {
 
         assertThrows(InvalidMoveException.class, () -> {
             assertor.movePiece(board, "C4", "C3");
-        }).printStackTrace();
+        });
+    }
+
+    @Test
+    void doNotReverseBlacks() {
+        Board board = new Board();
+        assertor.drawBoard(board);
+
+        assertor.movePiece(board, "C2", "C4");
+        assertor.movePiece(board, "D7", "D5");
+
+        assertThrows(InvalidMoveException.class, () -> {
+            assertor.movePiece(board, "D5", "D6");
+        });
     }
 
 

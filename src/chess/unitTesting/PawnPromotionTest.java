@@ -4,6 +4,7 @@ import chess.base.Board;
 import chess.base.BoardPosition;
 import chess.base.ChessPieceColor;
 import chess.base.ChessPieceRank;
+import chess.base.exceptions.InvalidPromotionException;
 import chess.chessPiece.ChessPiece;
 import chess.chessPiece.Pawn;
 import org.junit.jupiter.api.Test;
@@ -16,22 +17,22 @@ class PawnPromotionTest {
 
     @Test
     void promoteAsRook() {
-        promote(ChessPieceRank.ROOK);
+        whitePawnPromotion(ChessPieceRank.ROOK);
     }
 
     @Test
     void promoteAsKnight() {
-        promote(ChessPieceRank.KNIGHT);
+        whitePawnPromotion(ChessPieceRank.KNIGHT);
     }
 
     @Test
     void promoteAsBishop() {
-        promote(ChessPieceRank.BISHOP);
+        whitePawnPromotion(ChessPieceRank.BISHOP);
     }
 
     @Test
     void promoteAsQueen() {
-        promote(ChessPieceRank.QUEEN);
+        whitePawnPromotion(ChessPieceRank.QUEEN);
     }
 
     @Test
@@ -48,15 +49,20 @@ class PawnPromotionTest {
         });
     }
 
-    private void promote(ChessPieceRank rank) {
+    @Test
+    void promoteBlackAsBishop() {
+        blackPawnPromotion(ChessPieceRank.BISHOP);
+    }
+
+    private void whitePawnPromotion(ChessPieceRank rank) {
         Board board = new Board();
         ChessPiece whitePawn = board.getPiece(new BoardPosition("H2"));
 
-        doSampleMovesToPromotion(board);
+        doSampleMovesToWhitePiecePromotion(board);
 
         assertor.movePiece(board, "G7", "G8");
         assert (board.getPiece(new BoardPosition("G8")).equals(whitePawn));
-        assert (((Pawn) whitePawn).isPawnPromotable());
+        assert (((Pawn) whitePawn).isPawnPromotable(true));
 
         try {
             whitePawn = ((Pawn) whitePawn).promote(rank);
@@ -74,7 +80,7 @@ class PawnPromotionTest {
         assertor.drawBoard(board);
     }
 
-    private void doSampleMovesToPromotion(Board board) {
+    private void doSampleMovesToWhitePiecePromotion(Board board) {
         assertor.movePiece(board, "H2", "H4");
         assertor.movePiece(board, "E7", "E5");
         assertor.movePiece(board, "H4", "H5");
@@ -92,5 +98,50 @@ class PawnPromotionTest {
         assertor.movePiece(board, "H5", "F5");
 
         assertor.movePiece(board, "E5", "F4");
+    }
+
+    private void blackPawnPromotion(ChessPieceRank rank) {
+        Board board = new Board();
+        ChessPiece blackPawn = board.getPiece(new BoardPosition("D7"));
+
+        doSampleMovesToBlackPiecePromotion(board);
+
+        assertor.movePiece(board, "C2", "C1");
+        assert (board.getPiece(new BoardPosition("C1")).equals(blackPawn));
+        assert (((Pawn) blackPawn).isPawnPromotable(true));
+
+        try {
+            blackPawn = ((Pawn) blackPawn).promote(rank);
+        } catch (InvalidPromotionException ex) {
+            throw new InvalidPromotionException(ex);
+        }
+
+        board.setPiece(new BoardPosition("C1"), blackPawn);
+
+        assert (blackPawn.getClass().equals(ChessPieceClassificator.getClassInstance(rank)));
+        assert (board.getPiece(new BoardPosition("C1")).equals(blackPawn));
+        assert (assertor.isExpectedPiece(board, new BoardPosition("C1"),
+                rank, ChessPieceColor.BLACK));
+
+        assertor.drawBoard(board);
+    }
+
+    private void doSampleMovesToBlackPiecePromotion(Board board) {
+        assertor.movePiece(board, "G2", "G3");
+        assertor.movePiece(board, "C7", "C5");
+        assertor.movePiece(board, "D2", "D4");
+        assertor.movePiece(board, "D7", "D5");
+        assertor.movePiece(board, "D4", "C5");
+        assertor.movePiece(board, "D5", "D4");
+        assertor.movePiece(board, "C2", "C4");
+        assertor.movePiece(board, "D4", "C3");
+
+        // TODO: THIS IS THE WARNING IF QUEEN TRIED TO MOVE from D1 to A4! (buggy)
+        assertor.movePiece(board, "D1", "B3");
+
+        assertor.movePiece(board, "D8", "D7");
+        assertor.movePiece(board, "C1", "G5");
+        assertor.movePiece(board, "C3", "C2");
+        assertor.movePiece(board, "B1", "D2");
     }
 }
