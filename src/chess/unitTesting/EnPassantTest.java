@@ -7,7 +7,7 @@ import chess.base.ChessPieceRank;
 import chess.base.exceptions.InvalidMoveException;
 import chess.chessPiece.Pawn;
 import org.junit.Assert;
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class EnPassantTest {
 
@@ -126,9 +126,9 @@ class EnPassantTest {
         assert (!p.isEnPassable(board, new BoardPosition("D3")));
 
         // Expect that en-passment is not appliable
-        Assertions.assertThrows(InvalidMoveException.class, () -> {
+        assertThrows(InvalidMoveException.class, () -> {
             assertor.movePiece(board, "C4", "D3");
-        }).printStackTrace();
+        });
     }
 
     /**
@@ -157,9 +157,9 @@ class EnPassantTest {
         assert (!p.isEnPassable(board, new BoardPosition("B6")));
 
         // Move to apply en-passant
-        Assertions.assertThrows(InvalidMoveException.class, () -> {
+        assertThrows(InvalidMoveException.class, () -> {
             assertor.movePiece(board, "B5", "C6");
-        }).printStackTrace();
+        });
     }
 
 }

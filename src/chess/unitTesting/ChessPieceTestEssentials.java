@@ -5,6 +5,7 @@ import chess.base.BoardPosition;
 import chess.base.ChessPieceFactory;
 import chess.base.ChessPieceRank;
 import chess.chessPiece.ChessPiece;
+import org.junit.Assert;
 
 abstract class ChessPieceTestEssentials {
     protected static final ChessAssertor assertor = new ChessAssertor();
@@ -22,13 +23,22 @@ abstract class ChessPieceTestEssentials {
         assert (assertor.isExpectedPiece(board, new BoardPosition(targetPosition), rank));
     }
 
-    boolean mustThrowException(boolean methods) {
-        try {
-            if (methods) {
-                return false;
-            } return false;
-        } catch (Exception e) {
-            return true;
-        }
+    /**
+     * Assert that the boolean comparison must expect the qualified status
+     * @param compare the boolean comparison to test/qualify
+     * @param expected true/false to expected in comparison
+     */
+    void assertThat(boolean compare, boolean expected) {
+        assert (compare == expected);
+    }
+
+    /**
+     * Assert that the boolean comparison must expect the qualified status (with message to classify test)
+     * @param message message to clarify test
+     * @param compare the boolean comparison to test/qualify
+     * @param expected true/false to expected in comparison
+     */
+    void assertThat(boolean compare, boolean expected, String message) {
+        Assert.assertEquals(message, expected, compare);
     }
 }

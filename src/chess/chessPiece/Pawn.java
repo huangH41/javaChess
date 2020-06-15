@@ -2,6 +2,7 @@ package chess.chessPiece;
 
 import chess.base.*;
 import chess.base.exceptions.InvalidMoveException;
+import chess.base.exceptions.InvalidPromotionException;
 
 import java.util.Vector;
 
@@ -105,8 +106,8 @@ public class Pawn extends ChessPiece {
      * @return Rook, Knight, Bishop, or Queen
      */
     public ChessPiece promote(ChessPieceRank upgradedRank) {
-        if (!isPawnPromotable() || !upgradedRank.isPromotable()) {
-            throw new IllegalStateException("Can not promote pawn to king or pawn itself!");
+        if (!isPawnPromotable(true) || !upgradedRank.isPromotable()) {
+            throw new InvalidPromotionException("Invalid promotion: can not promote pawn to king or pawn itself!");
         }
 
         if (this.getChessColor() == ChessPieceColor.WHITE) {
@@ -114,9 +115,15 @@ public class Pawn extends ChessPiece {
         } else return ChessPieceFactory.defineBlackPiece(upgradedRank, this.getPosition());
     }
 
-    public boolean isPawnPromotable() {
-        int promotableRowPosition = (getChessColor() == ChessPieceColor.WHITE) ? 8 : 1;
-        return getPosition().getRow() == promotableRowPosition;
+    /**
+     * Verify that the pawn is promotable at correct row
+     * @return promotable at enemy base row
+     */
+
+    public boolean isPawnPromotable(boolean atBase) {
+        int direction = (getChessColor().getMovementDirectionOrdinate());
+        int promotableRowPosition = 9 - getChessColor().getStartPosition();
+        return getPosition().getRow() + (atBase ? 0 : direction) == promotableRowPosition;
     }
 
     /**

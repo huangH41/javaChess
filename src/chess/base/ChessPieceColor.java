@@ -19,6 +19,10 @@ public enum ChessPieceColor {
         return direction;
     }
 
+    public int getMovementDirectionOrdinate() {
+        return direction.getRowOrdinate();
+    }
+
     public String toString() {
         return this.name();
     }

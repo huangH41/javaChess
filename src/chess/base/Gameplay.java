@@ -2,39 +2,14 @@ package chess.base;
 
 import chess.base.exceptions.IllegalNotationException;
 import chess.base.exceptions.InvalidMoveException;
+import chess.base.exceptions.InvalidPromotionException;
 import chess.chessPiece.ChessPiece;
 import chess.chessPiece.KingCheckState;
 import chess.chessPiece.Pawn;
 import chess.chessPiece.King;
 
 public class Gameplay {
-    public Pawn getPawnToPromote(BoardPosition position, ChessPiece piece, ChessPieceRank promotionRank) {
-        if (piece == null || promotionRank == null) {
-            return null;
-        } if (piece instanceof Pawn && verifyPawnPromotable(position, (Pawn) piece, promotionRank)) {
-            return (Pawn) piece;
-        } return null;
-    }
-
-    private boolean verifyPawnPromotable(BoardPosition targetCoordinate, Pawn currentPawn, ChessPieceRank newRank) throws InvalidMoveException {
-        if (!currentPawn.isPawnPromotable() && (targetCoordinate.getRow() != 8) && newRank != null) {
-            throw new InvalidMoveException("Your pawn is far away from promotion!");
-        } else if (currentPawn.isPawnPromotable() && (targetCoordinate.getRow() == 8) && newRank == null) {
-            throw new InvalidMoveException("Your pawn must be promoted to higher-tier pieces!");
-        } return true;
-    }
-
-    public void verifyKingSafetyState(Board board, King king) {
-        if(KingCheckState.isKingUnderCheckState(board, king)) {
-            if(board.getCurrentColor() == ChessPieceColor.WHITE) {
-                System.out.println("White King is getting check!");
-            } else {
-                System.out.println("Black King is getting check!");
-            }
-        }
-    }
-
-    public boolean verifyUserInputs(String inputtedCoordinates) {
+    public boolean verifyUserInputs(String inputtedCoordinates) throws InvalidMoveException, IllegalNotationException {
         if (inputtedCoordinates.isEmpty() || !(inputtedCoordinates.length() >= 5 && inputtedCoordinates.length() <= 6)
                 || inputtedCoordinates.split("-").length != 2) {
             throw IllegalNotationException.userInputMismatch();
@@ -51,10 +26,39 @@ public class Gameplay {
         }
     }
 
-    public ChessPieceRank getPromotionRank(String inputtedCoordinates) {
+    public Pawn getPawnToPromote(BoardPosition position, ChessPiece piece, ChessPieceRank promotionRank) {
+        if (promotionRank == null && position.getRow() != (9 - piece.getChessColor().getStartPosition())) {
+            return null;
+        } if (piece instanceof Pawn && verifyPawnPromotable(position, (Pawn) piece, promotionRank)) {
+            return (Pawn) piece;
+        } return null;
+    }
+
+    public ChessPieceRank getPromotionRank(String inputtedCoordinates) throws IllegalNotationException {
         if (inputtedCoordinates.length() == 6 && inputtedCoordinates.matches("^[A-H][1-8][-][A-H][1-8][RNBQ]$")) {
             return ChessPieceRank.getPieceRankByInitial(inputtedCoordinates.charAt(5));
+        } else if (inputtedCoordinates.length() == 5 && inputtedCoordinates.matches("^[A-H][1-8][-][A-H][1-8]$")) {
+            return null;
         } throw IllegalNotationException.userInputMismatch(true);
+    }
+
+    private boolean verifyPawnPromotable(BoardPosition targetCoordinate, Pawn currentPawn, ChessPieceRank newRank) throws InvalidMoveException {
+        int opponentBaseRow = 9 - currentPawn.getChessColor().getStartPosition();
+        if (!currentPawn.isPawnPromotable(false) && (targetCoordinate.getRow() != opponentBaseRow) && (newRank != null)) {
+            throw InvalidPromotionException.notPromotable();
+        } else if (currentPawn.isPawnPromotable(false) && (targetCoordinate.getRow() == opponentBaseRow) && newRank == null) {
+            throw InvalidPromotionException.notPromotedYet();
+        } return true;
+    }
+
+    public void verifyKingSafetyState(Board board, King king) {
+        if(KingCheckState.isKingUnderCheckState(board, king)) {
+            if(board.getCurrentColor() == ChessPieceColor.WHITE) {
+                System.out.println("White King is getting check!");
+            } else {
+                System.out.println("Black King is getting check!");
+            }
+        }
     }
 
     public static boolean isGameEnded(Board board, King kingPiece) {

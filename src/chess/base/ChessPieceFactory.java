@@ -1,9 +1,10 @@
 package chess.base;
 
+import chess.base.exceptions.IllegalNotationException;
 import chess.chessPiece.*;
 
 public class ChessPieceFactory {
-    public static ChessPiece newPiece(ChessPieceColor color, ChessPieceRank rank, BoardPosition position) throws IllegalArgumentException {
+    public static ChessPiece newPiece(ChessPieceColor color, ChessPieceRank rank, BoardPosition position) throws IllegalNotationException {
         switch (rank) {
             case KING:
                 return new King(color, position);
@@ -18,7 +19,7 @@ public class ChessPieceFactory {
             case PAWN:
                 return new Pawn(color, position);
             default:
-                throw new IllegalArgumentException("Invalid piece rank!");
+                throw IllegalNotationException.rank();
         }
     }
 

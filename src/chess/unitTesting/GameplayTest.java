@@ -52,6 +52,7 @@ class GameplayTest extends ChessPieceTestEssentials {
     @Test
     void getUserInputtedCoordinates() {
         assert (getUserInputtedCoordinates("A3-B2"));
+        assert (getUserInputtedCoordinates("E3-C2"));
         assert (!getUserInputtedCoordinates("A3-7H"));
         assert (!getUserInputtedCoordinates("A3-H7A"));
         assert (getUserInputtedCoordinates("A3-H5Q"));

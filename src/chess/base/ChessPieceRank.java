@@ -21,12 +21,7 @@ public enum ChessPieceRank {
             if (rank.initialPieceRank == initialPieceRank) {
                 return rank;
             }
-        } throw new IllegalNotationException("Initial must be P, R, N, B, Q, or K (must be uppercase!)");
-    }
-
-    @Override
-    public String toString() {
-        return this.name();
+        } throw IllegalNotationException.rank();
     }
 
     public char getInitialPieceRank(ChessPieceColor color) {
@@ -36,5 +31,10 @@ public enum ChessPieceRank {
 
     public boolean isPromotable() {
         return this.equals(ROOK) || this.equals(KNIGHT) || this.equals(BISHOP) || this.equals(QUEEN);
+    }
+
+    @Override
+    public String toString() {
+        return this.name();
     }
 }
