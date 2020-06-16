@@ -2,7 +2,6 @@ package chess.base;
 
 import chess.base.exceptions.InvalidMoveException;
 import chess.chessPiece.King;
-import chess.chessPiece.KingCheckState;
 import chess.chessPiece.Rook;
 
 /**
@@ -20,15 +19,16 @@ public class ChessMechanics {
      * @return king safety status (true if SAFE, false if CHECK or CHECKMATE)
      */
     public static boolean isKingChecked(King king) {
-        return !(king.isChecked() == KingCheckState.SAFE);
+        return !king.isChecked();
     }
 
     /**
      * Do castling move for a king and a rook, with direction of queen-side castling (Ex-Cx) or king-side castling (Ex-Gx).
      * Make sure that both of the king and rook hasn't been moved before before perform castling move!
-     *  @param board             the board to perform castling move
+     *
+     * @param board             the board to perform castling move
      * @param queenSidePosition selects rook at queen side or king side?
-     * @param currSideColor
+     * @param currSideColor     side of castling move
      */
     public static void performCastlingMove(Board board, boolean queenSidePosition, ChessPieceColor currSideColor) {
         int cornerColumnPosition = queenSidePosition ? BoardPosition.MIN_INDEX : BoardPosition.MAX_INDEX;

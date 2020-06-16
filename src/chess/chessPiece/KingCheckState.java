@@ -3,8 +3,7 @@ package chess.chessPiece;
 import chess.base.*;
 import chess.base.exceptions.InvalidMoveException;
 
-public enum KingCheckState {
-    SAFE, CHECK, CHECKMATE;
+public class KingCheckState {
 
     /**
      * To check if the intended king piece current position is checked by other opponent piece
@@ -29,25 +28,19 @@ public enum KingCheckState {
     public static boolean isKingUnderCheckState(Board board, King kingPiece, BoardPosition dstPosition) {
         Plot plot = board.getBoardPlot().getPlot(dstPosition);
         if (kingPiece.getChessColor() == ChessPieceColor.WHITE ? plot.isGuardedByBlack() : plot.isGuardedByWhite()) {
-            kingPiece.setCheckState(CHECK);
+            kingPiece.setCheckState(true);
         } else {
-            kingPiece.setCheckState(SAFE);
+            kingPiece.setCheckState(false);
         }
-        return kingPiece.isChecked() != SAFE;
+        return kingPiece.isChecked();
     }
 
     public static boolean isStalemate(Board board, King kingPiece) {
-        if(!kingPiece.hasSafeMovePath(board) && board.getCurrSideRemainingPieceCount() == 1 && kingPiece.isChecked() == SAFE) {
-            return true;
-        }
-        return false;
+        return !kingPiece.hasSafeMovePath(board) && board.getCurrSideRemainingPieceCount() == 1 && !kingPiece.isChecked();
     }
 
     public static boolean isCheckmate(Board board, King kingPiece) {
-        if(!kingPiece.hasSafeMovePath(board) && kingPiece.isChecked() == CHECK) {
-            return true;
-        }
-        return false;
+        return !kingPiece.hasSafeMovePath(board) && kingPiece.isChecked();
     }
 
     /**

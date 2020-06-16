@@ -11,7 +11,7 @@ public class Board {
 
     private King blackKing, whiteKing;
     private ChessPieceColor currentColor = ChessPieceColor.WHITE;
-    private BoardPlot boardPlot;
+    private final BoardPlot boardPlot;
     private int numOfTurns = 0;
 
     public Board() {
@@ -37,7 +37,7 @@ public class Board {
     }
 
     public void setKing(King king) {
-        if(king.getChessColor() == ChessPieceColor.WHITE) {
+        if (king.getChessColor() == ChessPieceColor.WHITE) {
             whiteKing = king;
         } else {
             blackKing = king;
@@ -70,22 +70,32 @@ public class Board {
 
     public void setPiece(BoardPosition position, ChessPiece piece) {
         this.pieceBoard[position.getRow() - 1][position.getColumn() - 1] = piece;
-        if(piece != null && piece.getPieceRank() == ChessPieceRank.KING) this.setKing((King) piece);
+        if (piece != null && piece.getPieceRank() == ChessPieceRank.KING) this.setKing((King) piece);
     }
 
     public int getNumOfTurns() {
         return numOfTurns;
     }
 
-    public void setNumOfTurns(int numOfTurns) {
-        this.numOfTurns = numOfTurns;
+    public void nextTurn() {
+        this.numOfTurns++;
+    }
+
+    public boolean isOccupied(BoardPosition position) {
+        return getPiece(position) != null;
+    }
+
+    public static boolean isBoardValidPosition(BoardPosition targetPosition) {
+        if (targetPosition.getRow() < 1 || targetPosition.getRow() > 8) {
+            return false;
+        } else return targetPosition.getColumn() >= 1 && targetPosition.getColumn() <= 8;
     }
 
     public int getCurrSideRemainingPieceCount() {
         int currSidePieceTotal = 0;
         for (ChessPiece[] chessPieceRow : pieceBoard) {
             for (ChessPiece chessPiece : chessPieceRow) {
-                if(chessPiece != null && chessPiece.getChessColor() == currentColor){
+                if (chessPiece != null && chessPiece.getChessColor() == currentColor) {
                     currSidePieceTotal++;
                 }
             }
@@ -131,13 +141,4 @@ public class Board {
         setPiece(oldPosition, null);
     }
 
-    public boolean isOccupied(BoardPosition position) {
-        return getPiece(position) != null;
-    }
-
-    public static boolean isBoardValidPosition(BoardPosition targetPosition) {
-        if (targetPosition.getRow() < 1 || targetPosition.getRow() > 8) {
-            return false;
-        } else return targetPosition.getColumn() >= 1 && targetPosition.getColumn() <= 8;
-    }
 }

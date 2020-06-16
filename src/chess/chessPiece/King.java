@@ -7,7 +7,7 @@ import java.util.Vector;
 
 public class King extends ChessPiece {
 
-    private KingCheckState checkState = KingCheckState.SAFE;
+    private boolean checkState = false;
     /**
      * Define King with defined color and position
      *
@@ -18,11 +18,11 @@ public class King extends ChessPiece {
         super(ChessPieceRank.KING, chessColor, position);
     }
 
-    public KingCheckState isChecked() {
+    public boolean isChecked() {
         return checkState;
     }
 
-    public void setCheckState(KingCheckState checkState) {
+    public void setCheckState(boolean checkState) {
         this.checkState = checkState;
     }
 
@@ -68,11 +68,7 @@ public class King extends ChessPiece {
         BoardPosition rookInitialPos = new BoardPosition(getValidCastlingRow(), dstPosDirection == MovementDirection.LEFT ? 1 : 8);
         ChessPiece targetPosChessPiece = board.getPiece(rookInitialPos);
 
-        if(targetPosChessPiece.getPieceRank() == ChessPieceRank.ROOK && !targetPosChessPiece.hasMovedOnce()) {
-            return true;
-        } else {
-            return false;
-        }
+        return targetPosChessPiece.getPieceRank() == ChessPieceRank.ROOK && !targetPosChessPiece.hasMovedOnce();
     }
 
     /**
@@ -88,7 +84,7 @@ public class King extends ChessPiece {
         if(this.getPosition().getRow() == getValidCastlingRow() && !board.isOccupied(dstPosition)) {
             BoardPosition rookNextPosition = new BoardPosition(getValidCastlingRow(),
                     dstPosDirection == MovementDirection.LEFT ? 4 : 6);
-            return board.isOccupied(rookNextPosition) ? false : true;
+            return !board.isOccupied(rookNextPosition);
         }
         return false;
     }
@@ -120,7 +116,7 @@ public class King extends ChessPiece {
 
     @Override
     protected boolean isValidPieceMovement(BoardPosition dstPosition) {
-        return (isSingleAnyDirectionalMove(dstPosition));
+        return (isCircularMove(dstPosition));
     }
 
     @Override
@@ -154,13 +150,13 @@ public class King extends ChessPiece {
         ChessPieceColor currentSideColor = this.getChessColor();
         Vector<BoardPosition> validMovePath = this.generateCircleGuardedArea(this.getPosition());
 
-        for(int i = 0; i < validMovePath.size(); i++) {
-            Plot plot = currBoardPlot.getPlot(validMovePath.get(i));
-            if(!isKingDstPositionSafe(plot, currentSideColor)) {
+        for (BoardPosition position : validMovePath) {
+            Plot plot = currBoardPlot.getPlot(position);
+            if (!isKingDstPositionSafe(plot, currentSideColor)) {
                 safePath++;
             }
         }
-        return safePath > 0 ? true : false;
+        return safePath > 0;
     }
 
     private boolean isKingDstPositionSafe(Plot plot, ChessPieceColor currSideColor) {
@@ -177,7 +173,7 @@ public class King extends ChessPiece {
      * @param dstPosition destination position
      * @return true if king moves any-directional by one block
      */
-    private boolean isSingleAnyDirectionalMove(BoardPosition dstPosition) {
+    private boolean isCircularMove(BoardPosition dstPosition) {
         return PieceMovement.getRelativeColDistance(this, dstPosition.getColumn()) <= 1
                 && PieceMovement.getRelativeRowDistance(this, dstPosition.getRow()) <= 1;
     }

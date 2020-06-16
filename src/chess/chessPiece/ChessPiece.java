@@ -106,7 +106,7 @@ public abstract class ChessPiece {
         if (!hasMovedOnce) {
             setFirstMoveAt(board.getNumOfTurns());
         }
-        board.setNumOfTurns(board.getNumOfTurns() + 1);
+        board.nextTurn();
     }
 
     /**
