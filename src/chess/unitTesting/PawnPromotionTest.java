@@ -11,9 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class PawnPromotionTest {
-
-    private static final ChessAssertor assertor = new ChessAssertor();
+class PawnPromotionTest extends ChessPieceTestEssentials {
 
     @Test
     void promoteAsRook() {
@@ -62,7 +60,8 @@ class PawnPromotionTest {
 
         assertor.movePiece(board, "G7", "G8");
         assert (board.getPiece(new BoardPosition("G8")).equals(whitePawn));
-        assert (((Pawn) whitePawn).isPawnPromotable(true));
+        assertThat(((Pawn) whitePawn).isPawnPromotable(true),
+                true, "That piece is promotable at enemy base row");
 
         try {
             whitePawn = ((Pawn) whitePawn).promote(rank);
@@ -72,10 +71,11 @@ class PawnPromotionTest {
 
         board.setPiece(new BoardPosition("G8"), whitePawn);
 
-        assert (whitePawn.getClass().equals(ChessPieceClassificator.getClassInstance(rank)));
+        assertThat(whitePawn.getClass().equals(ChessPieceClassificator.getClassInstance(rank)),
+                true, "Black pawn have been promoted as " + rank);
         assert (board.getPiece(new BoardPosition("G8")).equals(whitePawn));
-        assert (assertor.isExpectedPiece(board, new BoardPosition("G8"),
-                rank, ChessPieceColor.WHITE));
+        assertThat(assertor.isExpectedPiece(board, new BoardPosition("G8"),
+                rank, ChessPieceColor.WHITE), true, "Piece has already promoted as " + rank);
 
         assertor.drawBoard(board);
     }
@@ -108,7 +108,8 @@ class PawnPromotionTest {
 
         assertor.movePiece(board, "C2", "C1");
         assert (board.getPiece(new BoardPosition("C1")).equals(blackPawn));
-        assert (((Pawn) blackPawn).isPawnPromotable(true));
+        assertThat(((Pawn) blackPawn).isPawnPromotable(true),
+                true, "That piece is promotable at enemy base row");
 
         try {
             blackPawn = ((Pawn) blackPawn).promote(rank);
@@ -118,10 +119,11 @@ class PawnPromotionTest {
 
         board.setPiece(new BoardPosition("C1"), blackPawn);
 
-        assert (blackPawn.getClass().equals(ChessPieceClassificator.getClassInstance(rank)));
+        assertThat(blackPawn.getClass().equals(ChessPieceClassificator.getClassInstance(rank)),
+                    true, "Black pawn have been promoted as " + rank);
         assert (board.getPiece(new BoardPosition("C1")).equals(blackPawn));
-        assert (assertor.isExpectedPiece(board, new BoardPosition("C1"),
-                rank, ChessPieceColor.BLACK));
+        assertThat(assertor.isExpectedPiece(board, new BoardPosition("C1"),
+                rank, ChessPieceColor.BLACK), true, "Piece has already promoted as " + rank);
 
         assertor.drawBoard(board);
     }

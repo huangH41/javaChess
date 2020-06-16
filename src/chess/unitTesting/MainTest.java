@@ -6,9 +6,8 @@ import chess.game.Main;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.lang.reflect.Method;
+
 class MainTest extends ChessPieceTestEssentials {
     private final InputStream system = System.in;
 
@@ -70,10 +69,14 @@ class MainTest extends ChessPieceTestEssentials {
             moveAndEvaluate(m, "C2-C4", true);
             moveAndEvaluate(m, "D4-C3", true);
             moveAndEvaluate(m, "D1-B3", true);
+            moveAndEvaluate(m, "D8-D7R", false);
             moveAndEvaluate(m, "D8-D7", true);
             moveAndEvaluate(m, "C1-G5", true);
+            moveAndEvaluate(m, "C3-C2Q", false);
+            moveAndEvaluate(m, "C3-C2Y", false);
             moveAndEvaluate(m, "C3-C2", true);
             moveAndEvaluate(m, "B1-D2", true);
+            moveAndEvaluate(m, "C2-C1", false);
             moveAndEvaluate(m, "C2-C1K", false);
             moveAndEvaluate(m, "C2-C1P", false);
             moveAndEvaluate(m, "C2-C1Q", true);
@@ -87,7 +90,7 @@ class MainTest extends ChessPieceTestEssentials {
         assertThat(execute(m, coordinates), status, "Pawn moved properly");
     }
 
-    private boolean execute(Main m, String coordinates) throws IllegalAccessException {
+    private boolean execute(Main m, String coordinates) {
         boolean isMoving = false;
         try {
             Board currBoard = BoardFactory.copyBoard(m.getBoard());

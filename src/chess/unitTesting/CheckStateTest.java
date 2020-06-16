@@ -9,8 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CheckStateTest {
-    private ChessAssertor assertor = new ChessAssertor();
+class CheckStateTest extends ChessPieceTestEssentials {
 
     @Test
     void kingCheckedByEnemy() {
@@ -41,7 +40,7 @@ class CheckStateTest {
         assertor.drawBoard(board);
 
         whiteRook.move(new BoardPosition("A1"), board);
-        assertEquals(false, KingCheckState.isKingUnderCheckState(board, (King) whiteKing));
+        assert(!KingCheckState.isKingUnderCheckState(board, (King) whiteKing));
     }
 
     @Test
@@ -80,7 +79,7 @@ class CheckStateTest {
         assertor.drawGuardBoard(board);
         assertor.changeTurn(board);
 
-        assertEquals(true, KingCheckState.isCheckmate(board, (King) whiteKing));
+        assert(KingCheckState.isCheckmate(board, (King) whiteKing));
     }
 
     @Test
@@ -98,6 +97,6 @@ class CheckStateTest {
 
         assertor.drawBoard(board);
 
-        assertEquals(true, KingCheckState.isStalemate(board, board.getKing(board.getCurrentColor())));
+        assert(KingCheckState.isStalemate(board, board.getKing(board.getCurrentColor())));
     }
 }

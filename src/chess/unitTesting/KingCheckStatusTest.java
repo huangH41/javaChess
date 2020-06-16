@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class KingCheckStatusTest {
-    private ChessAssertor assertor = new ChessAssertor();
+class KingCheckStatusTest extends ChessPieceTestEssentials {
 
     @Test
     void kingMoveToSafeLocationOnly() {

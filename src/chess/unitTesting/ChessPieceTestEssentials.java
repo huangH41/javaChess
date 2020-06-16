@@ -7,6 +7,9 @@ import chess.base.ChessPieceRank;
 import chess.chessPiece.ChessPiece;
 import org.junit.Assert;
 
+/**
+ * This class serves every tester units that each class can implement this member and properties
+ */
 abstract class ChessPieceTestEssentials {
     protected static final ChessAssertor assertor = new ChessAssertor();
 
@@ -21,15 +24,6 @@ abstract class ChessPieceTestEssentials {
         assertor.drawBoard(board);
         assertor.movePiece(board, piece, targetPosition);
         assert (assertor.isExpectedPiece(board, new BoardPosition(targetPosition), rank));
-    }
-
-    /**
-     * Assert that the boolean comparison must expect the qualified status
-     * @param compare the boolean comparison to test/qualify
-     * @param expected true/false to expected in comparison
-     */
-    void assertThat(boolean compare, boolean expected) {
-        assert (compare == expected);
     }
 
     /**

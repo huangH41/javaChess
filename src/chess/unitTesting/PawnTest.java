@@ -90,7 +90,7 @@ class PawnTest extends ChessPieceTestEssentials {
     }
 
     @Test
-    void doNotAttackStraight() {
+    void whiteDoNotAttackStraight() {
         Board board = assertor.clearBoard(new Board());
         ChessPiece pawn = ChessPieceFactory.defineWhitePiece(ChessPieceRank.PAWN, new BoardPosition("D4"));
         ChessPiece enemyPawn = ChessPieceFactory.defineBlackPiece(ChessPieceRank.PAWN, new BoardPosition("D5"));
@@ -100,6 +100,19 @@ class PawnTest extends ChessPieceTestEssentials {
 
         assertor.drawBoard(board);
         assertThrows(InvalidMoveException.class, () -> assertor.movePiece(board, pawn, "D5"));
+    }
+
+    @Test
+    void blackDoNotAttackStraight() {
+        Board board = assertor.clearBoard(new Board());
+        ChessPiece pawn = ChessPieceFactory.defineBlackPiece(ChessPieceRank.PAWN, new BoardPosition("D5"));
+        ChessPiece enemyPawn = ChessPieceFactory.defineWhitePiece(ChessPieceRank.PAWN, new BoardPosition("D4"));
+
+        board.setPiece(pawn.getPosition(), pawn);
+        board.setPiece(enemyPawn.getPosition(), enemyPawn);
+
+        assertor.drawBoard(board);
+        assertThrows(InvalidMoveException.class, () -> assertor.movePiece(board, pawn, "D4"));
     }
 
     @Test
@@ -142,18 +155,23 @@ class PawnTest extends ChessPieceTestEssentials {
         assertor.movePiece(board, "B2", "B4");
         assertor.movePiece(board, "C7", "C5");
         assertor.movePiece(board, "B4", "C5");
-        assert (board.getPiece(new BoardPosition("C5")).equals(whitePawn));
+        assertThat(board.getPiece(new BoardPosition("C5")).equals(whitePawn),
+                true, String.format("%s attacked pawn at C5", whitePawn));
 
         assertor.movePiece(board, "B7", "B5");
-        assert ((int) ChessAssertor.accessPrivateMethodValuers(
-                board.getPiece(new BoardPosition("B5")), "getMovementCount") == 1);
-        assert (whitePawn.isEnPassable(board, new BoardPosition("B6")));
+        assertThat((int) ChessAssertor.accessPrivateMethodValuers(
+                board.getPiece(new BoardPosition("B5")), "getMovementCount") == 1,
+                true, "The black pawn is moved once after white pawn's move");
+        assertThat(whitePawn.isEnPassable(board, new BoardPosition("B6")),
+                true, "White pawn is able to en-pass black pawn");
 
         assertor.movePiece(board, "C5", "B6");
-        assert (!board.isOccupied(new BoardPosition("B5")));
+        assertThat(!board.isOccupied(new BoardPosition("B5")),
+                true, "Black pawn has been en-passed by white pawn");
 
         Pawn blackPawnFirstMover = (Pawn) board.getPiece(new BoardPosition("A7"));
         assertor.movePiece(board, "A7", "B6");
-        assert (board.getPiece(new BoardPosition("B6")).equals(blackPawnFirstMover));
+        assertThat(board.getPiece(new BoardPosition("B6")).equals(blackPawnFirstMover),
+                true, "Black pawn attacked white pawn at their first move immediately");
     }
 }
