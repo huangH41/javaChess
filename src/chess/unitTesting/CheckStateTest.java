@@ -77,6 +77,7 @@ class CheckStateTest {
         assertor.drawBoard(board);
 
         assertor.movePiece(board, blackQueen, "B1");
+        assertor.drawGuardBoard(board);
         assertor.changeTurn(board);
 
         assertEquals(true, KingCheckState.isCheckmate(board, (King) whiteKing));

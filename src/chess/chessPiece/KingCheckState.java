@@ -37,7 +37,7 @@ public enum KingCheckState {
     }
 
     public static boolean isStalemate(Board board, King kingPiece) {
-        if(!kingPiece.hasSafeMovePath(board) && board.getCurrSideRemainingPieceCount() == 1) {
+        if(!kingPiece.hasSafeMovePath(board) && board.getCurrSideRemainingPieceCount() == 1 && kingPiece.isChecked() == SAFE) {
             return true;
         }
         return false;
