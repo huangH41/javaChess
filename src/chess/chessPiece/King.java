@@ -197,12 +197,4 @@ public class King extends ChessPiece {
         return BoardPosition.isValidCoordinateNumber(nextRowCoordinate)
                 && BoardPosition.isValidCoordinateNumber(nextColCoordinate);
     }
-
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        King copy = new King(this.getChessColor(), this.getPosition());
-        copyProperties(copy);
-        copy.checkState = checkState;
-        return copy;
-    }
 }

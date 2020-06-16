@@ -93,11 +93,4 @@ public class Rook extends ChessPiece {
                 || PieceMovement.isVerticalMovement(this, dstPosition))
                 && !PieceMovement.isDiagonalMovement(this, dstPosition);
     }
-
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        Rook copy = new Rook(this.getChessColor(), this.getPosition());
-        copyProperties(copy);
-        return copy;
-    }
 }

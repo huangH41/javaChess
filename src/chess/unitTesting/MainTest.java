@@ -2,7 +2,7 @@ package chess.unitTesting;
 
 import chess.base.Board;
 import chess.base.BoardFactory;
-import chess.base.Main;
+import chess.game.Main;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 

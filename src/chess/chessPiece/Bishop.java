@@ -78,11 +78,4 @@ public class Bishop extends ChessPiece {
     protected boolean isValidPieceMovement(BoardPosition dstPosition) {
         return (PieceMovement.isDiagonalMovement(this, dstPosition));
     }
-
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        Bishop copy = new Bishop(this.getChessColor(), this.getPosition());
-        copyProperties(copy);
-        return copy;
-    }
 }

@@ -25,15 +25,6 @@ public abstract class ChessPiece {
         this.position = position;
     }
 
-    @Override
-    protected abstract Object clone() throws CloneNotSupportedException;
-
-    protected void copyProperties(ChessPiece copy) {
-        copy.hasMovedOnce = hasMovedOnce;
-        copy.setFirstMoveAt(getFirstMoveAt());
-    }
-
-
     /**
      * Return this object as String by format: "Color, Rank, Chess-Position-Notation"
      *
