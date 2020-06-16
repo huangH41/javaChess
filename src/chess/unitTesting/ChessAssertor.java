@@ -2,8 +2,8 @@ package chess.unitTesting;
 
 import chess.base.*;
 import chess.chessPiece.ChessPiece;
-import chess.chessPiece.King;
 import chess.chessPiece.KingCheckState;
+import chess.game.Gameplay;
 
 import java.lang.reflect.Method;
 

@@ -1,12 +1,16 @@
-package chess.base;
+package chess.game;
 
+import chess.base.Board;
+import chess.base.BoardPosition;
+import chess.base.ChessPieceColor;
+import chess.base.ChessPieceRank;
 import chess.base.exceptions.IllegalNotationException;
 import chess.base.exceptions.InvalidMoveException;
 import chess.base.exceptions.InvalidPromotionException;
 import chess.chessPiece.ChessPiece;
+import chess.chessPiece.King;
 import chess.chessPiece.KingCheckState;
 import chess.chessPiece.Pawn;
-import chess.chessPiece.King;
 
 public class Gameplay {
     public boolean verifyUserInputs(String inputtedCoordinates) throws InvalidMoveException, IllegalNotationException {

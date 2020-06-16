@@ -1,8 +1,7 @@
 package chess.unitTesting;
 
 import chess.base.BoardPosition;
-import chess.base.Gameplay;
-import chess.base.exceptions.IllegalNotationException;
+import chess.game.Gameplay;
 import org.junit.jupiter.api.Test;
 
 class GameplayTest extends ChessPieceTestEssentials {

@@ -1,5 +1,6 @@
-package chess.base;
+package chess.game;
 
+import chess.base.*;
 import chess.base.exceptions.InvalidMoveException;
 import chess.base.exceptions.IllegalNotationException;
 import chess.chessPiece.ChessPiece;
