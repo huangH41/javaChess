@@ -18,15 +18,6 @@ public class IllegalNotationException extends IllegalArgumentException {
     }
 
     /**
-     * The coordinate outside chess index (array index from 0 to 7)
-     *
-     * @param index index at position
-     */
-    public IllegalNotationException(int index) {
-        super(String.format("Illegal position notation! (value: %d)", index));
-    }
-
-    /**
      * The row coordinate outside chess index (array index from 0 to 7)
      *
      * @param row row index at position

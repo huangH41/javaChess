@@ -5,6 +5,13 @@ public class InvalidPromotionException extends IllegalArgumentException {
     /**
      * Warns the user that pawn you've moved cannot be promoted until your pawn reached enemy base
      */
+    public static InvalidPromotionException notPawn() {
+        return new InvalidPromotionException("Your cannot promote piece other than Pawn!");
+    }
+
+    /**
+     * Warns the user that pawn you've moved cannot be promoted until your pawn reached enemy base
+     */
     public static InvalidPromotionException notPromotable() {
         return new InvalidPromotionException("Your pawn is far away from promotion!");
     }

@@ -34,19 +34,25 @@ public class Main {
     }
 
     private void gamePhase() {
-        BoardPlot.resetBoardPlotGuardStatus(board);
+        boolean continued = true;
+        do {
+            BoardPlot.resetBoardPlotGuardStatus(board);
 
-        drawBoard();
-        String inputtedCoordinates = performUserInputs();
+            drawBoard();
+            String inputtedCoordinates = performUserInputs();
 
-        try {
-            executeUserInputs(inputtedCoordinates);
-        } catch (InvalidMoveException | IllegalNotationException ex) {
-            System.err.println(ex.getMessage());
-        }
+            try {
+                continued = executeUserInputs(inputtedCoordinates);
+                if (!continued) {
+                    break;
+                }
+            } catch (InvalidMoveException | IllegalNotationException ex) {
+                System.err.println(ex.getMessage());
+            }
+        } while (continued);
     }
 
-    public void executeUserInputs(String inputtedCoordinates) throws InvalidMoveException, IllegalNotationException {
+    public boolean executeUserInputs(String inputtedCoordinates) throws InvalidMoveException, IllegalNotationException {
         if (!gameplay.verifyUserInputs(inputtedCoordinates)){
             throw IllegalNotationException.userInputMismatch();
         }
@@ -63,7 +69,8 @@ public class Main {
         board.switchColor();
         BoardPlot.resetBoardPlotGuardStatus(board);
         gameplay.verifyKingSafetyState(board, board.getKing(board.getCurrentColor()));
-        if(Gameplay.isGameEnded(board, board.getKing(board.getCurrentColor()))) return;
+
+        return !Gameplay.isGameEnded(board, board.getKing(board.getCurrentColor()));
     }
 
     private void drawBoard() {
