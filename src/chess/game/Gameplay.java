@@ -13,12 +13,13 @@ import chess.base.KingCheckState;
 import chess.chessPiece.Pawn;
 
 public class Gameplay {
-    public static boolean isGameEnded(Board board, King kingPiece) {
-        if (KingCheckState.isStalemate(board, kingPiece)) {
+    public static boolean isGameEnded(Board board, ChessPieceColor color) {
+        King kingPiece = (King) board.getNearestChessPiece(color, ChessPieceRank.KING);
+        if (KingCheckState.isStalemate(board, color)) {
             System.out.println(String.format("Stalemate!! %s don't have any legal move", kingPiece));
             System.out.println("Game result: draw");
             return true;
-        } else if (KingCheckState.isCheckmate(board, kingPiece)) {
+        } else if (KingCheckState.isCheckmate(board, color)) {
             System.out.println(String.format("%s is checkmated by opponent", kingPiece));
             System.out.println(String.format("Game result: %s win the game", board.getCurrentColor() == ChessPieceColor.WHITE
                     ? ChessPieceColor.BLACK : ChessPieceColor.WHITE));
@@ -78,8 +79,8 @@ public class Gameplay {
         return true;
     }
 
-    public void verifyKingSafetyState(Board board, King king) {
-        if (KingCheckState.isKingUnderCheckState(board, king)) {
+    public void verifyKingSafetyState(Board board, ChessPieceColor color) {
+        if (KingCheckState.isKingUnderCheckState(board, color)) {
             if (board.getCurrentColor() == ChessPieceColor.WHITE) {
                 System.out.println("White King is getting check!");
             } else {

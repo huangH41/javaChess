@@ -88,12 +88,14 @@ public abstract class ChessPiece {
      * @return is able to move and has no obstacles
      */
     protected boolean isValidMove(Board board, BoardPosition dstPosition) {
-        if (!KingCheckState.isKingUnderCheckState(board, board.getKing(board.getCurrentColor()))) {
+        ChessPieceColor kingColor = board.getCurrentColor();
+
+        if (!KingCheckState.isKingUnderCheckState(board, kingColor)) {
             return isValidMovePath(board, dstPosition)
                     && isValidPieceMovement(dstPosition)
                     && KingCheckState.isKingSafeAfterMovement(board, this.getPosition(), dstPosition);
         } else {
-            throw new InvalidMoveException(String.format("Invalid Move! %s is checked", board.getKing(board.getCurrentColor())));
+            throw InvalidMoveException.unsafeKing(kingColor);
         }
     }
 

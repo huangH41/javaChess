@@ -170,8 +170,8 @@ class ChessAssertor {
     public void changeTurn(Board board) {
         board.switchColor();
         BoardPlot.resetBoardPlotGuardStatus(board);
-        KingCheckState.isKingUnderCheckState(board, board.getKing(board.getCurrentColor()));
+        KingCheckState.isKingUnderCheckState(board, board.getCurrentColor());
 
-        if(Gameplay.isGameEnded(board, board.getKing(board.getCurrentColor()))) return;
+        if(Gameplay.isGameEnded(board, board.getCurrentColor())) return;
     }
 }

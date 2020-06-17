@@ -68,9 +68,9 @@ public class Main {
 
         board.switchColor();
         BoardPlot.resetBoardPlotGuardStatus(board);
-        gameplay.verifyKingSafetyState(board, board.getKing(board.getCurrentColor()));
+        gameplay.verifyKingSafetyState(board, (board.getCurrentColor()));
 
-        return !Gameplay.isGameEnded(board, board.getKing(board.getCurrentColor()));
+        return !Gameplay.isGameEnded(board, (board.getCurrentColor()));
     }
 
     private void drawBoard() {

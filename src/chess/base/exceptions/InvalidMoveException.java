@@ -1,6 +1,7 @@
 package chess.base.exceptions;
 
 import chess.base.BoardPosition;
+import chess.base.ChessPieceColor;
 import chess.base.ChessPieceProperties;
 
 /**
@@ -10,6 +11,10 @@ import chess.base.ChessPieceProperties;
  * REMEMBER: Any invalid moves will thrown as InvalidMoveException!
  */
 public class InvalidMoveException extends IndexOutOfBoundsException {
+    public static InvalidMoveException unsafeKing(ChessPieceColor kingColor) {
+        return new InvalidMoveException(String.format("Invalid move: %s KING will be checked", kingColor));
+    }
+
     /**
      * Which piece caused to throw illegal move?
      *
