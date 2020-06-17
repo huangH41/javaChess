@@ -9,9 +9,9 @@ Project Kelas Code Reengineering (LE01). Anggota: Akmal - 2201754721 &amp; Herma
 - [x] check
 - [x] castling
 - [x] validate illegal move: king must always in safe position
-- [ ] en passant
-- [ ] pawn promotion
-- [ ] checkmate
-- [ ] draw on stalemate position
-- [ ] unit tests: test coverage min. 90%
+- [x] en passant
+- [x] pawn promotion
+- [x] checkmate
+- [x] draw on stalemate position
+- [x] unit tests: test coverage min. 90%
 - [ ] reduce code smells
