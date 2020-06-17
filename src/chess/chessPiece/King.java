@@ -33,7 +33,7 @@ public class King extends ChessPiece {
         } else if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
             movePiece(board, dstPosition);
         } else {
-            throw new InvalidMoveException(this, dstPosition);
+            throw new InvalidMoveException(getProperties(), dstPosition);
         }
     }
 
@@ -99,7 +99,7 @@ public class King extends ChessPiece {
         } else if(dstPosition.getColumn() > 5) {
             return MovementDirection.RIGHT;
         } else {
-            throw new InvalidMoveException(this, dstPosition.getRow(), dstPosition.getColumn());
+            throw new InvalidMoveException(getProperties(), dstPosition.getRow(), dstPosition.getColumn());
         }
     }
 

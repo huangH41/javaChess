@@ -25,6 +25,10 @@ public abstract class ChessPiece {
         this.position = position;
     }
 
+    public ChessPieceProperties getProperties() {
+        return new ChessPieceProperties(chessColor, pieceRank, position);
+    }
+
     /**
      * Return this object as String by format: "Color, Rank, Chess-Position-Notation"
      *
@@ -32,7 +36,7 @@ public abstract class ChessPiece {
      */
     @Override
     public String toString() {
-        return String.format("%s %s [%s]", getChessColor(), getPieceRank(), getPosition().toString());
+        return getProperties().toString();
     }
 
     public ChessPieceRank getPieceRank() {
@@ -51,7 +55,7 @@ public abstract class ChessPiece {
         this.position = newPosition;
     }
 
-    protected int getFirstMoveAt() {
+    public int getFirstMoveAt() {
         return firstMoveAt;
     }
 
@@ -103,8 +107,8 @@ public abstract class ChessPiece {
     }
 
     private void setMoveCounter(Board board) {
-        if (!hasMovedOnce) {
-            setFirstMoveAt(board.getNumOfTurns());
+        if (!hasMovedOnce()) {
+            setFirstMoveCounter(board.getNumOfTurns());
         }
         board.nextTurn();
     }

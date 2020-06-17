@@ -114,10 +114,6 @@ public class Board {
         BoardPosition oldPosition = piece.getPosition();
         toNewPosition(piece, dstPosition);
         removeOldPosition(oldPosition);
-
-        if (!piece.hasMovedOnce()) {
-            piece.setFirstMoveCounter(numOfTurns);
-        }
     }
 
     /**

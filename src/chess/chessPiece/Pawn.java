@@ -36,7 +36,7 @@ public class Pawn extends ChessPiece {
             }
             movementCount++;
         } else {
-            throw new InvalidMoveException(this, dstPosition);
+            throw new InvalidMoveException(getProperties(), dstPosition);
         }
     }
 

@@ -23,7 +23,7 @@ public class Bishop extends ChessPiece {
         if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {
             movePiece(board, dstPosition);
         } else {
-            throw new InvalidMoveException(this, dstPosition);
+            throw new InvalidMoveException(getProperties(), dstPosition);
         }
     }
 

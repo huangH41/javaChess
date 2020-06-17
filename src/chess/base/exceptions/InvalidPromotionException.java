@@ -50,11 +50,4 @@ public class InvalidPromotionException extends IllegalArgumentException {
     public InvalidPromotionException(Throwable t) {
         super(t);
     }
-
-    /**
-     * The exception where caused by invalid promotion character
-     */
-    public InvalidPromotionException() {
-        super("Invalid promotion: Promotion initial must be R, N, B, or Q (must be uppercase!)");
-    }
 }

@@ -1,7 +1,7 @@
 package chess.base.exceptions;
 
 import chess.base.BoardPosition;
-import chess.chessPiece.ChessPiece;
+import chess.base.ChessPieceProperties;
 
 /**
  * This exception thrown if any invalid movement/illegal position occurred
@@ -15,7 +15,7 @@ public class InvalidMoveException extends IndexOutOfBoundsException {
      *
      * @param causer the piece caused illegal move
      */
-    public InvalidMoveException(ChessPiece causer) {
+    public InvalidMoveException(ChessPieceProperties causer) {
         super(String.format("Invalid move: %s performed illegal move or moved out of bound!", causer.toString()));
     }
 
@@ -25,7 +25,7 @@ public class InvalidMoveException extends IndexOutOfBoundsException {
      * @param causer   the piece caused invalid move
      * @param position the target position of the causer
      */
-    public InvalidMoveException(ChessPiece causer, BoardPosition position) {
+    public InvalidMoveException(ChessPieceProperties causer, BoardPosition position) {
         this(causer, position.getRow(), position.getColumn());
     }
 
@@ -36,7 +36,7 @@ public class InvalidMoveException extends IndexOutOfBoundsException {
      * @param rowIndex index at row position
      * @param colIndex index at column position
      */
-    public InvalidMoveException(ChessPiece causer, int rowIndex, int colIndex) {
+    public InvalidMoveException(ChessPieceProperties causer, int rowIndex, int colIndex) {
         super(String.format("Invalid move: %s performed illegal move or moved out of bound! (value: [row %d, col %d])",
                 causer.toString(), rowIndex, colIndex));
     }
