@@ -161,8 +161,6 @@ public abstract class ChessPiece {
      *
      * @param boardPlot to set the guarded status in a targeted position
      */
-    //TODO there are some class that need Board object, consider changing the parameter into board later
-    // TODO: lebih baik pindahkan jadi class baru aja, terlalu lelah kalo class ini nanggungjawab untuk plotting
     public void markGuardedPlot(BoardPlot boardPlot, Board board) {
         Vector<BoardPosition> allGuardedArea = generateGuardedArea(board);
         if (allGuardedArea != null) {
