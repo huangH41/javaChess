@@ -50,7 +50,7 @@ public class King extends ChessPiece {
 
     @Override
     public void move(BoardPosition dstPosition, Board board) {
-        // TODO: Masih diperdebatkan apakah KingCheckState pada bagian method ini dapat dipindahkan atau tidak?
+        // TODO: Masih diperdebatkan apakah KingCheckState pada bagian method ini dapat dipindahkan atau tidak (berpotensi cyclic)?
         if (isCastlable(board, dstPosition) && KingCheckState.isKingSafeAfterMovement(board, this.getPosition(), dstPosition)) {
             doCastling(board, dstPosition);
         } else if (Board.isBoardValidPosition(dstPosition) && isValidMove(board, dstPosition)) {

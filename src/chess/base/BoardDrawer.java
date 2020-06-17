@@ -29,7 +29,12 @@ public class BoardDrawer {
     }
 
 
-    // Temporary only, used to draw the guarded plot
+    /**
+     * Draw the guarded plot (DEBUG-mode)
+     *
+     * @param boardPlot board plot to draw
+     * @return printed board guard plot
+     */
     public static String drawBoardGuardedPlot(BoardPlot boardPlot) {
         StringBuilder sb = new StringBuilder();
         for (int row = 8; row >= 1; row--) {
