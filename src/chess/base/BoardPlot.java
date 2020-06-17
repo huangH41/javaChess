@@ -79,9 +79,9 @@ public class BoardPlot {
     public static void unsetGuardedByColor(BoardPlot boardPlot, BoardPosition guardedPosition, ChessPieceColor pieceColor){
         Plot plot = boardPlot.getPlot(guardedPosition);
         if(pieceColor == ChessPieceColor.WHITE){
-            plot.unsetGuardedByWhite(true);
+            plot.unsetGuardedByWhite();
         } else {
-            plot.unsetGuardedByBlack(true);
+            plot.unsetGuardedByBlack();
         }
     }
 

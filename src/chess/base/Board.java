@@ -3,7 +3,6 @@ package chess.base;
 import chess.base.exceptions.InvalidMoveException;
 import chess.chessPiece.ChessPiece;
 import chess.chessPiece.King;
-import chess.chessPiece.KingCheckState;
 
 public class Board {
 
@@ -12,7 +11,7 @@ public class Board {
     private King blackKing, whiteKing;
     private ChessPieceColor currentColor = ChessPieceColor.WHITE;
     private final BoardPlot boardPlot;
-    private int numOfTurns = 0;
+    private int numOfTurns;
 
     public Board() {
         BoardFactory.initializeChessPieces(this);

@@ -20,7 +20,7 @@ public class Plot {
         guardingWhitePieceTotal++;
     }
 
-    public void unsetGuardedByWhite(boolean guardedByWhite) {
+    public void unsetGuardedByWhite() {
         guardingWhitePieceTotal--;
         if(guardingWhitePieceTotal == 0) this.guardedByWhite = false;
     }
@@ -34,7 +34,7 @@ public class Plot {
         guardingBlackPieceTotal++;
     }
 
-    public void unsetGuardedByBlack(boolean guardedByBlack) {
+    public void unsetGuardedByBlack() {
         guardingBlackPieceTotal--;
         if(guardingBlackPieceTotal == 0) this.guardedByBlack = false;
     }

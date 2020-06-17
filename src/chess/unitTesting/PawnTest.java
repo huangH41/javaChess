@@ -54,9 +54,7 @@ class PawnTest extends ChessPieceTestEssentials {
 
         assertor.movePiece(board, "C2", "C4");
 
-        assertThrows(InvalidMoveException.class, () -> {
-            assertor.movePiece(board, "D7", "D3");
-        });
+        assertThrows(InvalidMoveException.class, () -> assertor.movePiece(board, "D7", "D3"));
     }
 
     @Test
@@ -70,7 +68,7 @@ class PawnTest extends ChessPieceTestEssentials {
 
         assertor.drawBoard(board);
         assertor.movePiece(board, pawn, "C5");
-        assert(assertor.isExpectedPiece(board, new BoardPosition("C5"),
+        assert (assertor.isExpectedPiece(board, new BoardPosition("C5"),
                 ChessPieceRank.PAWN, ChessPieceColor.WHITE));
     }
 
@@ -85,7 +83,7 @@ class PawnTest extends ChessPieceTestEssentials {
 
         assertor.drawBoard(board);
         assertor.movePiece(board, pawn, "E5");
-        assert(assertor.isExpectedPiece(board, new BoardPosition("E5"),
+        assert (assertor.isExpectedPiece(board, new BoardPosition("E5"),
                 ChessPieceRank.PAWN, ChessPieceColor.WHITE));
     }
 
@@ -122,9 +120,7 @@ class PawnTest extends ChessPieceTestEssentials {
 
         assertor.movePiece(board, "C2", "C4");
 
-        assertThrows(InvalidMoveException.class, () -> {
-            assertor.movePiece(board, "C4", "C3");
-        });
+        assertThrows(InvalidMoveException.class, () -> assertor.movePiece(board, "C4", "C3"));
     }
 
     @Test
@@ -135,9 +131,7 @@ class PawnTest extends ChessPieceTestEssentials {
         assertor.movePiece(board, "C2", "C4");
         assertor.movePiece(board, "D7", "D5");
 
-        assertThrows(InvalidMoveException.class, () -> {
-            assertor.movePiece(board, "D5", "D6");
-        });
+        assertThrows(InvalidMoveException.class, () -> assertor.movePiece(board, "D5", "D6"));
     }
 
 

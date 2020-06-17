@@ -14,15 +14,6 @@ public class MovementOrdinate {
     }
 
     /**
-     * Return direction of piece between current position with targeted position.
-     *
-     * @return direction of piece movement (up, down, left, right, or combined diagonally)
-     */
-    public MovementDirection getMovementDirection() {
-        return MovementDirection.getMovementDirection(getRowDegreeOrdinate(), getColumnDegreeOrdinate());
-    }
-
-    /**
      * Return column movement position degree ordinate between current position with targeted position.
      *
      * @return (+ 1) if right, (-1) if left, or (0) if not moving horizontally

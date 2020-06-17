@@ -4,7 +4,7 @@ import chess.base.ChessPieceRank;
 import chess.chessPiece.*;
 
 final class ChessPieceClassificator {
-    public static Class getClassInstance(ChessPieceRank rank) {
+    public static Class<?> getClassInstance(ChessPieceRank rank) {
         switch (rank) {
             case PAWN:
                 return Pawn.class;

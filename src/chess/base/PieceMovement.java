@@ -125,14 +125,4 @@ public class PieceMovement {
                 || PieceMovement.isVerticalMovement(piece, dstPosition);
     }
 
-    /**
-     * Check if the board position has a obstacle
-     *
-     * @param board       the board to check it's piece position
-     * @param dstPosition the position to check it's piece availability
-     * @return return true if no obstacle, return false if has a obstacle
-     */
-    public static boolean checkObstacles(Board board, BoardPosition dstPosition) {
-        return (board.getPiece(dstPosition) == null);
-    }
 }

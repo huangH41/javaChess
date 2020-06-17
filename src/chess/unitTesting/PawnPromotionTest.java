@@ -35,16 +35,12 @@ class PawnPromotionTest extends ChessPieceTestEssentials {
 
     @Test
     void doNotPromoteAsKing() {
-        assertThrows(InvalidPromotionException.class, () -> {
-            whitePawnPromotion(ChessPieceRank.KING);
-        });
+        assertThrows(InvalidPromotionException.class, () -> whitePawnPromotion(ChessPieceRank.KING));
     }
 
     @Test
     void doNotPromoteAsPawn() {
-        assertThrows(InvalidPromotionException.class, () -> {
-            whitePawnPromotion(ChessPieceRank.PAWN);
-        });
+        assertThrows(InvalidPromotionException.class, () -> whitePawnPromotion(ChessPieceRank.PAWN));
     }
 
     @Test
@@ -120,7 +116,7 @@ class PawnPromotionTest extends ChessPieceTestEssentials {
         board.setPiece(new BoardPosition("C1"), blackPawn);
 
         assertThat(blackPawn.getClass().equals(ChessPieceClassificator.getClassInstance(rank)),
-                    true, "Black pawn have been promoted as " + rank);
+                true, "Black pawn have been promoted as " + rank);
         assert (board.getPiece(new BoardPosition("C1")).equals(blackPawn));
         assertThat(assertor.isExpectedPiece(board, new BoardPosition("C1"),
                 rank, ChessPieceColor.BLACK), true, "Piece has already promoted as " + rank);
@@ -139,7 +135,7 @@ class PawnPromotionTest extends ChessPieceTestEssentials {
         assertor.movePiece(board, "D4", "C3");
 
         // TODO: THIS IS THE WARNING IF QUEEN TRIED TO MOVE from D1 to A4! (buggy)
-        assertor.movePiece(board, "D1", "B3");
+        assertor.movePiece(board, "D1", "A4");
 
         assertor.movePiece(board, "D8", "D7");
         assertor.movePiece(board, "C1", "G5");

@@ -27,11 +27,7 @@ public class KingCheckState {
     // TODO "CHECKMATE" haven't implemented
     public static boolean isKingUnderCheckState(Board board, King kingPiece, BoardPosition dstPosition) {
         Plot plot = board.getBoardPlot().getPlot(dstPosition);
-        if (kingPiece.getChessColor() == ChessPieceColor.WHITE ? plot.isGuardedByBlack() : plot.isGuardedByWhite()) {
-            kingPiece.setCheckState(true);
-        } else {
-            kingPiece.setCheckState(false);
-        }
+        kingPiece.setCheckState(kingPiece.getChessColor() == ChessPieceColor.WHITE ? plot.isGuardedByBlack() : plot.isGuardedByWhite());
         return kingPiece.isChecked();
     }
 

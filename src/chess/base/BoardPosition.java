@@ -90,7 +90,7 @@ public class BoardPosition {
      * @param row number of row away from the current row
      * @param column number of col away from the current col
      * @param direction moving direction
-     * @return
+     * @return new position after relative movement
      */
     public BoardPosition moveBy(int row, int column, MovementDirection direction) {
         int newRow = this.row + (row * direction.getRowOrdinate());
