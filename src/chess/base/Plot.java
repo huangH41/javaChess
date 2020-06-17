@@ -11,16 +11,48 @@ public class Plot {
         guardedByBlack = guardedByWhite = false;
     }
 
+    /**
+     * Check guard status of the piece
+     * @return is guarded either by black or white
+     */
+    public boolean getGuardStatus() {
+        return isGuardedByBlack() || isGuardedByWhite();
+    }
+
+    /**
+     * Check guard status of the piece by opponent piece
+     * @return is guarded either by black (if white) or white (if black)
+     */
+    public boolean getGuardStatus(ChessPieceColor color) {
+        return color == ChessPieceColor.WHITE ? guardedByBlack : guardedByWhite;
+    }
+
+    public void setGuardStatus(ChessPieceColor color, boolean status) {
+        if (color == ChessPieceColor.WHITE) {
+            setGuardedByWhite(status);
+        } else {
+            setGuardedByBlack(status);
+        }
+    }
+
+    public void unsetGuardStatus(ChessPieceColor color) {
+        if (color == ChessPieceColor.WHITE) {
+            unsetGuardedByWhite();
+        } else {
+            unsetGuardedByBlack();
+        }
+    }
+
     public boolean isGuardedByWhite() {
         return guardedByWhite;
     }
 
-    public void setGuardedByWhite(boolean guardedByWhite) {
+    private void setGuardedByWhite(boolean guardedByWhite) {
         this.guardedByWhite = guardedByWhite;
         guardingWhitePieceTotal++;
     }
 
-    public void unsetGuardedByWhite() {
+    private void unsetGuardedByWhite() {
         guardingWhitePieceTotal--;
         if(guardingWhitePieceTotal == 0) this.guardedByWhite = false;
     }
@@ -29,12 +61,12 @@ public class Plot {
         return guardedByBlack;
     }
 
-    public void setGuardedByBlack(boolean guardedByBlack) {
+    private void setGuardedByBlack(boolean guardedByBlack) {
         this.guardedByBlack = guardedByBlack;
         guardingBlackPieceTotal++;
     }
 
-    public void unsetGuardedByBlack() {
+    private void unsetGuardedByBlack() {
         guardingBlackPieceTotal--;
         if(guardingBlackPieceTotal == 0) this.guardedByBlack = false;
     }
@@ -53,11 +85,5 @@ public class Plot {
 
     public void setPosition(BoardPosition position) {
         this.position = position;
-    }
-
-    //TODO Temporary method, alter or delete it later
-    // used to print the view guarded only board
-    public boolean isGuarded(){
-        return this.isGuardedByBlack() || this.isGuardedByWhite();
     }
 }
