@@ -121,6 +121,7 @@ class ChessAssertor {
     public void movePiece(Board board, String startPosition, String targetPosition) {
         ChessPiece piece = board.getPiece(new BoardPosition(startPosition));
         piece.move(new BoardPosition(targetPosition), board);
+        changeTurn(board);
 
         System.out.println();
         drawBoard(board);

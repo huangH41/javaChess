@@ -90,13 +90,17 @@ public abstract class ChessPiece {
      * @return is able to move and has no obstacles
      */
     protected boolean isValidMove(Board board, BoardPosition dstPosition) {
+        King king = board.getKing(board.getCurrentColor());
+        Boolean validMove = isValidMovePath(board, dstPosition) && isValidPieceMovement(dstPosition);
+
         if (!KingCheckState.isKingUnderCheckState(board, board.getKing(board.getCurrentColor()))) {
-            return isValidMovePath(board, dstPosition)
-                    && isValidPieceMovement(dstPosition)
-                    && KingCheckState.isKingSafeAfterMovement(board, this.getPosition(), dstPosition);
-        } else {
-            throw new InvalidMoveException(String.format("Invalid Move! %s is checked", board.getKing(board.getCurrentColor())));
+            return validMove && KingCheckState.isKingSafeAfterMovement(board, this.getPosition(), dstPosition);
+
+        } else if(KingCheckState.isKingSafeAfterMovement(board, this.getPosition(), dstPosition)) {
+            //kalau king udah kenak check duluan sebelum move, harusnya masuk kesini
         }
+
+        throw new InvalidMoveException(String.format("Invalid Move! %s is checked", board.getKing(board.getCurrentColor())));
     }
 
     protected void movePiece(Board board, BoardPosition dstPosition) {
@@ -227,10 +231,6 @@ public abstract class ChessPiece {
                     break;
                 }
             }
-
-//            if (board.isOccupied(position)) {
-//                break;
-//            }
         }
         return guardedPositions;
     }

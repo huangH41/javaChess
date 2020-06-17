@@ -133,11 +133,11 @@ class PawnPromotionTest extends ChessPieceTestEssentials {
         assertor.movePiece(board, "D5", "D4");
         assertor.movePiece(board, "C2", "C4");
         assertor.movePiece(board, "D4", "C3");
-
-        // TODO: THIS IS THE WARNING IF QUEEN TRIED TO MOVE from D1 to A4! (buggy)
         assertor.movePiece(board, "D1", "A4");
 
+        // TODO: THIS IS THE WARNING IF QUEEN TRIED TO MOVE from D8 to A7! (buggy)
         assertor.movePiece(board, "D8", "D7");
+
         assertor.movePiece(board, "C1", "G5");
         assertor.movePiece(board, "C3", "C2");
         assertor.movePiece(board, "B1", "D2");

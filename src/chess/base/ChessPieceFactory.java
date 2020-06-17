@@ -25,11 +25,19 @@ public class ChessPieceFactory {
 
     //TODO this method still doing shallow copy, create new objeck to deep copy each attribute
     public static ChessPiece copyChessPiece(ChessPiece chessPiece) {
-        return ChessPieceFactory.newPiece(
+        ChessPiece copiedPiece = ChessPieceFactory.newPiece(
                 chessPiece.getChessColor(),
                 chessPiece.getPieceRank(),
                 new BoardPosition(chessPiece.getPosition().toString()));
+
+        if(chessPiece.getPieceRank() == ChessPieceRank.KING) setCopiedKingCheckState((King) copiedPiece, (King) chessPiece);
+        return copiedPiece;
     }
+
+    private static void setCopiedKingCheckState(King newKing, King toCopyKing) {
+        newKing.setCheckState(toCopyKing.isChecked());
+    }
+
 
     public static ChessPiece defineWhitePiece(ChessPieceRank rank, BoardPosition position) {
         return newPiece(ChessPieceColor.WHITE, rank, position);

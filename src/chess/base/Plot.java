@@ -71,14 +71,6 @@ public class Plot {
         if(guardingBlackPieceTotal == 0) this.guardedByBlack = false;
     }
 
-    public int getGuardingWhitePieceTotal() {
-        return guardingWhitePieceTotal;
-    }
-
-    public int getGuardingBlackPieceTotal() {
-        return guardingBlackPieceTotal;
-    }
-
     public BoardPosition getPosition() {
         return position;
     }

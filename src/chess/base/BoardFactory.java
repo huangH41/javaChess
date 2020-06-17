@@ -13,6 +13,7 @@ public class BoardFactory {
      */
     public static Board copyBoard(Board srcBoard) {
         Board copiedBoard = new Board();
+
         setCopiedBoardCurrentColor(srcBoard, copiedBoard);
         copyPieceBoard(srcBoard.getPieceBoard(), copiedBoard);
         BoardPlot.setBoardPlotGuardedStatus(copiedBoard);
