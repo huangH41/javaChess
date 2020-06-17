@@ -1,7 +1,5 @@
 package chess.base;
 
-import chess.chessPiece.ChessPiece;
-
 // TODO Consider to somehow merge this class functionality with the board class later
 // this is a temporary class to avoid breaking the board class functionality
 public class BoardPlot {

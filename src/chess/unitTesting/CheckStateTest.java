@@ -2,9 +2,9 @@ package chess.unitTesting;
 
 import chess.base.*;
 import chess.base.exceptions.InvalidMoveException;
-import chess.chessPiece.ChessPiece;
+import chess.base.ChessPiece;
 import chess.chessPiece.King;
-import chess.chessPiece.KingCheckState;
+import chess.base.KingCheckState;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

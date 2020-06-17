@@ -7,9 +7,9 @@ import chess.base.ChessPieceRank;
 import chess.base.exceptions.IllegalNotationException;
 import chess.base.exceptions.InvalidMoveException;
 import chess.base.exceptions.InvalidPromotionException;
-import chess.chessPiece.ChessPiece;
+import chess.base.ChessPiece;
 import chess.chessPiece.King;
-import chess.chessPiece.KingCheckState;
+import chess.base.KingCheckState;
 import chess.chessPiece.Pawn;
 
 public class Gameplay {

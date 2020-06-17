@@ -1,9 +1,7 @@
 package chess.base;
 
 import chess.base.exceptions.InvalidMoveException;
-import chess.chessPiece.ChessPiece;
 import chess.chessPiece.King;
-import chess.chessPiece.KingCheckState;
 
 public class Board {
 

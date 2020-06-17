@@ -1,8 +1,6 @@
-package chess.chessPiece;
+package chess.base;
 
-import chess.base.*;
 import chess.base.exceptions.InvalidMoveException;
-
 import java.util.Vector;
 
 public abstract class ChessPiece {

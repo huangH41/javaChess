@@ -1,6 +1,5 @@
 package chess.base;
 
-import chess.chessPiece.ChessPiece;
 import chess.chessPiece.King;
 
 public class BoardFactory {

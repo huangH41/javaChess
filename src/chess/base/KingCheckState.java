@@ -1,7 +1,7 @@
-package chess.chessPiece;
+package chess.base;
 
-import chess.base.*;
 import chess.base.exceptions.InvalidMoveException;
+import chess.chessPiece.King;
 
 public class KingCheckState {
 
