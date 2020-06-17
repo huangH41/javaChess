@@ -18,6 +18,28 @@ public class King extends ChessPiece {
         super(ChessPieceRank.KING, chessColor, position);
     }
 
+    /**
+     * Do castling move for a king and a rook, with direction of queen-side castling (Ex-Cx) or king-side castling (Ex-Gx).
+     * Make sure that both of the king and rook hasn't been moved before before perform castling move!
+     *
+     * @param board             the board to perform castling move
+     * @param queenSidePosition selects rook at queen side or king side?
+     */
+    public void performCastlingMove(Board board, boolean queenSidePosition) {
+        int cornerColumnPosition = queenSidePosition ? BoardPosition.MIN_INDEX : BoardPosition.MAX_INDEX;
+        King king = this;
+        Rook rook = (Rook) board.getPiece(new BoardPosition(getChessColor().getStartPosition(), cornerColumnPosition));
+
+        if (!king.hasMovedOnce() && !rook.hasMovedOnce()) {
+            try {
+                board.movePieceBy(king, 0, (queenSidePosition ? -2 : 2));
+                board.movePieceBy(rook, 0, (queenSidePosition ? 3 : -2));
+            } catch (Exception e) {
+                throw new InvalidMoveException(String.format("%s king and rook", board.getCurrentColor().toString()));
+            }
+        }
+    }
+
     public boolean isChecked() {
         return checkState;
     }
@@ -41,9 +63,9 @@ public class King extends ChessPiece {
         this.unmarkGuardedPlot(board.getBoardPlot(), board);
 
         if (dstPosition.getColumn() == 3) {
-            ChessMechanics.performCastlingMove(board, true, this.getChessColor());
+            performCastlingMove(board, true);
         } else if (dstPosition.getColumn() == 7) {
-            ChessMechanics.performCastlingMove(board, false, this.getChessColor());
+            performCastlingMove(board, false);
         }
         this.markGuardedPlot(board.getBoardPlot(), board);
     }
