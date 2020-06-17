@@ -9,8 +9,7 @@ import java.lang.reflect.Method;
 
 class ChessAssertor {
 
-    private static final int PREVIEW_DELAY = 2000;
-    private static final int NON_PREVIEW_DELAY = 100;
+    private static final int DELAY = 50;
 
     /**
      * Access private method valuers (return values) of a Object.
@@ -110,36 +109,24 @@ class ChessAssertor {
      * @param targetPosition Target position for piece movement
      */
     public void movePiece(Board board, ChessPiece piece, String targetPosition) {
-        movePiece(board, piece.getPosition().toString(), targetPosition, false);
+        movePiece(board, piece.getPosition().toString(), targetPosition);
     }
 
     /**
-     * Move piece & display board for preview after movement. If you want to skip preview, add false to fourth parameter.
+     * Move piece & display board for preview after movement.
      *
      * @param board          Board to display
      * @param startPosition  Locate a piece at startPosition
      * @param targetPosition Target position for piece movement
      */
     public void movePiece(Board board, String startPosition, String targetPosition) {
-        movePiece(board, startPosition, targetPosition, false);
-    }
-
-    /**
-     * Move piece & display board for preview. There has an option for fast-forward to skip preview.
-     *
-     * @param board          Board to plot and display
-     * @param startPosition  Locate a piece at startPosition
-     * @param targetPosition Target position for piece movement
-     * @param showPreview    show preview?
-     */
-    public void movePiece(Board board, String startPosition, String targetPosition, boolean showPreview) {
         ChessPiece piece = board.getPiece(new BoardPosition(startPosition));
         piece.move(new BoardPosition(targetPosition), board);
 
         System.out.println();
         drawBoard(board);
         System.out.println(String.format("\nPerform move from %s to %s...", startPosition, targetPosition));
-        wait(showPreview ? PREVIEW_DELAY : NON_PREVIEW_DELAY);
+        wait(DELAY);
         System.out.println("\n");
     }
 
@@ -151,7 +138,7 @@ class ChessAssertor {
     public void previewGuardedPlot(Board board) {
         drawGuardBoard(board);
         System.out.println("\nDisplay board guard plot after a piece moves...");
-        wait(PREVIEW_DELAY);
+        wait(DELAY);
     }
 
     public void drawBoard(Board board) {
