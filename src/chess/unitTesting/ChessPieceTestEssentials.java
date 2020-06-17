@@ -4,7 +4,7 @@ import chess.base.Board;
 import chess.base.BoardPosition;
 import chess.base.ChessPieceFactory;
 import chess.base.ChessPieceRank;
-import chess.chessPiece.ChessPiece;
+import chess.base.ChessPiece;
 import org.junit.Assert;
 
 /**

@@ -5,7 +5,7 @@ import chess.base.BoardPosition;
 import chess.base.ChessPieceColor;
 import chess.base.ChessPieceRank;
 import chess.base.exceptions.InvalidPromotionException;
-import chess.chessPiece.ChessPiece;
+import chess.base.ChessPiece;
 import chess.chessPiece.Pawn;
 import org.junit.jupiter.api.Test;
 

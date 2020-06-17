@@ -1,14 +1,11 @@
 package chess.base;
 
 import chess.base.exceptions.InvalidMoveException;
-import chess.chessPiece.ChessPiece;
-import chess.chessPiece.King;
 
 public class Board {
 
     private final ChessPiece[][] pieceBoard = new ChessPiece[8][8];
 
-    private King blackKing, whiteKing;
     private ChessPieceColor currentColor = ChessPieceColor.WHITE;
     private final BoardPlot boardPlot;
     private int numOfTurns;
@@ -27,24 +24,15 @@ public class Board {
         return this.pieceBoard;
     }
 
-    public King getBlackKing() {
-        return blackKing;
-    }
-
-    public King getWhiteKing() {
-        return whiteKing;
-    }
-
-    public void setKing(King king) {
-        if (king.getChessColor() == ChessPieceColor.WHITE) {
-            whiteKing = king;
-        } else {
-            blackKing = king;
+    public ChessPiece getNearestChessPiece(ChessPieceColor color, ChessPieceRank rank) {
+        for (ChessPiece[] chessPieceRow : pieceBoard) {
+            for (ChessPiece chessPiece : chessPieceRow) {
+                if (chessPiece != null && chessPiece.getChessColor() == color && chessPiece.getPieceRank() == rank) {
+                    return chessPiece;
+                }
+            }
         }
-    }
-
-    public King getKing(ChessPieceColor color) {
-        return color == ChessPieceColor.WHITE ? getWhiteKing() : getBlackKing();
+        return null;
     }
 
     public ChessPieceColor getCurrentColor() {
@@ -69,7 +57,6 @@ public class Board {
 
     public void setPiece(BoardPosition position, ChessPiece piece) {
         this.pieceBoard[position.getRow() - 1][position.getColumn() - 1] = piece;
-        if (piece != null && piece.getPieceRank() == ChessPieceRank.KING) this.setKing((King) piece);
     }
 
     public int getNumOfTurns() {

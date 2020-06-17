@@ -2,9 +2,9 @@ package chess.unitTesting;
 
 import chess.base.*;
 import chess.base.exceptions.InvalidMoveException;
-import chess.chessPiece.ChessPiece;
+import chess.base.ChessPiece;
 import chess.chessPiece.King;
-import chess.chessPiece.KingCheckState;
+import chess.base.KingCheckState;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,7 +24,7 @@ class CheckStateTest extends ChessPieceTestEssentials {
         assertor.drawBoard(board);
 
         blackRook.move(new BoardPosition("A1"), board);
-        assert(KingCheckState.isKingUnderCheckState(board, (King) whiteKing));
+        assert(KingCheckState.isKingUnderCheckState(board, ChessPieceColor.WHITE));
     }
 
     @Test
@@ -40,7 +40,7 @@ class CheckStateTest extends ChessPieceTestEssentials {
         assertor.drawBoard(board);
 
         whiteRook.move(new BoardPosition("A1"), board);
-        assert(!KingCheckState.isKingUnderCheckState(board, (King) whiteKing));
+        assert(!KingCheckState.isKingUnderCheckState(board, ChessPieceColor.WHITE));
     }
 
     @Test
@@ -79,7 +79,7 @@ class CheckStateTest extends ChessPieceTestEssentials {
         assertor.drawGuardBoard(board);
         assertor.changeTurn(board);
 
-        assert(KingCheckState.isCheckmate(board, (King) whiteKing));
+        assert(KingCheckState.isCheckmate(board, ChessPieceColor.WHITE));
     }
 
     @Test
@@ -97,6 +97,6 @@ class CheckStateTest extends ChessPieceTestEssentials {
 
         assertor.drawBoard(board);
 
-        assert(KingCheckState.isStalemate(board, board.getKing(board.getCurrentColor())));
+        assert(KingCheckState.isStalemate(board, board.getCurrentColor()));
     }
 }

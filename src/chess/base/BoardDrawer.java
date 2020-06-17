@@ -1,7 +1,5 @@
 package chess.base;
 
-import chess.chessPiece.ChessPiece;
-
 public class BoardDrawer {
 
     private BoardDrawer() {

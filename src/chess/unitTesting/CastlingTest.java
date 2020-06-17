@@ -5,7 +5,7 @@ import chess.base.BoardPosition;
 import chess.base.ChessPieceFactory;
 import chess.base.ChessPieceRank;
 import chess.base.exceptions.InvalidMoveException;
-import chess.chessPiece.ChessPiece;
+import chess.base.ChessPiece;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;

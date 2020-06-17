@@ -1,19 +1,23 @@
-package chess.chessPiece;
+package chess.base;
 
-import chess.base.*;
 import chess.base.exceptions.InvalidMoveException;
+import chess.chessPiece.King;
 
 public class KingCheckState {
 
     /**
      * To check if the intended king piece current position is checked by other opponent piece
      *
-     * @param board     Board to get the king position plot
-     * @param kingPiece King piece to validate
-     * @return King check state
+     * @param board Board to get the king position plot
+     * @param color King piece color to validate
+     * @return King check state (if the board doesn't have King, always return false)
      */
-    public static boolean isKingUnderCheckState(Board board, King kingPiece) {
-        return isKingUnderCheckState(board, kingPiece, kingPiece.getPosition());
+    public static boolean isKingUnderCheckState(Board board, ChessPieceColor color) {
+        King king = getKing(board, color);
+        if (king == null) {
+            return false;
+        }
+        return isKingUnderCheckState(board, king, king.getPosition());
     }
 
     /**
@@ -24,18 +28,26 @@ public class KingCheckState {
      * @param dstPosition The King position
      * @return King check state
      */
-    public static boolean isKingUnderCheckState(Board board, King kingPiece, BoardPosition dstPosition) {
+    private static boolean isKingUnderCheckState(Board board, King kingPiece, BoardPosition dstPosition) {
         Plot plot = board.getBoardPlot().getPlot(dstPosition);
         kingPiece.setCheckState(plot.getGuardStatus(kingPiece.getChessColor()));
 
         return kingPiece.isChecked();
     }
 
-    public static boolean isStalemate(Board board, King kingPiece) {
+    public static boolean isStalemate(Board board, ChessPieceColor color) {
+        King kingPiece = getKing(board, color);
+        if (kingPiece == null) {
+            return false;
+        }
         return !kingPiece.hasSafeMovePath(board) && board.getCurrSideRemainingPieceCount() == 1 && !kingPiece.isChecked();
     }
 
-    public static boolean isCheckmate(Board board, King kingPiece) {
+    public static boolean isCheckmate(Board board, ChessPieceColor color) {
+        King kingPiece = getKing(board, color);
+        if (kingPiece == null) {
+            return false;
+        }
         return !kingPiece.hasSafeMovePath(board) && kingPiece.isChecked();
     }
 
@@ -51,16 +63,18 @@ public class KingCheckState {
         Board boardCopy = BoardFactory.copyBoard(board);
         ChessPiece toMovePiece = boardCopy.getPiece(startPosition);
 
-        King currSideKing = toMovePiece.getChessColor() == ChessPieceColor.WHITE ?
-                boardCopy.getWhiteKing() : boardCopy.getBlackKing();
-
         toMovePiece.movePiece(boardCopy, dstPosition);
         BoardPlot.resetBoardPlotGuardStatus(boardCopy);
+        ChessPieceColor color = toMovePiece.getChessColor();
 
-        if(!isKingUnderCheckState(boardCopy, currSideKing)) {
+        if (!isKingUnderCheckState(boardCopy, color)) {
             return true;
         } else {
-            throw new InvalidMoveException(String.format("Invalid Move!! %s will be checked", currSideKing));
+            throw InvalidMoveException.unsafeKing(color);
         }
+    }
+
+    private static King getKing(Board board, ChessPieceColor color) {
+        return (King) board.getNearestChessPiece(color, ChessPieceRank.KING);
     }
 }

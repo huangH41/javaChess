@@ -1,8 +1,6 @@
-package chess.chessPiece;
+package chess.base;
 
-import chess.base.*;
 import chess.base.exceptions.InvalidMoveException;
-
 import java.util.Vector;
 
 public abstract class ChessPiece {
@@ -90,17 +88,15 @@ public abstract class ChessPiece {
      * @return is able to move and has no obstacles
      */
     protected boolean isValidMove(Board board, BoardPosition dstPosition) {
-        King king = board.getKing(board.getCurrentColor());
-        Boolean validMove = isValidMovePath(board, dstPosition) && isValidPieceMovement(dstPosition);
+        boolean validMove = isValidMovePath(board, dstPosition) && isValidPieceMovement(dstPosition);
 
-        if (!KingCheckState.isKingUnderCheckState(board, board.getKing(board.getCurrentColor()))) {
+        if (!KingCheckState.isKingUnderCheckState(board, board.getCurrentColor())) {
             return validMove && KingCheckState.isKingSafeAfterMovement(board, this.getPosition(), dstPosition);
-
-        } else if(KingCheckState.isKingSafeAfterMovement(board, this.getPosition(), dstPosition)) {
-            //kalau king udah kenak check duluan sebelum move, harusnya masuk kesini
+        } else if (KingCheckState.isKingSafeAfterMovement(board, this.getPosition(), dstPosition)) {
+            return false;
         }
 
-        throw new InvalidMoveException(String.format("Invalid Move! %s is checked", board.getKing(board.getCurrentColor())));
+        throw new InvalidMoveException(String.format("Invalid Move! %s is checked", board.getCurrentColor()));
     }
 
     protected void movePiece(Board board, BoardPosition dstPosition) {
