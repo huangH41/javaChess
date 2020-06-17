@@ -34,7 +34,7 @@ public class Main {
     }
 
     private void gamePhase() {
-        boolean continued = true;
+        boolean continued = false;
         do {
             BoardPlot.resetBoardPlotGuardStatus(board);
 
@@ -43,11 +43,13 @@ public class Main {
 
             try {
                 continued = executeUserInputs(inputtedCoordinates);
-                if (!continued) {
-                    break;
-                }
             } catch (InvalidMoveException | IllegalNotationException ex) {
                 System.err.println(ex.getMessage());
+                continue;
+            }
+
+            if (!continued) {
+                break;
             }
         } while (continued);
     }

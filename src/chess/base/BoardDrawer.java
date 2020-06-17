@@ -37,7 +37,7 @@ public class BoardDrawer {
         for (int row = 8; row >= 1; row--) {
             for (int column = 1; column <= 8; column++) {
                 BoardPosition position = new BoardPosition(row, column);
-                char status = (boardPlot.getPlot(position).isGuardedByBlack() || boardPlot.getPlot(position).isGuardedByWhite()) ?
+                char status = (boardPlot.getPlot(position).getGuardStatus()) ?
                         'G' : drawPatternColor(row, column);
 
                 sb.append(status).append(" ");

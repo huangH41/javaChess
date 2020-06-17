@@ -24,14 +24,10 @@ public class KingCheckState {
      * @param dstPosition The King position
      * @return King check state
      */
-    // TODO "CHECKMATE" haven't implemented
     public static boolean isKingUnderCheckState(Board board, King kingPiece, BoardPosition dstPosition) {
         Plot plot = board.getBoardPlot().getPlot(dstPosition);
-        if (kingPiece.getChessColor() == ChessPieceColor.WHITE ? plot.isGuardedByBlack() : plot.isGuardedByWhite()) {
-            kingPiece.setCheckState(true);
-        } else {
-            kingPiece.setCheckState(false);
-        }
+        kingPiece.setCheckState(plot.getGuardStatus(kingPiece.getChessColor()));
+
         return kingPiece.isChecked();
     }
 
@@ -46,9 +42,9 @@ public class KingCheckState {
     /**
      * Check if king is under check state after one piece move into a certain position
      *
-     * @param board Current game board
+     * @param board         Current game board
      * @param startPosition Start Position of the
-     * @param dstPosition Destination position of the toMovePiece
+     * @param dstPosition   Destination position of the toMovePiece
      * @return true if the king not under check state, otherwise false
      */
     public static boolean isKingSafeAfterMovement(Board board, BoardPosition startPosition, BoardPosition dstPosition) {

@@ -29,11 +29,8 @@ public class Bishop extends ChessPiece {
 
     @Override
     protected Vector<BoardPosition> generateGuardedArea(Board board) {
-        Vector<BoardPosition> guardedPositions = new Vector<>();
         BoardPosition currentPosition = new BoardPosition(this.getPosition().getRow(), this.getPosition().getColumn());
-        guardedPositions.addAll(generateDiagonalGuardedArea(board, currentPosition));
-
-        return guardedPositions;
+        return new Vector<>(generateDiagonalGuardedArea(board, currentPosition));
     }
 
     //TODO generate lest right move function is duplicate with generate top bottom move

@@ -19,11 +19,27 @@ public class ChessPieceProperties {
 
     @Override
     public String toString() {
-        return String.format("%s %s [%s]", getPieceColor(), getPieceRank(), getPiecePosition());
+        return getPieceFullName();
+    }
+
+    /**
+     * Get piece full name that contains piece color, piece rank, and piece position
+     * @return
+     */
+    public String getPieceFullName() {
+        return getFullPieceName(getPieceColor(), getPieceRank(), getPiecePosition());
     }
 
     public String getPieceName() {
-        return String.format("%s %s", getPieceColor(), getPieceRank());
+        return getPieceName(getPieceColor(), getPieceRank());
+    }
+
+    public static String getFullPieceName(ChessPieceColor pieceColor, ChessPieceRank pieceRank, BoardPosition piecePosition) {
+        return String.format("%s %s [%s]", pieceColor, pieceRank, piecePosition);
+    }
+
+    public static String getPieceName(ChessPieceColor pieceColor, ChessPieceRank pieceRank) {
+        return String.format("%s %s", pieceColor, pieceRank);
     }
 
     public ChessPieceColor getPieceColor() {
